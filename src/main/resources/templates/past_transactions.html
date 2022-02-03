@@ -1,0 +1,42 @@
+<html>
+<body>	
+	<div class="txn-filters">
+		<label for="floor-dropdown">Floor Range Selection:</label>
+		<select id="floor-dropdown" th:field="*{floorFilter}" onchange="filterTable()">
+			<option th:each = "range : ${floorFilter}" th:value="${range}" th:text="${range}"></option>
+		</select>
+		
+		<label for="area-dropdown">Floor Area Selection:</label>
+		<select id="area-dropdown" th:field="*{areaFilter}" onchange="filterTable()">
+			<option th:each = "item : ${areaFilter}" th:value="${item}" th:text="${item}"></option>
+		</select>
+		
+		<label for="period-dropdown">Period Selection:</label>
+		<select id="period-dropdown" onchange="filterTable()">
+			  <option value="All">All</option>
+			  <option value="1">1 Year</option>
+			  <option value="2">2 Years</option>
+			  <option value="3">3 Years</option> 
+			  <option value="4">4 Years</option>
+			  <option value="5">5 Years</option> 
+		</select>
+	</div>
+	
+	<div class="txn-list" th:if="${not #lists.isEmpty(allTxn)}">
+		<table id = "property-txn-list">
+			<tr>
+				<th>Transaction Date</th>
+				<th>Floor Range</th>
+				<th>Floor Area (m²)</th>
+				<th>Price (S$)</th>
+			</tr>	
+			<tr th:each="txn : ${allTxn}">
+				<td th:text="${#strings.substring(txn.contractDate,0,2) + '/' + #strings.substring(txn.contractDate,2)}">Contract Date</td>
+				<td th:text="${txn.floorRange}">Floor Range</td>
+				<td th:text="${txn.floorArea}">Floor Area</td>
+				<td th:text="${txn.price}">Price</td>
+			</tr>
+		</table >
+	</div >
+</body>
+</html>
