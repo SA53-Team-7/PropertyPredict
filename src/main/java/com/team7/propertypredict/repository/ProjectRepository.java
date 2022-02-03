@@ -10,7 +10,9 @@ import com.team7.propertypredict.model.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
-	@Query("Select p from projects p where p.street = :street")
+	@Query("Select p from projects p where p.street like %:street%")
 	ArrayList<Project> findProjectsByStreet(@Param ("street") String street);
 
+	@Query("Select AVG(p.transactions.price) from projects p where p.projectId = :pid ")
+	Double findAveragePriceByProject(@Param ("pid") Integer pid);
 }
