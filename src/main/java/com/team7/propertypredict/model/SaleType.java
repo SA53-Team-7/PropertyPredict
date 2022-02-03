@@ -19,6 +19,8 @@ public class SaleType {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer typeId;
 	
+	private String type;
+	
 	@OneToMany(mappedBy = "saleType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) 
 	private List<Transaction> transactions;
 
@@ -38,6 +40,14 @@ public class SaleType {
 
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
+	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public List<Transaction> getTransactions() {
