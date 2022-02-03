@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>List of Projects</title>
+</head>
+<body>
+	<h2>HI</h2>
+	<table th:if="${not #lists.isEmpty(projects)}">
+	
+		<tr th:each="project:${projects}">
+			<td th:text="${project.name}"></td>
+			<td th:text="${price}"></td>
+		</tr>
+	</table>
+</body>
