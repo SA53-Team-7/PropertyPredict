@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.team7.propertypredict.model.Project;
-import com.team7.propertypredict.repository.ProjectRepository;
+import com.team7.propertypredict.model.ProjectDetails;
 import com.team7.propertypredict.service.ProjectService;
 
 @Controller
@@ -19,16 +19,16 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectService pService;
-	
-	@Autowired
-	private ProjectRepository pRepo;
 
 	@GetMapping("/view/{street}")
 	public String viewProject(@PathVariable String street, Model model) {
 		ArrayList<Project> projects = pService.findProjectsByStreet(street);
-		Double price = pRepo.findAveragePriceByProjectId(885);
-		model.addAttribute("price", price);
-		model.addAttribute("projects",projects);
+		ArrayList<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+		for(Project project:projects) {
+			ProjectDetails pd = pService.getProjectDetails(project.getProjectId());
+			projectDetails.add(pd);
+		}
+		model.addAttribute("projects", projectDetails);
 		return "projects";
 	}
 }
