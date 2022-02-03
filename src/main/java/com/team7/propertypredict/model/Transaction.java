@@ -1,13 +1,15 @@
 package com.team7.propertypredict.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="transactions")
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +26,7 @@ public class Transaction {
 	private Integer noOfUnits;
 	
 	@ManyToOne
+	@JoinColumn(name = "project_project_id",nullable = false)
 	private Project project;
 	
 	public Transaction() {
