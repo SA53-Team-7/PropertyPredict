@@ -23,7 +23,7 @@ public class Project {
 	private String x;
 	private String y;	
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) 
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true) 
 	private List<Transaction> transactions;
 	
 	public Project() {
