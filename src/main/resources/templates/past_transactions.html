@@ -3,18 +3,18 @@
 	<h3>Past Transactions</h3>
 	<div class="txn-filters">
 	
-		<label for="floor-dropdown">Floor Range Selection:</label>
-		<select id="floor-dropdown" th:field="*{floorFilter}" onchange="filterTable()">
+		<label for="floor-dropdown">Floor Range: </label>
+		<select class="form-select form-select-lg mb-3" id="floor-dropdown" th:field="*{floorFilter}" onchange="filterTable()">
 			<option th:each = "range : ${floorFilter}" th:value="${range}" th:text="${range}"></option>
 		</select>
 		
-		<label for="area-dropdown">Floor Area Selection:</label>
-		<select id="area-dropdown" th:field="*{areaFilter}" onchange="filterTable()">
+		<label for="area-dropdown">Floor Area: </label>
+		<select class="form-select form-select-lg mb-3" id="area-dropdown" th:field="*{areaFilter}" onchange="filterTable()">
 			<option th:each = "item : ${areaFilter}" th:value="${item}" th:text="${item}"></option>
 		</select>
 		
-		<label for="period-dropdown">Period Selection:</label>
-		<select id="period-dropdown" onchange="filterTable()">
+		<label for="period-dropdown">Period: </label>
+		<select class="form-select form-select-lg mb-3" id="period-dropdown" onchange="filterTable()">
 			  <option value="All">All</option>
 			  <option value="1">1 Year</option>
 			  <option value="2">2 Years</option>
@@ -23,11 +23,12 @@
 			  <option value="5">5 Years</option> 
 		</select>
 	</div>
+
 	
-	<div class="txn-list" th:if="${not #lists.isEmpty(allTxn)}">
-		<table id = "property-txn-list">
+	<div id = "txn-div" class="txn-list" th:if="${not #lists.isEmpty(allTxn)}">
+		<table class="table table-secondary table-striped" id = "property-txn-list">
 			<tr>
-				<th>Transaction Date</th>
+				<th>Transaction Month & Year</th>
 				<th>Floor Range</th>
 				<th>Floor Area (m²)</th>
 				<th>Price (S$)</th>
@@ -39,6 +40,10 @@
 				<td th:text="${txn.price}">Price</td>
 			</tr>
 		</table >
-	</div > 
+	</div> 
+	
+	<div id = "price-trend-div">
+		<canvas id="price-trend-canvas"></canvas>
+	</div>  
 </body>
 </html>
