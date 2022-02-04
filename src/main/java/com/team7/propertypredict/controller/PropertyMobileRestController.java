@@ -13,7 +13,7 @@ import com.team7.propertypredict.service.ProjectService;
 import helper.ProjectHelper;
 
 @RestController
-@RequestMapping("/api/projects")
+@RequestMapping("/api/mobile/projects")
 public class PropertyMobileRestController {
 
 	@Autowired
