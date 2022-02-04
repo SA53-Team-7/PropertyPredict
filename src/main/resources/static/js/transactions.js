@@ -1,11 +1,17 @@
-/*window.onload = function() {
-	var transactionList = "[[${allTxn}]]";
-}
-*/
-
 var currentDate = new Date();
+var datapoints = [];
+var labels = [];
+var priceTrend;
+
+window.onload = function() {
+	getDataset();
+	getPriceTrendChart();
+}
 
 function filterTable() {	
+	datapoints = [];
+	labels = [];
+	
 	var floorDropdown, floorFilter, table, rows, areaDropdown, areaFilter, periodDropdown, periodFilter, txnDate;
 	 
 	floorDropdown = document.getElementById("floor-dropdown");
@@ -43,10 +49,17 @@ function filterTable() {
 			(areaFilter === area || areaFilter === "All") && 
 			(txnDate >= startPeriodDt ||periodFilter == "All")) {
 			row.style.display = "";
+			
+			if (row.rowIndex !== 0) {
+				datapoints.push(Number(row.getElementsByTagName("td").item(3).innerText));
+				labels.push(col0.innerText);
+			}
 		} else {
 			row.style.display = "none";
 		}
 	}
+	
+	getPriceTrendChart();
 }
 
 function getStartYear(period) {
@@ -57,4 +70,36 @@ function getStartYear(period) {
 	return null;	
 }
 
+function getDataset() {
+	var table = document.getElementById("property-txn-list")
+	var rows = table.getElementsByTagName("tr");
+	for (let row of rows) {
+		if (row.rowIndex != 0) {
+			datapoints.push(Number(row.getElementsByTagName("td").item(3).innerText));
+			labels.push(row.getElementsByTagName("td").item(0).innerText);
+		}
+	}
+}
 
+function getPriceTrendChart() {
+	if (priceTrend)
+		priceTrend.destroy();
+	
+	var data = {
+		labels: labels,
+		datasets:[{
+			label: 'Price trend',
+			backgroundColor:'rgb(255,99,132)',
+			borderColor: 'rgb(255,99,132)',
+			data: datapoints,	
+		}]
+	};
+	
+	var config = {
+		type: 'line',
+		data: data,
+		options: {}
+	}
+	
+	priceTrend = new Chart(document.getElementById("price-trend-canvas"), config)
+}
