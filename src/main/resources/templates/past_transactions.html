@@ -1,6 +1,8 @@
 <html>
 <body>	
+	<h3>Past Transactions</h3>
 	<div class="txn-filters">
+	
 		<label for="floor-dropdown">Floor Range Selection:</label>
 		<select id="floor-dropdown" th:field="*{floorFilter}" onchange="filterTable()">
 			<option th:each = "range : ${floorFilter}" th:value="${range}" th:text="${range}"></option>
@@ -37,6 +39,6 @@
 				<td th:text="${txn.price}">Price</td>
 			</tr>
 		</table >
-	</div >
+	</div > 
 </body>
 </html>
