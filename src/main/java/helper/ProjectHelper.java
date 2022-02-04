@@ -1,19 +1,10 @@
-package com.team7.propertypredict.model;
+package helper;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-@Entity
-@Table(name="projects")
-public class Project {
+public class ProjectHelper {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer projectId;
@@ -23,22 +14,17 @@ public class Project {
 	private String x;
 	private String y;	
 	
-//	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
-//	private List<Transaction> transactions;
-	
-	public Project() {
+	public ProjectHelper() {
 		super();
 	}
 
-	public Project(String name, String segment, String street, String x, String y,
-			List<Transaction> transactions) {
+	public ProjectHelper(String name, String segment, String street, String x, String y) {
 		super();
 		this.name = name;
 		this.segment = segment;
 		this.street = street;
 		this.x = x;
 		this.y = y;
-//		this.transactions = transactions;
 	}
 
 	public Integer getProjectId() {
@@ -89,11 +75,4 @@ public class Project {
 		this.y = y;
 	}
 
-//	public List<Transaction> getTransactions() {
-//		return transactions;
-//	}
-//
-//	public void setTransactions(List<Transaction> transactions) {
-//		this.transactions = transactions;
-//	}
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.service.ProjectService;
 
+import helper.ProjectHelper;
+
 @RestController
 @RequestMapping("/api/projects")
 public class PropertyMobileRestController {
@@ -22,4 +24,8 @@ public class PropertyMobileRestController {
 		return pService.findAllProjects();
 	}
 	
+	@GetMapping("/test")
+	public List<Project> get20Projects() {
+		return pService.getTop20Projects();
+	}
 }

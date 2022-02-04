@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.repository.ProjectRepository;
 
+import helper.ProjectHelper;
+
 @Component
 public class ProjectServiceImpl implements ProjectService{
 
@@ -26,8 +28,12 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	@Transactional
 	public List<Project> findAllProjects(){
-		
-		List<Project> projects = pRepo.findAll();
-		return projects;
+
+		return pRepo.findAllProjects();
+	}
+	
+	@Override
+	public List<Project> getTop20Projects(){
+		return pRepo.getTop20Projects();
 	}
 }
