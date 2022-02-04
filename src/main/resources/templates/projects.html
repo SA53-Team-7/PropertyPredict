@@ -5,11 +5,14 @@
 </head>
 <body>
 	<h2>HI</h2>
-	<table th:if="${not #lists.isEmpty(projects)}">
-	
-		<tr th:each="project:${projects}">
-			<td th:text="${project.name}"></td>
-			<td th:text="${project.street}"></td>			
-		</tr>
-	</table>
+		<table>
+			<tr th:each="project:${projects}">
+				<td th:text="${project.name}"></td>
+				<td th:text="${project.street}"></td>
+				<td th:text="${project.tenure}"></td>
+				<td th:text="${project.area}"></td>
+				<td th:text="${project.floorRange}"></td>
+				<td th:text="${project.saleType}"></td>
+			</tr>
+		</table>
 </body>

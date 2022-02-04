@@ -20,6 +20,7 @@ public class ProjectController {
 	@Autowired
 	private ProjectService pService;
 
+	// View all the projects in a given location
 	@GetMapping("/view/{street}")
 	public String viewProject(@PathVariable String street, Model model) {
 		ArrayList<Project> projects = pService.findProjectsByStreet(street);

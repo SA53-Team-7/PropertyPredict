@@ -54,6 +54,7 @@ public class ProjectServiceImpl implements ProjectService{
 		pd.setAveragePrice(findAveragePriceByProjectId(pid).intValue());
 		pd.setTotalUnits(findTotalUnitsByProjectId(pid));
 		pd.setTenure(findTenureByProjectId(pid));
+		pd.setSaleType(findSaleTypeByProjectId(pid));
 		pd.setArea(min + "-" + max + " (square metre)");
 		pd.setFloorRange("01-" + topFloor);
 		return pd;
@@ -81,6 +82,12 @@ public class ProjectServiceImpl implements ProjectService{
 	public 	String findTenureByProjectId(Integer pid) {
 		String tenure = pRepo.findTenureByProjectId(pid);
 		return tenure;
+	}
+	
+	@Transactional
+	public 	String findSaleTypeByProjectId(Integer pid){
+		String type = pRepo.findSaleTypeByProjectId(pid);
+		return type;
 	}
 	
 	@Transactional
