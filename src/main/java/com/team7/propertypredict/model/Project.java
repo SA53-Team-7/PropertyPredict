@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties("transactions")
 @Table(name="projects")
 public class Project {
 	@Id
@@ -23,8 +26,8 @@ public class Project {
 	private String x;
 	private String y;	
 	
-//	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
-//	private List<Transaction> transactions;
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
+	private List<Transaction> transactions;
 	
 	public Project() {
 		super();
@@ -89,11 +92,11 @@ public class Project {
 		this.y = y;
 	}
 
-//	public List<Transaction> getTransactions() {
-//		return transactions;
-//	}
-//
-//	public void setTransactions(List<Transaction> transactions) {
-//		this.transactions = transactions;
-//	}
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 }
