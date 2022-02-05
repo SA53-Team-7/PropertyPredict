@@ -1,6 +1,5 @@
 var currentDate = new Date();
-var datapoints = [];
-var labels = [];
+var datapoints = [], labels = [];
 var priceTrend;
 
 window.onload = function() {
@@ -51,7 +50,7 @@ function filterTable() {
 			row.style.display = "";
 			
 			if (row.rowIndex !== 0) {
-				datapoints.push(Number(row.getElementsByTagName("td").item(3).innerText));
+				datapoints.push(Number(row.getElementsByTagName("td").item(3).innerText.replace(/,/g,'')));
 				labels.push(col0.innerText);
 			}
 		} else {
@@ -75,7 +74,7 @@ function getDataset() {
 	var rows = table.getElementsByTagName("tr");
 	for (let row of rows) {
 		if (row.rowIndex != 0) {
-			datapoints.push(Number(row.getElementsByTagName("td").item(3).innerText));
+			datapoints.push(Number(row.getElementsByTagName("td").item(3).innerText.replace(/,/g,'')));
 			labels.push(row.getElementsByTagName("td").item(0).innerText);
 		}
 	}
@@ -88,9 +87,9 @@ function getPriceTrendChart() {
 	var data = {
 		labels: labels,
 		datasets:[{
-			label: 'Price trend',
-			backgroundColor:'rgb(255,99,132)',
-			borderColor: 'rgb(255,99,132)',
+			label: 'Price (S$)',
+			backgroundColor:'rgb(0,191,255)',
+			borderColor: 'rgb(0,191,255)',
 			data: datapoints,	
 		}]
 	};
@@ -102,4 +101,25 @@ function getPriceTrendChart() {
 	}
 	
 	priceTrend = new Chart(document.getElementById("price-trend-canvas"), config)
+}
+
+function showContent(evt, displayContent) {
+	var i, content, buttons, show;
+	
+	content = document.getElementsByClassName("toggle-cont");
+	for (i = 0; i < content.length; i++) {
+		content[i].style.display = "none";
+	}
+  
+  	buttons = document.getElementsByClassName("toggle-btn");
+  	for (i = 0; i < buttons.length; i++) {
+    	buttons[i].className = buttons[i].className.replace(" active", "");
+  	}
+  	
+  	show = document.getElementById(displayContent);
+  	show.style.display="block";
+	
+  	
+	// document.getElementById(displayContent).style.display = "block";
+  	evt.currentTarget.className += " active";
 }
