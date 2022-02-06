@@ -17,4 +17,17 @@ public interface TransactionService {
 	List<Transaction> findAllTransactions();
 
 	List<Transaction> getTransactionsByProjectId(Integer id);
+
+	// Gets all transactions for a specific project
+	List<Transaction> getTransactionsByProjectId(Integer id);
+	
+	// Get all filter values for floor range
+	List<String> getFloorRangeValues(Integer id);
+	
+	// Get all filter values for floor area
+	List<String> getFloorAreaValues(Integer id);
+	
+	// Get all filter values for district
+	List<String> getDistrictValues(Integer id);
+
 }

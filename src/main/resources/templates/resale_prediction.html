@@ -1,0 +1,54 @@
+<html>
+<body>
+	<div class="resale-pred">
+	<hr/>
+		<h4>Price Estimation</h4>
+		<div id = "resale-form">	
+			<form>
+				<input id="pred_pid" type="hidden" th:value="${allTxn[0].project.projectId}"/>	
+				
+				<div class="pred-form-input">
+				
+					<label for="pred-floor">Floor Range</label>
+					<div class="form-group row">
+					    <select id="pred-floor" class="form-select form-select-lg mb-3" th:field="*{floorFilter}">
+					      	<option th:each = "range : ${floorFilter}" th:if="${range != 'All'}" th:value="${range}" th:text="${range}"></option>
+					    </select>
+					</div>
+	    			
+	    			<label for="pred-area">Floor Area</label>
+	    			<div class="form-group row">	
+					    <select id="pred-area" class="form-select form-select-lg mb-3" th:field="*{areaFilter}">
+					      	<option th:each = "size : ${areaFilter}" th:if="${size != 'All'}" th:value="${size}" th:text="${size}"></option>
+					    </select>
+					</div>
+					
+					<label for="pred-district">District</label>
+					<div class="form-group row">	
+					    <select id="pred-district" class="form-select form-select-lg mb-3" th:field="*{districtFilter}">
+					      	<option th:each = "dist : ${districtFilter}" th:value="${dist}" th:text="${dist}"></option>
+					    </select>
+					</div>
+					
+				</div>
+				<div id ="est-btn" class="form-group row">
+				     <button type="submit" class="btn btn-primary">Estimate Price</button >
+				</div>
+			</form>
+		</div>
+		
+		<div id = "price-pred">
+			<table class="table table-bordered border-primary">
+				<tr>
+					<th>Price (S$) / m²</th>
+					<th>Total Price (S$)</th>
+				</tr>
+				<tr>
+					<td>PLACEHOLDER</td>
+					<td>PLACEHOLDER</td>
+				</tr>
+			</table>
+		</div> 
+	</div>
+</body>
+</html>

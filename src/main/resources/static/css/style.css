@@ -1,0 +1,86 @@
+/* view property page - property.html */
+
+.prop-main {
+	width: 80%;
+	margin:auto;
+}
+
+/* past-transactions.html */
+
+.txn-filters {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.txn-ind-filter {
+	font-size: 13px;
+}
+
+.toggle-grp {
+  	background-color: white;
+  	display: grid;
+ 	grid-template-columns: 1fr 1fr;
+}
+
+.toggle-grp button {
+	background-color: inherit;
+	border: none;
+  	float: left;
+  	cursor: pointer;
+  	padding: 10px 10px;
+  	transition: 0.3s;
+  	font-size: 13px;
+  	font-weight: bold;
+}
+
+.toggle-grp button:hover {
+  	background-color: #E4E6EB;
+}
+
+.toggle-grp button.active {
+  	background-color: #B0B3BB;
+}
+
+.toggle-cont {
+	padding: 6px 12px;
+  	border: none;
+  	border-top: none;
+  	overflow: scroll; 
+  	max-height: 650px;
+	position: relative
+}
+
+#txn-table {
+	font-size: 12px;
+	padding-left: 0px;
+}
+
+/* resale prediction component */
+
+#resale-form {
+	justify-content: center;
+	width: 40%;
+	float: left;
+}
+
+#price-pred {
+	align-content: center;
+	padding: 10px;
+	width: 50%;
+	float: right;
+}
+
+.pred-form-input {
+	width: 100%;
+	padding-top: 15px;
+	padding-left: 0px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+#est-btn {
+	padding-left: 3%;
+}
+

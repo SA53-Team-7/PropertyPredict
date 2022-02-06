@@ -1,0 +1,65 @@
+<html>
+<body>	
+	<div class="transactions">
+	<hr/>
+	<h4>Past Transactions</h4>
+	<div class="txn-filters">
+		<div class="txn-ind-filter">
+			<label for="period-dropdown">Period: </label>
+			<select class="form-select form-select-lg mb-3" id="period-dropdown" onchange="filterTable()">
+				<option value="All">All</option>
+				<option value="1">1 Year</option>
+				<option value="2">2 Years</option>
+				<option value="3">3 Years</option>
+				<option value="4">4 Years</option>
+				<option value="5">5 Years</option>
+			</select>
+		</div>
+		<div class="txn-ind-filter">
+			<label for="floor-dropdown">Floor Range: </label>
+			<select class="form-select form-select-lg mb-3" id="floor-dropdown" th:field="*{floorFilter}"
+				onchange="filterTable()">
+				<option th:each="range : ${floorFilter}" th:value="${range}" th:text="${range}"></option>
+			</select>
+		</div>
+		<div class="txn-ind-filter">
+			<label for="area-dropdown">Floor Area: </label>
+			<select class="form-select form-select-lg mb-3" id="area-dropdown" th:field="*{areaFilter}"
+				onchange="filterTable()">
+				<option th:each="item : ${areaFilter}" th:value="${item}" th:text="${item}"></option>
+			</select>
+		</div>
+	</div>
+
+	<div class="toggle-grp">
+		<button class="toggle-btn active" onclick="showContent(event, 'txn-table')">Past Transactions</button>
+		<button class="toggle-btn" onclick="showContent(event, 'txn-price')">Price Trend</button>
+	</div>
+
+	<div id="txn-table" class="toggle-cont" th:if="${not #lists.isEmpty(allTxn)}">
+		<table class="table table-bordered" id="property-txn-list">
+			<tr>
+				<th>Transaction Month & Year</th>
+				<th>Floor Range</th>
+				<th>Floor Area (m²)</th>
+				<th>Price (S$)</th>
+			</tr>
+			<tr th:each="txn : ${allTxn}">
+				<td
+					th:text="${#strings.substring(txn.contractDate,0,2) + '/' + #strings.substring(txn.contractDate,2)}">
+					Contract Date</td>
+				<td th:text="${txn.floorRange}">Floor Range</td>
+				<td th:text="${txn.floorArea}">Floor Area</td>
+				<!--<td th:text="${txn.price}">Price</td>-->
+				<td th:text="${#numbers.formatDecimal(txn.price, 1, 'DEFAULT', 2, 'DEFAULT')}">Price</td>
+
+			</tr>
+		</table>
+	</div>
+
+	<div id="txn-price" class="toggle-cont" style="display: none">
+		<canvas id="price-trend-canvas"></canvas>
+	</div>
+<div class="container" style="height: 100px;">
+</div>
+</div>

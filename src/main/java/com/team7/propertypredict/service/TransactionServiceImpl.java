@@ -2,33 +2,54 @@ package com.team7.propertypredict.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.TransactionRepository;
 
-import helper.ProjectHelper;
-
+	
 @Component
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
+	
+	@Autowired
+	TransactionRepository trepo;
+	
+	@Autowired
+	ProjectRepository prepo;
 
-	@Resource
-	private TransactionRepository tRepo;
-
-	@Override
-	public List<Transaction> getTransactionsByProjectId(Integer id) {		
-		return tRepo.findTransactionsByProjectId(id);
-	}
-
-	@Override
+  @Override
 	public List<Transaction> findAllTransactions() {
-		return tRepo.findAll();
+		return trepo.findAll();
 	}
+  
+	@Override
+	public List<Transaction> getTransactionsByProjectId(Integer id) {
+		List<Transaction> txnList = (List<Transaction>) trepo.findAllTransactionsByProject(id);
+		return txnList;	
+	}
+
+	@Override
+	public List<String> getFloorRangeValues(Integer id) {
+		List<String> filters = new ArrayList<String>();
+		filters.add("All");	
+		filters.addAll(trepo.findDistinctFloorRange(id));
+		return filters;
+	}
+
+	@Override
+	public List<String> getFloorAreaValues(Integer id) {
+		List<String> filters = new ArrayList<String>();
+		filters.add("All");
+		filters.addAll(trepo.findDistinctFloorArea(id));
+		return filters;
+	}
+
+	@Override
+	public List<String> getDistrictValues(Integer id) {
+		return trepo.findDistinctDistrict(id);
+	}
+  
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +25,8 @@ public class Project {
 	private String x;
 	private String y;	
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true) 
+
 	private List<Transaction> transactions;
 	
 	public Project() {
@@ -41,7 +41,7 @@ public class Project {
 		this.street = street;
 		this.x = x;
 		this.y = y;
-//		this.transactions = transactions;
+		this.transactions = transactions;
 	}
 
 	public Integer getProjectId() {

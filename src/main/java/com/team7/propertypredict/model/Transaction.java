@@ -24,7 +24,11 @@ public class Transaction {
 	private String areaType;
 	private String tenure;
 	private String floorRange;
-	private Integer saleType;
+	
+	@ManyToOne
+	@JoinColumn(name = "saletype_saletype_id",nullable = false)
+	private SaleType saleType;
+	
 	private String district;
 	private Integer noOfUnits;
 	
@@ -37,7 +41,7 @@ public class Transaction {
 	}
 
 	public Transaction(String contractDate, Double floorArea, Double price, String propType, String areaType,
-			String tenure, String floorRange, Integer saleType, String district, Integer noOfUnits) {
+			String tenure, String floorRange, String district, Integer noOfUnits) {
 		super();
 		this.contractDate = contractDate;
 		this.floorArea = floorArea;
@@ -46,7 +50,6 @@ public class Transaction {
 		this.areaType = areaType;
 		this.tenure = tenure;
 		this.floorRange = floorRange;
-		this.saleType = saleType;
 		this.district = district;
 		this.noOfUnits = noOfUnits;
 	}
@@ -115,11 +118,11 @@ public class Transaction {
 		this.floorRange = floorRange;
 	}
 
-	public Integer getSaleType() {
+	public SaleType getSaleType() {
 		return saleType;
 	}
 
-	public void setSaleType(Integer saleType) {
+	public void setSaleType(SaleType saleType) {
 		this.saleType = saleType;
 	}
 
