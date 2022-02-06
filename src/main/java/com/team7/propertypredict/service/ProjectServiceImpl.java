@@ -1,6 +1,9 @@
 package com.team7.propertypredict.service;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -32,18 +35,28 @@ public class ProjectServiceImpl implements ProjectService{
 		Integer min = findMinAreaByProjectId(pid).intValue();
 		Integer max = findMaxAreaByProjectId(pid).intValue();
 		ArrayList<String> floors = findfloorRangeByProjectId(pid);
+
+		Locale usa = new Locale("en", "US");
+		Currency dollars = Currency.getInstance(usa);
+		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
+		String averagePrice = dollarFormat.format(findAveragePriceByProjectId(pid));
 		
 		Integer top = 0;
 		for(String floor:floors) {
-			String f = floor.substring(3, 5);
-			Integer t = Integer.parseInt(f);
-			if(t>top) {
-				top = t;
+			if(floor.length()==5) {
+				String f = floor.substring(3, 5);
+				Integer t = Integer.parseInt(f);
+				if(t>top) {
+					top = t;
+				}
 			}
 		}
 		String topFloor ="";
-		if(top/10==0) {
-			topFloor = "0"+top;
+		if(top==0) {
+			topFloor = "-";
+		}
+		else if(top/10==0) {
+			topFloor = "01-0"+top;
 		}
 		else {
 			topFloor = top.toString();
@@ -51,12 +64,10 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		pd.setName(project.getName());
 		pd.setStreet(project.getStreet());
-		pd.setAveragePrice(findAveragePriceByProjectId(pid).intValue());
-		pd.setTotalUnits(findTotalUnitsByProjectId(pid));
+		pd.setAveragePrice(averagePrice);
 		pd.setTenure(findTenureByProjectId(pid));
-		pd.setSaleType(findSaleTypeByProjectId(pid));
 		pd.setArea(min + "-" + max + " (square metre)");
-		pd.setFloorRange("01-" + topFloor);
+		pd.setFloorRange(topFloor);
 		return pd;
 	}
 	
