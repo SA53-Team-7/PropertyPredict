@@ -1,6 +1,8 @@
 package com.team7.propertypredict.service;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.ProjectDetails;
@@ -8,6 +10,12 @@ import com.team7.propertypredict.model.ProjectDetails;
 @Service
 public interface ProjectService {
 	
+	//ArrayList<Project> findProjectsByStreet(String street);
+	
+	List<Project> findAllProjects();
+	
+	List<Project> getTop20Projects();
+
 	// Get all the projects given a location
 	ArrayList<Project> findProjectsByStreet(String street);
 	
@@ -37,4 +45,5 @@ public interface ProjectService {
 	
 	// Get all the floor range from all the transactions of a project given a project id
 	ArrayList<String> findfloorRangeByProjectId(Integer pid);
+
 }
