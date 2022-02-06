@@ -7,11 +7,6 @@
 
 /* past-transactions.html */
 
-.transactions {
-	width: 80%;
-	margin:auto;
-}
-
 .txn-filters {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -53,7 +48,7 @@
   	border: none;
   	border-top: none;
   	overflow: scroll; 
-  	max-height: 600px;
+  	max-height: 650px;
 	position: relative
 }
 
@@ -63,12 +58,6 @@
 }
 
 /* resale prediction component */
-
-.resale-pred {
-	width: 80%;
-	margin:auto;
-	padding-top: 20px;
-}
 
 #resale-form {
 	justify-content: center;
