@@ -10,9 +10,8 @@
 
 <body>
 	<div class="prop-main">
-		<div class="key-info">
-			<h1>add key information here</h1>
-		</div>
+		<-- key information component -->
+		<div class="key-info" th:replace="/projects" />
 		
 		<!-- Past transactions' component -->
 		<div class="past-txn" th:replace="/past_transactions" />
