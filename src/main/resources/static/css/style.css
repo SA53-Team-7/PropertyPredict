@@ -5,6 +5,11 @@
 }
 
 /* past-transactions.html */
+.transactions {
+	width: 80%;
+	margin:auto;
+}
+
 .txn-filters {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
