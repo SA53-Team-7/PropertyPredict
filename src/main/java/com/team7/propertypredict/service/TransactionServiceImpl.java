@@ -41,5 +41,10 @@ public class TransactionServiceImpl implements TransactionService {
 		filters.addAll(trepo.findDistinctFloorArea(id));
 		return filters;
 	}
+
+	@Override
+	public List<String> getDistrictValues(Integer id) {
+		return trepo.findDistinctDistrict(id);
+	}
 	
 }
