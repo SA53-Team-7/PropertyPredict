@@ -2,7 +2,6 @@ package com.team7.propertypredict.service;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Locale;
 
 import javax.annotation.Resource;
@@ -37,7 +36,6 @@ public class ProjectServiceImpl implements ProjectService{
 		ArrayList<String> floors = findfloorRangeByProjectId(pid);
 
 		Locale usa = new Locale("en", "US");
-		Currency dollars = Currency.getInstance(usa);
 		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
 		String averagePrice = dollarFormat.format(findAveragePriceByProjectId(pid));
 		
