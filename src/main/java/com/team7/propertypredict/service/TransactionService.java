@@ -18,4 +18,7 @@ public interface TransactionService {
 	// Get all filter values for floor area
 	List<String> getFloorAreaValues(Integer id);
 	
+	// Get all filter values for district
+	List<String> getDistrictValues(Integer id);
+	
 }
