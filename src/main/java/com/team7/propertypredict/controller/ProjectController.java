@@ -37,7 +37,7 @@ public class ProjectController {
 		// Get filters' values for selection 
 		model.addAttribute("floorFilter", (List<String>) tService.getFloorRangeValues(pid));
 		model.addAttribute("areaFilter", (List<String>) tService.getFloorAreaValues(pid));
-		
+		model.addAttribute("districtFilter", (List<String>) tService.getDistrictValues(pid));
 		return "property";
 	}
 	
