@@ -30,6 +30,21 @@
 					    </select>
 					</div>
 					
+					<label for="pred-top">TOP Year</label>
+					<div class="form-group row">	
+					    <select id="pred-top" class="form-select form-select-lg mb-3" th:field="*{topFilter}">
+					      	<option th:each = "top : ${topFilter}" th:value="${top}" th:text="${top}"></option>
+					    </select>
+					    <p>TOP is 0 for freehold properties</p>
+					</div>
+					
+					<label for="pred-tenure">Tenure (Years)</label>
+					<div class="form-group row">	
+					    <select id="pred-tenure" class="form-select form-select-lg mb-3" th:field="*{tenureFilter}">
+					      	<option th:each = "tenure : ${tenureFilter}" th:value="${tenure}" th:text="${tenure}"></option>
+					    </select>
+					</div>
+					
 				</div>
 				<div id ="est-btn" class="form-group row">
 				     <button type="submit" class="btn btn-primary">Estimate Price</button >
@@ -50,5 +65,6 @@
 			</table>
 		</div> 
 	</div>
+	<div class="container" style="height: 100px;">
 </body>
 </html>

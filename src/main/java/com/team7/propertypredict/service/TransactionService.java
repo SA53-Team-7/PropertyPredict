@@ -21,4 +21,10 @@ public interface TransactionService {
 	// Get all filter values for district
 	List<String> getDistrictValues(Integer id);
 	
+	// Get all filter values for TOP year
+	List<String> getDistinctTOP(Integer id);
+	
+	// Get all filter values for tenure
+	List<String> getDistinctTenure(Integer id);
+
 }

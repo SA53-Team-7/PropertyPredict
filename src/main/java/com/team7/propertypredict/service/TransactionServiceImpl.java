@@ -46,5 +46,35 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<String> getDistrictValues(Integer id) {
 		return trepo.findDistinctDistrict(id);
 	}
-	
+
+	@Override
+	public List<String> getDistinctTOP(Integer id) {
+		List<String> result = trepo.findDistinctTenure(id);
+		List<String> top = new ArrayList<>();
+				
+		for (String s : result) {
+			if (s.compareTo("Freehold") == 0) {
+				top.add("0");
+			} else if (!s.contains("NA")) {
+				top.add(s.substring(s.length() - 4));
+			}	
+		}
+		
+		return top;
+	}
+
+	@Override
+	public List<String> getDistinctTenure(Integer id) {
+		List<String> result = trepo.findDistinctTenure(id);
+		List<String> tenure = new ArrayList<>();
+		
+		for (String s : result) {
+			if (!s.contains("NA")) {
+				String[] x = s.split(" ");
+				tenure.add(x[0]);
+			}
+		}
+		
+		return tenure;
+	}
 }
