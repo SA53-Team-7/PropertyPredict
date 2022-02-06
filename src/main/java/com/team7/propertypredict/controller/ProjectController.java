@@ -38,6 +38,8 @@ public class ProjectController {
 		model.addAttribute("floorFilter", (List<String>) tService.getFloorRangeValues(pid));
 		model.addAttribute("areaFilter", (List<String>) tService.getFloorAreaValues(pid));
 		model.addAttribute("districtFilter", (List<String>) tService.getDistrictValues(pid));
+		model.addAttribute("topFilter", (List<String>) tService.getDistinctTOP(pid));
+		model.addAttribute("tenureFilter", (List<String>) tService.getDistinctTenure(pid));
 		return "property";
 	}
 	

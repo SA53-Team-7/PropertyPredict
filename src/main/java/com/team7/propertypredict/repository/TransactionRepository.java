@@ -28,4 +28,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	@Query(value = "SELECT distinct district FROM transactions WHERE project_project_id = :id ORDER BY district ASC", nativeQuery=true)
 	List<String> findDistinctDistrict(Integer id);
 
+	@Query(value = "SELECT distinct tenure FROM transactions WHERE project_project_id = :id ORDER BY tenure ASC", nativeQuery=true)
+	List<String> findDistinctTenure(Integer id);
+
 }
