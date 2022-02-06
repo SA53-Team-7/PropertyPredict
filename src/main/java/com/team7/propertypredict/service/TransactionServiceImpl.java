@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.TransactionRepository;
 
+	
 @Component
 public class TransactionServiceImpl implements TransactionService {
 	
@@ -20,6 +20,11 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	ProjectRepository prepo;
 
+  @Override
+	public List<Transaction> findAllTransactions() {
+		return trepo.findAll();
+	}
+  
 	@Override
 	public List<Transaction> getTransactionsByProjectId(Integer id) {
 		List<Transaction> txnList = (List<Transaction>) trepo.findAllTransactionsByProject(id);

@@ -1,8 +1,9 @@
 package com.team7.propertypredict.service;
 
+
+import java.util.List;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Locale;
 
 import javax.annotation.Resource;
@@ -20,6 +21,23 @@ public class ProjectServiceImpl implements ProjectService{
 	@Resource
 	private ProjectRepository pRepo;
 	
+	//@Transactional
+	//public ArrayList<Project> findProjectsByStreet(String street){
+		
+	//	ArrayList<Project> projects = pRepo.findProjectsByStreet(street);
+	//	return projects;
+	//}
+	
+	@Transactional
+	public List<Project> findAllProjects(){
+		return pRepo.findAllProjects();
+	}	
+  
+	@Override
+	public List<Project> getTop20Projects(){
+		return pRepo.getTop20Projects();
+	}
+
 	@Transactional
 	public ArrayList<Project> findProjectsByStreet(String street){
 		
@@ -37,7 +55,6 @@ public class ProjectServiceImpl implements ProjectService{
 		ArrayList<String> floors = findfloorRangeByProjectId(pid);
 
 		Locale usa = new Locale("en", "US");
-		Currency dollars = Currency.getInstance(usa);
 		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
 		String averagePrice = dollarFormat.format(findAveragePriceByProjectId(pid));
 		
@@ -118,8 +135,4 @@ public class ProjectServiceImpl implements ProjectService{
 		ArrayList<String> floors = pRepo.findfloorRangeByProjectId(pid);
 		return floors;
 	}
-	
-
-	
-
 }

@@ -1,6 +1,7 @@
 package com.team7.propertypredict.repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,8 +9,16 @@ import org.springframework.data.repository.query.Param;
 
 import com.team7.propertypredict.model.Project;
 
+import helper.ProjectHelper;
+
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
+	@Query(value = "SELECT * FROM projects", nativeQuery = true)
+	List<Project> findAllProjects();
+	
+	@Query(value = "SELECT * FROM projects LIMIT 20", nativeQuery = true)
+	List<Project> getTop20Projects();
+
 	@Query("Select p from Project p where p.street like %:street%")
 	ArrayList<Project> findProjectsByStreet(@Param ("street") String street);
 	
@@ -21,6 +30,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query("Select distinct s.type from Project p join p.transactions t join t.saleType s where p.projectId = :pid")
 	String findSaleTypeByProjectId(@Param ("pid") Integer pid);
+
 
 	@Query("Select AVG(t.price) from Project p join p.transactions t where p.projectId = :pid")
 	Double findAveragePriceByProjectId(@Param ("pid") Integer pid);
