@@ -18,6 +18,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query("Select distinct t.tenure from Project p join p.transactions t where p.projectId = :pid")
 	String findTenureByProjectId(@Param ("pid") Integer pid);
+	
+	@Query("Select distinct s.type from Project p join p.transactions t join t.saleType s where p.projectId = :pid")
+	String findSaleTypeByProjectId(@Param ("pid") Integer pid);
 
 	@Query("Select AVG(t.price) from Project p join p.transactions t where p.projectId = :pid")
 	Double findAveragePriceByProjectId(@Param ("pid") Integer pid);
