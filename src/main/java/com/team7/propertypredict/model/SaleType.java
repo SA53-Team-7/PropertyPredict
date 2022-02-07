@@ -24,7 +24,7 @@ public class SaleType {
 	
 	private String type;
 	
-	@OneToMany(mappedBy = "saleType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) 
+	@OneToMany(mappedBy = "saleType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
 	private List<Transaction> transactions;
 
 	public SaleType() {
