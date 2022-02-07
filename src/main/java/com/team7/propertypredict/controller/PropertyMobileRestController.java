@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.service.ProjectService;
 
-import helper.ProjectHelper;
-
 @RestController
 @RequestMapping("/api/mobile/projects")
 public class PropertyMobileRestController {

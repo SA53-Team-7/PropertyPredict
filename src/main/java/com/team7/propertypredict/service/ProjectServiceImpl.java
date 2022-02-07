@@ -21,13 +21,6 @@ public class ProjectServiceImpl implements ProjectService{
 	@Resource
 	private ProjectRepository pRepo;
 	
-	//@Transactional
-	//public ArrayList<Project> findProjectsByStreet(String street){
-		
-	//	ArrayList<Project> projects = pRepo.findProjectsByStreet(street);
-	//	return projects;
-	//}
-	
 	@Transactional
 	public List<Project> findAllProjects(){
 		return pRepo.findAllProjects();
@@ -82,7 +75,6 @@ public class ProjectServiceImpl implements ProjectService{
 		pd.setName(project.getName());
 		pd.setStreet(project.getStreet());
 		pd.setAveragePrice(averagePrice);
-		pd.setTenure(findTenureByProjectId(pid));
 		pd.setArea(min + "-" + max + " (square metre)");
 		pd.setFloorRange(topFloor);
 		return pd;

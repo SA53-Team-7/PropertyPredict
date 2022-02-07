@@ -14,24 +14,30 @@
 				</h2>
 			</div>
 		</div>
-		<h3 class="card-subtitle mb-3 mt-3 text-muted" th:text="${project.name}">Project Name</h3>
-		<h4 class="card-subtitle text-muted mb-5" th:text="${project.street}">Location Street</h4>
+		<h3 class="card-subtitle mb-3 mt-3 text-muted" th:text="${project.name}"></h3>
+		<h4 class="card-subtitle text-muted mb-5" th:text="${project.street}"></h4>
 		<br>
-		<div class="row mb-4">
+		<div class="row mb-5">
 			<div class="col-4" style="font-size:18px"><b>Average Price: </b> S<span
-					th:text="${project.averagePrice}">1000</span></div>
+					th:text="${project.averagePrice}"></span></div>
 			<div class="col-1">
 			</div>
-			<div class="col-3" style="font-size:18px"><b>Tenure: </b><span th:text="${project.tenure}">Freehold</span>
+			<div class="col-3" style="font-size:18px"><b>Tenure (years): </b><span
+					th:text="${#strings.listJoin(tenureFilter, ', ')}"></span>
 			</div>
 		</div>
 		<div class="row mb-5">
 			<div class="col-3" style="font-size:18px"><b>Floor Range: </b> <span
-					th:text="${project.floorRange}">01-05</span>
+					th:text="${project.floorRange}"></span>
 			</div>
 			<div class="col-2">
 			</div>
-			<div class="col-3" style="font-size:18px"><b>Area: </b><span th:text="${project.area}">111-222</span></div>
+			<div class="col-4" style="font-size:18px"><b>Area: </b><span th:text="${project.area}">111-222</span></div>
+		</div>
+		<div class="row mb-5">
+			<div class="col-3" style="font-size:18px"><b>Top Years: </b><span
+					th:text="${#strings.listJoin(topFilter, ', ')}"></span>
+			</div>
 		</div>
 	</div>
 	<div class="mb-3">
