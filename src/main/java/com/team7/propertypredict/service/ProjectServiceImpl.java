@@ -32,6 +32,11 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Transactional
+	public ArrayList<Project> searchProjects(String searchString){
+		return pRepo.searchProjects(searchString);
+	}
+
+	@Transactional
 	public ArrayList<Project> findProjectsByStreet(String street){
 		
 		ArrayList<Project> projects = pRepo.findProjectsByStreet(street);
