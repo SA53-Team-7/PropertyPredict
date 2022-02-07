@@ -5,7 +5,6 @@ public class ProjectDetails {
 	private String name;
 	private String street;
 	private String averagePrice;
-	private String tenure;
 	private String area;
 	private String floorRange;
 	
@@ -13,13 +12,12 @@ public class ProjectDetails {
 		super();
 	}
 
-	public ProjectDetails(String name, String street, String averagePrice, String tenure,
+	public ProjectDetails(String name, String street, String averagePrice,
 			String area, String floorRange) {
 		super();
 		this.name = name;
 		this.street = street;
 		this.averagePrice = averagePrice;
-		this.tenure = tenure;
 		this.area = area;
 		this.floorRange = floorRange;
 	}
@@ -48,14 +46,6 @@ public class ProjectDetails {
 		this.averagePrice = averagePrice;
 	}
 
-	public String getTenure() {
-		return tenure;
-	}
-
-	public void setTenure(String tenure) {
-		this.tenure = tenure;
-	}
-
 	public String getArea() {
 		return area;
 	}
@@ -72,6 +62,4 @@ public class ProjectDetails {
 		this.floorRange = floorRange;
 	}
 	
-	
-
 }
