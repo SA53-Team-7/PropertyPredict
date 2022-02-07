@@ -22,7 +22,7 @@
 					th:text="${project.averagePrice}">1000</span></div>
 			<div class="col-1">
 			</div>
-			<div class="col-3" style="font-size:18px"><b>Tenure: </b><span th:each="item : ${tenureFilter}" th:text="${item} + ' ,' ">Freehold</span>
+			<div class="col-3" style="font-size:18px"><b>Tenure: </b><span th:text="${#strings.listJoin(tenureFilter, ', ')}">Freehold</span>
 			</div>
 		</div>
 		<div class="row mb-5">
