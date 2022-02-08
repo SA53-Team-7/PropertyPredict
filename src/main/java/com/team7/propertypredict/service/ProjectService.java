@@ -16,6 +16,8 @@ public interface ProjectService {
 	
 	List<Project> getTop20Projects();
 
+	ArrayList<Project> searchProjects(String searchString);
+
 	// Get all the projects given a location
 	ArrayList<Project> findProjectsByStreet(String street);
 	
