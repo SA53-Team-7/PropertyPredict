@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,11 +21,11 @@ public class User {
 	@Column(name = "name")
 	private String username;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	@NotBlank(message = "Password is mandatory")
 	private String password;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique=true)
 	@Email
 	@NotBlank(message = "Email is mandatory")
 	private String email;

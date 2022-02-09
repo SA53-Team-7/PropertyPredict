@@ -1,6 +1,7 @@
 package com.team7.propertypredict.controller;
 
 import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -19,6 +20,7 @@ import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 import com.team7.propertypredict.service.UserService;
+import com.team7.propertypredict.validator.UserValidator;
 
 @Controller
 public class CommonController {
@@ -31,6 +33,9 @@ public class CommonController {
 	
  	@Autowired
 	private UserService uService;
+ 	
+ 	@Autowired
+ 	private UserValidator uValidator;
 
 	@GetMapping("/")
 	public String index(HttpSession session) {
@@ -91,6 +96,8 @@ public class CommonController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult) {
 
+		uValidator.validate(userForm, bindingResult);
+		
         if (bindingResult.hasErrors()) {
             return "registration";
         }

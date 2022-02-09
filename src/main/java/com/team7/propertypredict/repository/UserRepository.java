@@ -8,7 +8,6 @@ import com.team7.propertypredict.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-
 	@Query("select u from User u where u.email = :email")
 	User findUserByEmail(@Param("email") String email);
 	
