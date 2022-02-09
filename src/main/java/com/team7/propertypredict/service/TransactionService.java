@@ -29,4 +29,9 @@ public interface TransactionService {
 	// Get all filter values for tenure
 	List<String> getDistinctTenure(Integer id);
 
+	// Get all filter values for district
+	List<String> getDistinctDistrict();
+	
+	// Get all filter values for property types
+	List<String> getDistinctPropertyType();
 }

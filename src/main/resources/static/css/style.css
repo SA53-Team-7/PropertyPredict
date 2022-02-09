@@ -84,3 +84,39 @@
 	padding-left: 3%;
 }
 
+/* Search page */
+
+.search-panel {
+	background-color: rgba(95, 158, 160, 0.9);	
+	height: 10%;
+	padding-top: 3%;
+	padding-bottom:3%;
+}
+
+.search-form {
+	width: 40%;
+	margin: auto;
+}
+
+#search-dropdown {
+	padding-left: 1%;
+	padding-right: 1%;
+	display: flex;
+    justify-content: space-between;
+}
+
+.search-labels{
+	font-weight: bold;
+	color:white;
+}
+
+.search-results-div {
+	width: 50%;
+	margin: auto;
+	margin-top: 3%;
+}
+
+.search-results-div h4 {
+	padding-bottom: 1%;
+}
+

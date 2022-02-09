@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.team7.propertypredict.model.Project;
 
+import helper.SearchHelper;
+
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query(value = "SELECT * FROM projects", nativeQuery = true)
@@ -19,7 +21,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
 	@Query(value = "Select * FROM projects WHERE name LIKE %:searchString% OR street LIKE %:searchString%", nativeQuery = true)
 	ArrayList<Project> searchProjects(@Param ("searchString") String searchString);
-
+	
 	@Query("Select p from Project p where p.street like %:street%")
 	ArrayList<Project> findProjectsByStreet(@Param ("street") String street);
 	
@@ -31,7 +33,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query("Select distinct s.type from Project p join p.transactions t join t.saleType s where p.projectId = :pid")
 	String findSaleTypeByProjectId(@Param ("pid") Integer pid);
-
 
 	@Query("Select AVG(t.price) from Project p join p.transactions t where p.projectId = :pid")
 	Double findAveragePriceByProjectId(@Param ("pid") Integer pid);
@@ -48,4 +49,15 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query("Select t.floorRange from Project p join p.transactions t where p.projectId = :pid")
 	ArrayList<String> findfloorRangeByProjectId(@Param ("pid") Integer pid);
 	
+	@Query("Select distinct p.segment from Project p")
+	ArrayList<String> findDistinctSegments();
+	
+	@Query(value ="SELECT distinct p.* FROM projects p INNER JOIN transactions t ON p.project_id = t.project_project_id "
+			+ "WHERE t.district LIKE %:district% AND t.prop_type LIKE %:type% AND p.segment LIKE %:segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
+	ArrayList<Project> searchProjectsWeb(@Param ("searchStr") String searchStr, @Param("segment") String segment, @Param("district") String district, @Param("type") String type);
+	
+	@Query(value ="SELECT distinct t.prop_type FROM projects p INNER JOIN transactions t ON p.project_id = t.project_project_id "
+			+ "WHERE t.district LIKE %:district% AND t.prop_type LIKE %:type% AND p.segment LIKE %:segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
+	ArrayList<String> findDistinctTypeByPara(@Param ("searchStr") String searchStr, @Param("segment") String segment, @Param("district") String district, @Param("type") String type);
+
 }

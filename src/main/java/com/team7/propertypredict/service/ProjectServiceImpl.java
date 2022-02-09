@@ -1,14 +1,14 @@
 package com.team7.propertypredict.service;
 
 
-import java.util.List;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.model.Project;
@@ -18,7 +18,7 @@ import com.team7.propertypredict.repository.ProjectRepository;
 @Component
 public class ProjectServiceImpl implements ProjectService{
 
-	@Resource
+	@Autowired
 	private ProjectRepository pRepo;
 	
 	@Transactional
@@ -131,5 +131,19 @@ public class ProjectServiceImpl implements ProjectService{
 	public ArrayList<String> findfloorRangeByProjectId(Integer pid){
 		ArrayList<String> floors = pRepo.findfloorRangeByProjectId(pid);
 		return floors;
+	}
+
+	@Override
+	public ArrayList<String> findDistinctSegment() {
+		ArrayList<String> result = new ArrayList<>();
+		result.add("All");
+		result.addAll(pRepo.findDistinctSegments());
+		return result;
+	}
+
+	@Override
+	public ArrayList<Project> searchProjectsWeb(String searchStr, String segment, String district, String type) {
+		ArrayList<Project> result = pRepo.searchProjectsWeb(searchStr, segment, district, type);
+		return result;		
 	}
 }
