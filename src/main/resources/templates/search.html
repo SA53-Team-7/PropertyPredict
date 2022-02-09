@@ -1,0 +1,40 @@
+<html>
+<body>
+	<div class="search-panel">
+		<div class="search-form">
+			<form action="/search" method="GET">
+				<div class="input-group mb-3">
+	  				<input type="text" class="form-control" placeholder="Enter Street or Project Name" name = "searchStr">
+					<div class="input-group-append">
+					    <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i> Search</button>
+					</div>
+				</div>
+				
+				<div id="search-dropdown" class="form-row align-items-center">		
+	  				<div class="col-sm3 my-1">
+	    				<label for="district-dropdown" class="search-labels">District</label>
+						<select class="form-control" id="district-dropdown" name = "district">
+							<option th:each="df : ${districtFilter}" th:value="${df}" th:text="${df}"></option>			
+						</select>					
+	  				</div>
+	  				
+	  				<div class="col-sm3 my-1">
+	    				<label for="ptype-dropdown" class="search-labels">Property Type</label>
+						<select class="form-control" id="ptype-dropdown" name="propertyType">
+							<option th:each="prop : ${propTypeFilter}" th:value="${prop}" th:text="${prop}"></option>			
+						</select>					
+	  				</div>
+	  				
+	  				<div class="col-sm3 my-1">
+	    				<label for="seg-dropdown" class="search-labels">Segment</label>
+						<select class="form-control" id="seg-dropdown" name = "segment">
+							<option th:each="s : ${segmentFilter}" th:value="${s}" th:text="${s}"></option>			
+						</select>					
+	  				</div>
+				</div>
+			</form  >
+		</div >
+	</div>
+</body>
+</html>
+
