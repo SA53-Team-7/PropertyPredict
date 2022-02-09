@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.team7.propertypredict.model.Project;
 
-import helper.SearchHelper;
-
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query(value = "SELECT * FROM projects", nativeQuery = true)
