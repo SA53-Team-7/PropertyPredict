@@ -34,4 +34,7 @@ public interface TransactionService {
 	
 	// Get all filter values for property types
 	List<String> getDistinctPropertyType();
+
+	// Get all distinct property type by project ID
+	List<String> getDistinctPropertyTypeById(Integer id);
 }

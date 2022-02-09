@@ -10,29 +10,49 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
+	<script type="text/javascript" th:src="@{/js/search.js}"></script>
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
 	<div class="search-results-div">
-	
-<!--		<div class="type-filter" th:each= "type : ${typeFilter}">
-			<div class="form-check">
-			  	<input class="form-check-input" type="checkbox" th:value="${type}" th:id="${type}">
-				<p th:text="${type}"></p> 
+		<div class=search-filters>
+			<h6>Property Type</h6>
+			<div class="type-filter" th:each= "type : ${typeFilter}">
+				<div class="form-check">
+				  	<input class="propertyType" type="checkbox" th:value="${type}" th:id="${type}" onclick="filterResults()" checked>
+					<label th:for = "${type}" th:text="${type}"></label>
+				</div>
 			</div>
-		</div>-->
+			
+			<h6>Tenure (Years)</h6>
+			<div class="tenure-filter" th:each= "tenure : ${tenureFilter}">
+				<div class="form-check">
+				  	<input class="tenure" type="checkbox" th:value="${tenure}" th:id="${tenure}" onclick="filterResults()" checked>
+					<label th:for = "${tenure}" th:text="${tenure}"></label>
+				</div>
+			</div>
+		</div>
 	
 		<h4>Search Results</h4>
 		<div class="search-list">
-			<div class="card" th:each="search : ${searchresult}">
-  				<div class="card-body">
-			    <h5 class="card-title" th:text="${search.name}">Project Name</h5>
-			    <p class="card-text" th:text= "'Street: ' + ${search.street}">Street</p>
-			   	<p class="card-text" th:text= "'Segment: ' + ${search.segment}">Segment</p>
-			    <a th:href="${'/project/viewProperty/' + {search.projectId}}" class="btn btn-primary">More Details</a>
-  				</div>
-			</div>	
+			<table id = "search-tbl">
+				<tr class = "result-row" th:each="search : ${searchresult}">
+					<td>
+						<a th:href = "${'/project/viewProperty/' + {search.projectId}}"
+						<div class="card">
+							<div class="card-body">
+							    <h5 class="card-title" th:text="${search.name}">Project Name</h5>
+							    <p class="street-text" th:text= "'Street: ' + ${search.street}">Street</p>
+							    <p class="type-text" th:text= "'Type: ' + ${search.type}">Type</p>
+							   	<p class ="card-text" th:text= "'Segment: ' + ${search.segment}">Segment</p>
+							   	<p class="card-text" th:text= "'District: ' + ${search.district}">District</p>
+							   	<p class="tenure-text" th:text= "'Tenure: ' + ${search.tenure}" style="display:none">Tenure</p>
+		  					</div>
+						</div>
+						</a>
+					</td>
+				</tr>
+			</table >
 		</div>
 	</div>
 </body>

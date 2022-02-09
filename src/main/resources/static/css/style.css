@@ -110,14 +110,52 @@
 	color:white;
 }
 
+.search-filters {
+	float: left;
+	width: 20%;
+	padding-top: 5%;
+}
+
+.search-list {
+	width: 80%;
+	float: right;
+}
+
 .search-results-div {
-	width: 50%;
+	width: 80%;
 	margin: auto;
 	margin-top: 3%;
 }
 
 .search-results-div h4 {
 	padding-bottom: 1%;
+	color: #008385;
+}
+
+.search-results-div h6 {
+	padding-left: 6%;
+	padding-bottom: 1%;
+	padding-top: 5%;
+	color: #008385;
+}
+
+#search-tbl {
+	width: 100%;
+}
+
+#search-tbl p {
+	padding-top: 0px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+  	color: black;
+  	text-decoration: none;
+  	cursor: pointer;
 }
 
 /* login.html */

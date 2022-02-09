@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.naming.directory.SearchResult;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,16 @@ import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.ProjectDetails;
 import com.team7.propertypredict.repository.ProjectRepository;
 
+import helper.SearchResultHelper;
+
 @Component
 public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
 	private ProjectRepository pRepo;
+	
+	@Autowired
+	private TransactionService tService;
 	
 	@Transactional
 	public List<Project> findAllProjects(){
@@ -142,8 +148,65 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public ArrayList<Project> searchProjectsWeb(String searchStr, String segment, String district, String type) {
+	public ArrayList<SearchResultHelper> searchProjectsWeb(String searchStr, String segment, String district, String type) {
 		ArrayList<Project> result = pRepo.searchProjectsWeb(searchStr, segment, district, type);
-		return result;		
+		ArrayList<SearchResultHelper> searchResults = new ArrayList<>();
+		
+		for (Project p : result) {
+			
+			String tenureModified = "";
+			String districtModified = "";
+			String typeModified = "";
+			
+			// Get tenure
+			List<String> tenureList = tService.getDistinctTenure(p.getProjectId());
+			
+			for (String s : tenureList) {
+				tenureModified += s + ",";
+			} 
+			
+			// Get district
+			List<String> districtList = tService.getDistrictValues(p.getProjectId());
+			
+			for (String s : districtList) {
+				districtModified += s + ",";
+			}
+			
+			// Get type 
+			List<String> typeList = tService.getDistinctPropertyTypeById(p.getProjectId());
+			for (String s : typeList) {
+				typeModified += s + ",";
+			}
+
+			SearchResultHelper s = new SearchResultHelper(p.getProjectId().toString(), p.getName(), p.getStreet(), p.getSegment(), 
+					districtModified.substring(0, districtModified.lastIndexOf(',')), typeModified.substring(0, typeModified.lastIndexOf(',')), 
+					tenureModified.substring(0, tenureModified.lastIndexOf(',')));
+			searchResults.add(s);
+			
+		}
+		
+		return searchResults;		
+	}
+
+	@Override
+	public ArrayList<String> findDistinctPropTypeByPara(String searchStr, String segment, String district,
+			String type) {
+		return pRepo.findDistinctTypeByPara(searchStr, segment, district, type);
+	}
+
+	@Override
+	public ArrayList<String> findDistinctTenureByPara(String searchStr, String segment, String district, String type) {
+		List<String> result = pRepo.findDistinctTenureByPara(searchStr, segment, district, type);
+		ArrayList<String> filters = new ArrayList<>();
+		
+		for (String s : result) {
+			String[] splitArr = s.split(" ", 2);
+			
+			if (!filters.contains(splitArr[0])) {
+				filters.add(splitArr[0]);
+			}
+		}
+		
+		return filters;
 	}
 }
