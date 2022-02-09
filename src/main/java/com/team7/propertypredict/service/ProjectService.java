@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.model.Project;
-import com.team7.propertypredict.model.ProjectDetails;
 
 @Service
 public interface ProjectService {

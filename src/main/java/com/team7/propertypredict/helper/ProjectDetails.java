@@ -1,4 +1,4 @@
-package com.team7.propertypredict.model;
+package com.team7.propertypredict.helper;
 
 public class ProjectDetails {
 	

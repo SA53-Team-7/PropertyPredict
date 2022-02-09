@@ -11,8 +11,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
+import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.model.Project;
-import com.team7.propertypredict.model.ProjectDetails;
 import com.team7.propertypredict.repository.ProjectRepository;
 
 @Component

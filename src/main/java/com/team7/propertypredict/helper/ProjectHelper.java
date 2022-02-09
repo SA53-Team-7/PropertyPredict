@@ -1,4 +1,4 @@
-package helper;
+package com.team7.propertypredict.helper;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

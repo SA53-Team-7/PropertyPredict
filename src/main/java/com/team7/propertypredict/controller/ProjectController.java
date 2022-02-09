@@ -8,7 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.team7.propertypredict.model.ProjectDetails;
+
+import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
