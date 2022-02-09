@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.model.Project;
 
+import helper.SearchResultHelper;
+
 @Service
 public interface ProjectService {
 	
@@ -53,5 +55,11 @@ public interface ProjectService {
 	ArrayList<String> findDistinctSegment();
 	
 	// Search projects for web
-	ArrayList<Project> searchProjectsWeb(String searchStr, String segment, String district, String type);
+	ArrayList<SearchResultHelper> searchProjectsWeb(String searchStr, String segment, String district, String type);
+	
+	// Get all distinct property type filters by parameters
+	ArrayList<String> findDistinctPropTypeByPara (String searchStr, String segment, String district, String type);
+	
+	// Get all distinct tenure filters by parameters
+	ArrayList<String> findDistinctTenureByPara (String searchStr, String segment, String district, String type);
 }

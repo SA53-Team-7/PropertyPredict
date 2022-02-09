@@ -98,4 +98,9 @@ public class TransactionServiceImpl implements TransactionService {
 		result.addAll(trepo.findDistinctPropertyType());
 		return result;
 	}
+	
+	@Override
+	public List<String> getDistinctPropertyTypeById(Integer id) {		
+		return trepo.findDistinctPropertyTypeByID(id);
+	}
 }

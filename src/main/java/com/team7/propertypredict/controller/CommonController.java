@@ -22,6 +22,8 @@ import com.team7.propertypredict.service.TransactionService;
 import com.team7.propertypredict.service.UserService;
 import com.team7.propertypredict.validator.UserValidator;
 
+import helper.SearchResultHelper;
+
 @Controller
 public class CommonController {
 	
@@ -122,9 +124,12 @@ public class CommonController {
  		String districtModified = district.compareTo("All") == 0 ? "" : district;
  		String typeModified = propertyType.compareTo("All") == 0 ? "" : propertyType;
  		String segmentModified = segment.compareTo("All") == 0 ? "" : segment;
-		
- 		ArrayList<Project> result = pService.searchProjectsWeb(searchStr, segmentModified, districtModified, typeModified);
+ 		ArrayList<SearchResultHelper> result = pService.searchProjectsWeb(searchStr, segmentModified, districtModified, typeModified);
+ 		ArrayList<String> propTypes = pService.findDistinctPropTypeByPara(searchStr, segmentModified, districtModified, typeModified);
+ 		ArrayList<String> tenureFilters = pService.findDistinctTenureByPara(searchStr, segmentModified, districtModified, typeModified);
  		model.addAttribute("searchresult", result);
+ 		model.addAttribute("typeFilter", propTypes);
+ 		model.addAttribute("tenureFilter", tenureFilters);
  		return "search-result";
  	}
 }
