@@ -3,6 +3,7 @@ package com.team7.propertypredict.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.team7.propertypredict.helper.ProjectDetails;
@@ -48,5 +49,10 @@ public interface ProjectService {
 	
 	// Get all the floor range from all the transactions of a project given a project id
 	ArrayList<String> findfloorRangeByProjectId(Integer pid);
-
+	
+	// Get all distinct segments
+	ArrayList<String> findDistinctSegment();
+	
+	// Search projects for web
+	ArrayList<Project> searchProjectsWeb(String searchStr, String segment, String district, String type);
 }

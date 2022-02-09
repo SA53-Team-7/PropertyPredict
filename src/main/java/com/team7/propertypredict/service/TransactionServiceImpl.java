@@ -82,4 +82,20 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		return tenure;
 	}
+
+	@Override
+	public List<String> getDistinctDistrict() {
+		List<String> result = new ArrayList<>();
+		result.add("All");
+		result.addAll(trepo.findDistinctDistrict());
+		return result;
+	}
+
+	@Override
+	public List<String> getDistinctPropertyType() {		
+		List<String> result = new ArrayList<>();
+		result.add("All");
+		result.addAll(trepo.findDistinctPropertyType());
+		return result;
+	}
 }
