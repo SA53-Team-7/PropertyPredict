@@ -17,7 +17,14 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public User authenticate(String email, String password) {
 		
-		User user =  uRepo.findUserByEmailAndPassword(email, password);
+		User user =  findUserByEmailAndPassword(email, password);
+		return user;
+	}
+	
+	@Transactional
+	public User findUserByEmailAndPassword(String email, String password) {
+		
+		User user = uRepo.findUserByEmailAndPassword(email, password);
 		return user;
 	}
 	

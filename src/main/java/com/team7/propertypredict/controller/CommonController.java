@@ -29,6 +29,7 @@ public class CommonController {
  	@Autowired
  	ProjectService pService;
 	
+ 	@Autowired
 	private UserService uService;
 
 	@GetMapping("/")
@@ -61,9 +62,7 @@ public class CommonController {
 			if (u == null)
 				return "login";
 
-			// storing items in sessions
-			session.setAttribute("username", u.getUsername());
-			session.setAttribute("userObj", u);
+			session.setAttribute("userObj", user);
 			return "redirect:/home";
 		}
 	}

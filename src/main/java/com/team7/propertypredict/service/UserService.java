@@ -8,6 +8,7 @@ import com.team7.propertypredict.model.User;
 public interface UserService {
 	
 	User authenticate(String email, String password);
+	User findUserByEmailAndPassword(String email, String password);
 	User findUserByEmail(String email);
 	void save(User user);
 }
