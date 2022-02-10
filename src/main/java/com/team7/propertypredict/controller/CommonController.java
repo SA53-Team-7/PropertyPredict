@@ -2,20 +2,6 @@ package com.team7.propertypredict.controller;
 
 import java.util.ArrayList;
 
-// import java.util.ArrayList;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.data.repository.query.Param;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestMethod;
-
-// import com.team7.propertypredict.model.Project;
-// import com.team7.propertypredict.service.ProjectService;
-// import com.team7.propertypredict.service.TransactionService;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -28,12 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 import com.team7.propertypredict.service.UserService;
+import com.team7.propertypredict.validator.UserValidator;
 
 import helper.SearchResultHelper;
 
@@ -46,7 +31,11 @@ public class CommonController {
  	@Autowired
  	ProjectService pService;
 	
+ 	@Autowired
 	private UserService uService;
+ 	
+ 	@Autowired
+ 	private UserValidator uValidator;
 
 	@GetMapping("/")
 	public String index(HttpSession session) {
@@ -57,7 +46,7 @@ public class CommonController {
 			return "redirect:/home";
 		}
 	}
-	
+
 	@GetMapping("/login")
 	public String login(Model model) {
 		User user = new User();
@@ -78,9 +67,7 @@ public class CommonController {
 			if (u == null)
 				return "login";
 
-			// storing items in sessions
-			session.setAttribute("userName", u.getUsername());
-			session.setAttribute("userObj", u);
+			session.setAttribute("userObj", user);
 			return "redirect:/home";
 		}
 	}
@@ -98,7 +85,28 @@ public class CommonController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/registration")
+    public String registration(Model model) {
+		User user = new User();
+        model.addAttribute("userForm", user);
+
+        return "registration";
+    }
 	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult) {
+
+		uValidator.validate(userForm, bindingResult);
+		
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
+        uService.save(userForm);
+
+        return "redirect:/home";
+    }
+
  	@GetMapping("/home-temp")
  	public String viewHome(Model model) {
  		model.addAttribute("districtFilter", tService.getDistinctDistrict());

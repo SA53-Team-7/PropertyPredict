@@ -15,10 +15,30 @@ public class UserServiceImpl implements UserService{
 	private UserRepository uRepo;
 	
 	@Transactional
-	public User authenticate(String username, String password) {
+	public User authenticate(String email, String password) {
 		
-		User user =  uRepo.findUserByEmailAndPassword(username, password);
+		User user =  findUserByEmailAndPassword(email, password);
 		return user;
+	}
+	
+	@Transactional
+	public User findUserByEmailAndPassword(String email, String password) {
+		
+		User user = uRepo.findUserByEmailAndPassword(email, password);
+		return user;
+	}
+	
+	@Transactional
+	public User findUserByEmail(String email) {
+		
+		User user =  uRepo.findUserByEmail(email);
+		return user;
+	}
+	
+	@Override
+	@Transactional
+	public void save(User user) {
+		uRepo.saveAndFlush(user);
 	}
 
 }

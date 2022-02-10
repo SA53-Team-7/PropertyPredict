@@ -19,14 +19,13 @@ public class User {
 	
 	@Size(max = 10)
 	@Column(name = "name")
-	@NotBlank(message = "Username is mandatory")
 	private String username;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	@NotBlank(message = "Password is mandatory")
 	private String password;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique=true)
 	@Email
 	@NotBlank(message = "Email is mandatory")
 	private String email;
