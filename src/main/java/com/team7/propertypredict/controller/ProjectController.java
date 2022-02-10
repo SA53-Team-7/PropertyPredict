@@ -1,6 +1,8 @@
 package com.team7.propertypredict.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,13 +50,20 @@ public class ProjectController {
 	@GetMapping("/view-map/{pid}")
 	public String viewMap(@PathVariable Integer pid, Model model) {
 		
-		Location location = new Location("Pasir Ris MRT", 1.3730433, 103.9492845);
+		List<Location> locations = new ArrayList<Location>();
+		Location location1 = new Location("Pasir Ris MRT", 1.3730433, 103.9492845);
+		Location location2 = new Location("Tampines MRT", 1.3551504,  103.9430099);
+		locations.add(location1);
+		locations.add(location2);
+		Map<String, Double> amenities = pService.getAmenities(pid, locations);
+		
 		// Get One Map
 		ProjectDetails projectDetails = pService.getProjectDetails(pid);
 		String map = pService.getMap(pid);
 		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
-		Double distance = pService.calculateDistance(pid, location);
+		Double distance = pService.calculateDistance(pid, location1);
 		
+		model.addAttribute("amenities", amenities);
 		model.addAttribute("distance", distance);
 		model.addAttribute("project", projectDetails);
 		model.addAttribute("map", map);

@@ -2,8 +2,10 @@ package com.team7.propertypredict.service;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -287,5 +289,24 @@ public class ProjectServiceImpl implements ProjectService {
 			distance = (c * r);
 		}
 		return distance;
+	}
+	
+	@Override
+	public Map<String, Double> getAmenities(Integer pid, List<Location> locations){
+		
+		Property prop = getProperty(pid);
+		Double distance;
+		Map<String, Double> amenities = new HashMap<>();
+
+		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
+			distance = -1.0;
+			amenities.put("unavailable", distance);
+		}
+		else {
+			for (Location location : locations) {
+				amenities.put(location.getName(), calculateDistance(pid, location));
+			}
+		}
+		return amenities;
 	}
 }

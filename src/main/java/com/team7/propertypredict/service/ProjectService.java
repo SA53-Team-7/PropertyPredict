@@ -2,6 +2,7 @@ package com.team7.propertypredict.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -77,7 +78,11 @@ public interface ProjectService {
 	// Calculate the difference in distance
 	Double calculateDistance(Integer pid, Location location);
 	
+	// Get amenities and its distance
+	Map<String, Double> getAmenities(Integer pid, List<Location> locations);
+	
 	// Get property object
 	Property getProperty(Integer pid);
+	
 	
 }
