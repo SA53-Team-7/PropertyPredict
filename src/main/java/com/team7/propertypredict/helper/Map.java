@@ -24,7 +24,7 @@ public class Map {
 		return longitude;
 	}
 
-	public void setLongtitude(Double longtitude) {
+	public void setLongtitude(Double longitude) {
 		this.longitude = longitude;
 	}
 	

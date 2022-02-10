@@ -39,7 +39,7 @@
 							<h4 class="card-subtitle text-muted mb-5" th:text="${project.street}"></h4>
 							<br>
 						</div>
-						<img class="map mx-auto" style="width:90%" src="https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=1.2424409850962639&lng=103.83675517458369&zoom=17&height=300&width=512&points=[1.2424409850962639,103.83675517458369,%22168,228,160%22,%20%22A%22]">
+						<img class="map mx-auto" style="width:90%" th:src="${map}">
 					</div>
 				</div>
 			</div>

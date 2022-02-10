@@ -219,7 +219,7 @@ public class ProjectServiceImpl implements ProjectService{
 		Double lng = mController.getCoordinates(x, y).getLongitude();
 		
 		if(x.isEmpty() || y.isEmpty()) {
-			map = "@{/images/location-unknown.png}";
+			map = "@{/images/unknown.png}";
 		}
 		else {
 			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"A\"]";
