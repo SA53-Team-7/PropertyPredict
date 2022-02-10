@@ -165,3 +165,42 @@ a:hover {
 	padding-left: 300px;
 	padding-right: 300px;
 }
+
+/* home loan calculator - homeloan_calc.html */
+
+.loan-form {
+	left: 0;
+	width: 40%;
+	float: left;
+}
+
+.homeloan-calc-div {
+	margin-bottom: 10%;
+}
+
+.homeloan-calc-div h4{
+	padding-bottom: 1%;
+}
+
+#loan-button {
+	width: 100%
+}
+
+.loan-result {
+	width: 50%;
+	float: right;
+}
+
+#loan-canvas {
+	max-height: 250px;
+}
+
+.donut-text-div {
+	text-align: center;
+}
+
+#donut-text {
+	font-weight: bold;
+	font-size: 15px;
+}
+
