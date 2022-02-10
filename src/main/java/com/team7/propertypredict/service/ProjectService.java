@@ -70,4 +70,7 @@ public interface ProjectService {
 	
 	// Get y coordinates
 	String findYById(Integer pid);
+	
+	// Calculate the difference in distance
+	Double calculateDistance(Integer pid);
 }

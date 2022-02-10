@@ -236,4 +236,39 @@ public class ProjectServiceImpl implements ProjectService{
 	public String findYById(Integer pid) {
 		return pRepo.findYById(pid);
 	}
+	
+	@Override
+	public Double calculateDistance(Integer pid) {
+		Double locationLat = 1.3730433;
+		Double locationLng = 103.9492845;
+		
+		String x = findXById(pid);
+		String y = findYById(pid);
+		Double lat = mController.getCoordinates(x, y).getLatitude();
+		Double lng = mController.getCoordinates(x, y).getLongitude();
+		
+		Double distance;
+		
+		if(x.isEmpty() || y.isEmpty()) {
+			distance = -1.0;
+		}
+		else {
+			 double propertyLatitude = Math.toRadians(lat);
+             double propertyLongitude = Math.toRadians(lng);
+             double locationLatitude = Math.toRadians(locationLat);
+             double locationLongitude = Math.toRadians(locationLng);
+
+             // Haversine formula
+             double dLat = locationLatitude - propertyLatitude;
+             double dLon = locationLongitude - propertyLongitude;
+
+             double a = Math.pow(Math.sin(dLat / 2), 2) + Math.cos(propertyLatitude) * Math.cos(locationLatitude) * Math.pow(Math.sin(dLon / 2),2);
+             double c = 2 * Math.asin(Math.sqrt(a));
+
+             double r = 6371;
+
+             distance = (c * r);
+		}
+		return distance;
+	}
 }
