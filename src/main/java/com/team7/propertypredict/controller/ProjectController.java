@@ -49,8 +49,10 @@ public class ProjectController {
 		// Get One Map
 		ProjectDetails projectDetails = pService.getProjectDetails(pid);
 		String map = pService.getMap(pid);
+		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
 		model.addAttribute("project", projectDetails);
 		model.addAttribute("map", map);
+		model.addAttribute("exist", exist);
 		return "map";
 		
 	}

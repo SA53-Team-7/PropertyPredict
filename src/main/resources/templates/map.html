@@ -39,7 +39,8 @@
 							<h4 class="card-subtitle text-muted mb-5" th:text="${project.street}"></h4>
 							<br>
 						</div>
-						<img class="map mx-auto" style="width:90%" th:src="${map}">
+						<img class="map mx-auto" style="width:90%" th:if="${exist}" th:src="${map}" />
+						<img class="map mx-auto" style="width:90%" th:unless="${exist}" th:src="@{/images/unknown.png}" />
 					</div>
 				</div>
 			</div>
