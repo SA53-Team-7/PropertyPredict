@@ -6,22 +6,27 @@ public class Property{
     private String propertyName;
     private String region;
     private String street;
-    private Double latitude;
-    private Double longitude;
+    private String xCoordinates;
+    private String yCoordinates;
     
 	public Property() {
 		super();
 	}
 
-	public Property(int projectId, String propertyName, String region, String street, Double latitude,
-			Double longitude) {
+	public Property(int projectId) {
+		super();
+		this.projectId = projectId;
+	}
+
+	public Property(int projectId, String propertyName, String region, String street, String xCoordinates,
+			String yCoordinates) {
 		super();
 		this.projectId = projectId;
 		this.propertyName = propertyName;
 		this.region = region;
 		this.street = street;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.xCoordinates = xCoordinates;
+		this.yCoordinates = yCoordinates;
 	}
 
 	public int getProjectId() {
@@ -56,21 +61,20 @@ public class Property{
 		this.street = street;
 	}
 
-	public Double getLatitude() {
-		return latitude;
+	public String getxCoordinates() {
+		return xCoordinates;
 	}
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
+	public void setxCoordinates(String xCoordinates) {
+		this.xCoordinates = xCoordinates;
 	}
 
-	public Double getLongitude() {
-		return longitude;
+	public String getyCoordinates() {
+		return yCoordinates;
 	}
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
+	public void setyCoordinates(String yCoordinates) {
+		this.yCoordinates = yCoordinates;
 	}
-
     
 }

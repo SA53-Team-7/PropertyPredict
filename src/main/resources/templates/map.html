@@ -36,7 +36,8 @@
 								</div>
 							</div>
 							<h3 class="card-subtitle mb-3 mt-3 text-muted" th:text="${project.name}"></h3>
-							<h4 class="card-subtitle text-muted mb-5" th:text="${project.street}"></h4>
+							<h4 class="card-subtitle text-muted mb-3" th:text="${project.street}"></h4>
+							<h4 class="card-subtitle text-muted mb-5" th:if="${distance!=-1}"> Distance from Pasir Ris MRT is <span th:text="${distance}"></span> KM</h4>
 							<br>
 						</div>
 						<img class="map mx-auto" style="width:90%" th:if="${exist}" th:src="${map}" />

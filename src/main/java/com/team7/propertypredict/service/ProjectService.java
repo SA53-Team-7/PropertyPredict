@@ -2,9 +2,12 @@ package com.team7.propertypredict.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
+import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Project;
 
 import helper.SearchResultHelper;
@@ -72,5 +75,9 @@ public interface ProjectService {
 	String findYById(Integer pid);
 	
 	// Calculate the difference in distance
-	Double calculateDistance(Integer pid);
+	Double calculateDistance(Integer pid, Location location);
+	
+	// Get property object
+	Property getProperty(Integer pid);
+	
 }
