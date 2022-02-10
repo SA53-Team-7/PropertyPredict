@@ -35,11 +35,12 @@
 									</h2>
 								</div>
 							</div>
-							<h3 class="card-subtitle mb-3 mt-3 text-muted" th:text="${project.name}"></h3>
-							<h4 class="card-subtitle text-muted mb-3" th:text="${project.street}"></h4>
+							<h2 class="card-subtitle mb-4 mt-3 text-muted" th:text="${project.name}"></h2>
+							<h3 class="card-subtitle text-muted mt-4" th:text="${project.street}"></h3>
+							<br>
 							<div th:if="${not #maps.isEmpty(amenities)}" th:each="amenity : ${amenities}">
 								<h4 class="card-subtitle text-muted mb-5 mt-3" th:if="${amenity.value!=-1}"> Distance from
-									<span th:text="${amenity.key}"></span> is <span th:text="${amenity.value}"></span> KM
+									<span th:text="${amenity.key}"></span> is <span th:text="${#numbers.formatDecimal(amenity.value, 0, 'COMMA', 2, 'POINT')}"></span> KM
 								</h4>
 							</div>
 							<br>
