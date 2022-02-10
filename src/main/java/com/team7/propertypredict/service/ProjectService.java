@@ -3,6 +3,7 @@ package com.team7.propertypredict.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.team7.propertypredict.helper.ProjectDetails;
@@ -62,4 +63,13 @@ public interface ProjectService {
 	
 	// Get all distinct tenure filters by parameters
 	ArrayList<String> findDistinctTenureByPara (String searchStr, String segment, String district, String type);
+	
+	// Get static map URL
+	String getMap(Integer pid);
+	
+	// Get x coordinates
+	String findXById(Integer pid);
+	
+	// Get y coordinates
+	String findYById(Integer pid);
 }

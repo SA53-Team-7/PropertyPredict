@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.naming.directory.SearchResult;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.team7.propertypredict.controller.MapRestController;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.repository.ProjectRepository;
@@ -27,7 +27,10 @@ public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	private TransactionService tService;
 	
-	@Transactional
+	@Autowired 
+	private MapRestController mController;
+	
+	@Override
 	public List<Project> findAllProjects(){
 		return pRepo.findAllProjects();
 	}	
@@ -37,19 +40,17 @@ public class ProjectServiceImpl implements ProjectService{
 		return pRepo.getTop20Projects();
 	}
 
-	@Transactional
+	@Override
 	public ArrayList<Project> searchProjects(String searchString){
 		return pRepo.searchProjects(searchString);
 	}
 
-	@Transactional
+	@Override
 	public ArrayList<Project> findProjectsByStreet(String street){
-		
-		ArrayList<Project> projects = pRepo.findProjectsByStreet(street);
-		return projects;
+		return pRepo.findProjectsByStreet(street);
 	}
 	
-	@Transactional 
+	@Override
 	public ProjectDetails getProjectDetails(Integer pid) {
 		ProjectDetails pd = new ProjectDetails();
 		
@@ -91,34 +92,29 @@ public class ProjectServiceImpl implements ProjectService{
 		return pd;
 	}
 	
-	@Transactional
+	@Override
 	public Project findProjectById(Integer pid) {
-		Project project = pRepo.findProjectById(pid);
-		return project;
+		return pRepo.findProjectById(pid);
 	}
 	
-	@Transactional
+	@Override
 	public Double findAveragePriceByProjectId(Integer pid) {
-		Double avgPrice = pRepo.findAveragePriceByProjectId(pid);
-		return avgPrice;
+		return pRepo.findAveragePriceByProjectId(pid);
 	}
 	
-	@Transactional
+	@Override
 	public Integer findTotalUnitsByProjectId(Integer pid) {
-		Integer units = pRepo.findTotalUnitsByProjectId(pid);
-		return units;
+		return pRepo.findTotalUnitsByProjectId(pid);
 	}
 	
-	@Transactional
+	@Override
 	public 	String findTenureByProjectId(Integer pid) {
-		String tenure = pRepo.findTenureByProjectId(pid);
-		return tenure;
+		return pRepo.findTenureByProjectId(pid);
 	}
 	
-	@Transactional
+	@Override
 	public 	String findSaleTypeByProjectId(Integer pid){
-		String type = pRepo.findSaleTypeByProjectId(pid);
-		return type;
+		return pRepo.findSaleTypeByProjectId(pid);
 	}
 	
 	@Transactional
@@ -208,5 +204,36 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 		
 		return filters;
+	}
+	
+	@Override
+	public String getMap(Integer pid) {
+		
+		String map;
+		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?"
+				+ "layerchosen=default&lat=";
+		String map2 = "&zoom=17&height=300&width=512";
+		String x = findXById(pid);
+		String y = findYById(pid);
+		Double lat = mController.getCoordinates(x, y).getLatitude();
+		Double lng = mController.getCoordinates(x, y).getLongitude();
+		
+		if(x.isEmpty() || y.isEmpty()) {
+			map = "@{/images/location-unknown.png}";
+		}
+		else {
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"A\"]";
+		}	
+		return map;
+	}
+	
+	@Override
+	public String findXById(Integer pid) {
+		return pRepo.findXById(pid);
+	}
+	
+	@Override
+	public String findYById(Integer pid) {
+		return pRepo.findYById(pid);
 	}
 }

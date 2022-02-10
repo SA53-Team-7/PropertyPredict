@@ -62,4 +62,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 			+ "WHERE t.district LIKE %:district% AND t.prop_type LIKE %:type% AND p.segment LIKE %:segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
 	ArrayList<String> findDistinctTenureByPara(@Param ("searchStr") String searchStr, @Param("segment") String segment, @Param("district") String district, @Param("type") String type);
 
+	@Query("Select p.x from Project p where p.projectId = :pid")
+	String findXById(@Param ("pid") Integer pid);
+	
+	@Query("Select p.y from Project p where p.projectId = :pid")
+	String findYById(@Param ("pid") Integer pid);
 }
