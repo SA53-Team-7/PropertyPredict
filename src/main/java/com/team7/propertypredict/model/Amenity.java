@@ -16,10 +16,10 @@ public class Amenity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer amenityId;
 	private String name;
-	private Double xCoordinates;
-	private Double yCoordinates;
-	private Double latitude;
-	private Double longitude;
+	private String xCoordinates;
+	private String yCoordinates;
+	private String latitude;
+	private String longitude;
 	
 	@ManyToOne
 	@JoinColumn(name = "amenityType_amenityType_id",nullable = false)
@@ -28,11 +28,16 @@ public class Amenity {
 	public Amenity() {
 		super();
 	}
-
-	public Amenity(Integer amenityId, String name, Double xCoordinates, Double yCoordinates, Double latitude,
-			Double longitude, AmenityType amenityType) {
+	
+	public Amenity(String name, AmenityType amenityType) {
 		super();
-		this.amenityId = amenityId;
+		this.name = name;
+		this.amenityType = amenityType;
+	}
+
+	public Amenity(String name, String xCoordinates, String yCoordinates, String latitude, String longitude,
+			AmenityType amenityType) {
+		super();
 		this.name = name;
 		this.xCoordinates = xCoordinates;
 		this.yCoordinates = yCoordinates;
@@ -57,35 +62,35 @@ public class Amenity {
 		this.name = name;
 	}
 
-	public Double getxCoordinates() {
+	public String getxCoordinates() {
 		return xCoordinates;
 	}
 
-	public void setxCoordinates(Double xCoordinates) {
+	public void setxCoordinates(String xCoordinates) {
 		this.xCoordinates = xCoordinates;
 	}
 
-	public Double getyCoordinates() {
+	public String getyCoordinates() {
 		return yCoordinates;
 	}
 
-	public void setyCoordinates(Double yCoordinates) {
+	public void setyCoordinates(String yCoordinates) {
 		this.yCoordinates = yCoordinates;
 	}
 
-	public Double getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Double latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
-	public Double getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Double longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 
@@ -96,7 +101,5 @@ public class Amenity {
 	public void setAmenityType(AmenityType amenityType) {
 		this.amenityType = amenityType;
 	}
-	
-	
 
 }

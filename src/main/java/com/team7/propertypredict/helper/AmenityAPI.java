@@ -1,5 +1,7 @@
 package com.team7.propertypredict.helper;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,7 +12,7 @@ public class AmenityAPI {
 	private Integer found;
 	private Integer totalNumPages;
 	private Integer pageNum;
-	private List<Results> results;
+	private List<LinkedHashMap<String, String>> results;
 	
 	public AmenityAPI() {
 		super();
@@ -40,14 +42,18 @@ public class AmenityAPI {
 		this.pageNum = pageNum;
 	}
 
-	public List<Results> getResults() {
+	public List<LinkedHashMap<String, String>> getResults() {
 		return results;
 	}
 
-	public void setResults(List<Results> results) {
+	public void setResults(List<LinkedHashMap<String, String>> results) {
 		this.results = results;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "AmenityAPI [found=" + found + ", totalNumPages=" + totalNumPages + ", pageNum=" + pageNum + ", results="
+				+ results + "]";
+	}
 
 }

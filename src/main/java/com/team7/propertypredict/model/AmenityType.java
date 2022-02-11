@@ -26,12 +26,10 @@ public class AmenityType {
 	public AmenityType() {
 		super();
 	}
-
-	public AmenityType(Integer typeId, String type, List<Amenity> amenities) {
+	
+	public AmenityType(String type) {
 		super();
-		this.typeId = typeId;
 		this.type = type;
-		this.amenities = amenities;
 	}
 
 	public Integer getTypeId() {
@@ -57,5 +55,12 @@ public class AmenityType {
 	public void setAmenities(List<Amenity> amenities) {
 		this.amenities = amenities;
 	}
+
+	@Override
+	public String toString() {
+		return "AmenityType [typeId=" + typeId + ", type=" + type + ", amenities=" + amenities + "]";
+	}
+	
+	
 
 }

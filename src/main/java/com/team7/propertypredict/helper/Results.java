@@ -63,4 +63,12 @@ public class Results {
 	public void setLONGTITUDE(String lONGTITUDE) {
 		LONGTITUDE = lONGTITUDE;
 	}
+
+	@Override
+	public String toString() {
+		return "Results [SEARCHVAL=" + SEARCHVAL + ", X=" + X + ", Y=" + Y + ", LATITUDE=" + LATITUDE + ", LONGITUDE="
+				+ LONGITUDE + ", LONGTITUDE=" + LONGTITUDE + "]";
+	}
+	
+	
 }
