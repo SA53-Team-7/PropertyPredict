@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.model.Transaction;
@@ -25,7 +24,7 @@ public class ProjectController {
 	private ProjectService pService;
 	
 	@Autowired
-	TransactionService tService;
+	private TransactionService tService;
 	
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
@@ -71,5 +70,4 @@ public class ProjectController {
 		return "map";
 		
 	}
-	
 }

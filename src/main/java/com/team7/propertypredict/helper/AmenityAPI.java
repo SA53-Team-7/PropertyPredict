@@ -1,5 +1,7 @@
 package com.team7.propertypredict.helper;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,7 +10,7 @@ public class AmenityAPI {
 	private Integer found;
 	private Integer totalNumPages;
 	private Integer pageNum;
-	private Results results;
+	private List<Results> results;
 	
 	public AmenityAPI() {
 		super();
@@ -38,11 +40,11 @@ public class AmenityAPI {
 		this.pageNum = pageNum;
 	}
 
-	public Results getResults() {
+	public List<Results> getResults() {
 		return results;
 	}
 
-	public void setResults(Results results) {
+	public void setResults(List<Results> results) {
 		this.results = results;
 	}
 	
