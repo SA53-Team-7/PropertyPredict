@@ -1,5 +1,7 @@
 package com.team7.propertypredict.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
+@JsonIgnoreProperties({"amenityType"})
 @Table(name="amenities")
 public class Amenity {
 	
