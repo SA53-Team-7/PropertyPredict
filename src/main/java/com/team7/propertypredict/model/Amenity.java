@@ -102,4 +102,13 @@ public class Amenity {
 		this.amenityType = amenityType;
 	}
 
+	@Override
+	public String toString() {
+		return "Amenity [amenityId=" + amenityId + ", name=" + name + ", xCoordinates=" + xCoordinates
+				+ ", yCoordinates=" + yCoordinates + ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", amenityType=" + amenityType + "]";
+	}
+	
+	
+
 }

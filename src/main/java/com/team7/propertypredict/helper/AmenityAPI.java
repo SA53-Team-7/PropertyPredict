@@ -1,6 +1,5 @@
 package com.team7.propertypredict.helper;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
