@@ -32,15 +32,11 @@ function sendRequest() {
 		url: "http://localhost:8080/api/mortgage",
 		data: data,
 		contentType : 'text/plain',
+		dataType: 'json',
 		success: function(result){
-			var obj = JSON.parse(result)
-/*    		document.getElementById("monthlyPayment").innerHTML = obj.payment
-			document.getElementById("principal").innerHTML = obj.principal
-			document.getElementById("interest").innerHTML = obj.interest  */
-			document.getElementById("donut-text").innerHTML = 'S$' + obj.payment + ' /month'
-			principalResult = Number(obj.principal)
-			interestResult = Number(obj.interest)	
-			
+			document.getElementById("donut-text").innerHTML = 'S$' + result.payment + ' /month'
+			principalResult = Number(result.principal)
+			interestResult = Number(result.interest)	
 			getChart()	
 		}
 	})
