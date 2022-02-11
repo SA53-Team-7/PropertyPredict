@@ -11,9 +11,11 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+	
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<script type="text/javascript" th:src="@{/js/transactions.js}"></script>
+	<script type="text/javascript" th:src="@{/js/prediction.js}"></script>
+	<script type="text/javascript" th:src="@{/js/mortgageCalculator.js}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -27,13 +29,19 @@
 
 				<!-- Past transactions' component -->
 				<div class="past-txn" th:replace="/past_transactions" />
-        
+
         		<!-- Resale prediction component -->
 		    	<div class="resale-predictions" th:replace="/resale_prediction" />	
 			</div>
 		</div>
-	</div>
-	<div class="container" style="height: 100px;">
+			
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+			
+			<!-- Home loan calculator component -->
+		    <div class="homeloan-calc" th:replace="/homeloan_calc" />
+		</div>
 	</div>
 </body>
 
