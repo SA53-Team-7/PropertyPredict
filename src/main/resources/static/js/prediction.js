@@ -1,3 +1,11 @@
+function determineTenure(t) {
+	if (t !== "Freehold") {
+		return tenure
+	} else {
+		return '999999'
+	}
+}
+
 function formatCurrency(price) {
 	return '$ ' + price.toLocaleString('en-US', {style: 'currency', currency: "SGD"});
 }
@@ -26,7 +34,7 @@ function determineDistrict(district) {
 }
 
 function predict() {
-	
+		
 	var currDate = new Date();
 	
 	var pid = document.getElementById("pred_pid").value
@@ -34,7 +42,7 @@ function predict() {
 	var floorArea = Number(document.getElementById("pred-area").value)
 	var floorRange = determineFloor(document.getElementById("pred-floor").value)
 	var top = document.getElementById("pred-top").value
-	var tenure = document.getElementById("pred-tenure").value
+	var tenure = determineTenure(document.getElementById("pred-tenure").value)
 	var year = currDate.getFullYear().toString().substring(2)
 	var month = (currDate.getMonth() + 1).toString()
 	
@@ -46,7 +54,7 @@ function predict() {
 		"top": top,
 		"tenure": tenure,
 		"year": year,
-		"month": month};
+		"month": month };
 
 	$.ajax({
 		type: 'GET',
