@@ -18,8 +18,8 @@
 	<body>
 		<div class="prop-main">
 			<div class="row">
-				<div class="col-2"></div>
-				<div class="col-8">
+				<div class="col-1"></div>
+				<div class="col-10">
 					<div class="card mt-5 p-5 shadow" style="width: 100%; background-color: rgba(240, 240, 240, 0.2)">
 						<div class="card-body mx-auto" style="width:90%">
 							<div class="row">
@@ -38,16 +38,34 @@
 							<h2 class="card-subtitle mb-4 mt-3 text-muted" th:text="${project.name}"></h2>
 							<h3 class="card-subtitle text-muted mt-4" th:text="${project.street}"></h3>
 							<br>
-							<div th:if="${not #maps.isEmpty(amenities)}" th:each="amenity : ${amenities}">
-								<h4 class="card-subtitle text-muted mb-5 mt-3" th:if="${amenity.value!=-1}"> Distance from
-									<span th:text="${amenity.key}"></span> is <span th:text="${#numbers.formatDecimal(amenity.value, 0, 'COMMA', 2, 'POINT')}"></span> KM
-								</h4>
-							</div>
+							
 							<br>
 						</div>
-						<img class="map mx-auto" style="width:90%" th:if="${exist}" th:src="${map}" />
-						<img class="map mx-auto" style="width:90%" th:unless="${exist}"
-							th:src="@{/images/unknown.png}" />
+						<div class="row">
+							
+							<div class="col- mx-auto" style="width:25%;">
+								<table th:if="${not #maps.isEmpty(amenities)}"  class="table table-borderless ">
+									<thead >
+										<tr>
+											<th>MRT</th>
+											<th style="text-align:right;">Est. Distance</th>
+										</tr>
+									</thead>
+									<tbody  th:if="${amenity.value!=-1}" th:each="amenity : ${amenities}">
+										<tr>
+											<td th:text="${amenity.key}" class="text-primary">Amenities</td>
+											<td style="text-align:right"><span th:text="${#numbers.formatDecimal(amenity.value, 0, 'COMMA', 2, 'POINT')}"></span> KM</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="col-8">
+								<img class="map mx-auto" style="width:90%" th:if="${exist}" th:src="${map}" />
+								<img class="map mx-auto" style="width:90%" th:unless="${exist}"
+									th:src="@{/images/unknown.png}" />
+							</div>
+						</div>
+						<br>
 					</div>
 				</div>
 			</div>

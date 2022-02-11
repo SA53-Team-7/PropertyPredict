@@ -235,7 +235,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
-		String map2 = "&zoom=17&height=300&width=512";
+		String map2 = "&zoom=17&height=300&width=400";
 
 		Property prop = getProperty(pid);
 
