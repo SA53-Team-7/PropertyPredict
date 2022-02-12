@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.Transaction;
+import com.team7.propertypredict.repository.AmenityRepository;
+import com.team7.propertypredict.repository.AmenityTypeRepository;
+import com.team7.propertypredict.service.AmenityService;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 
@@ -27,6 +31,16 @@ public class ProjectController {
 	
 	@Autowired
 	private TransactionService tService;
+	
+	@Autowired
+	private AmenityTypeRepository atRepo;
+	
+	@Autowired
+	private AmenityRepository aRepo;
+	
+	
+	@Autowired
+	private AmenityService aService;
 	
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
@@ -51,25 +65,28 @@ public class ProjectController {
 	@GetMapping("/view-map/{pid}")
 	public String viewMap(@PathVariable Integer pid, Model model) {
 		
-		List<Location> locations = new ArrayList<Location>();
-		Location location1 = new Location("Pasir Ris MRT", 1.3730433, 103.9492845);
-		Location location2 = new Location("Tampines MRT", 1.3551504,  103.9430099);
-		locations.add(location1);
-		locations.add(location2);
-		Map<String, Double> amenities = pService.getAmenities(pid, locations);
-		
-		// Get One Map
 		Property propertyDetails = pService.getPropertyDetails(pid);
+		Map<String, List<Location>> locationDetails = pService.getLocationDetails(pid);
 		String map = pService.getMap(pid);
 		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
-		Double distance = pService.calculateDistance(pid, location1);
 		
-		model.addAttribute("amenities", amenities);
-		model.addAttribute("distance", distance);
+		model.addAttribute("locations", locationDetails);
 		model.addAttribute("property", propertyDetails);
 		model.addAttribute("map", map);
 		model.addAttribute("exist", exist);
 		return "map";
 		
 	}
+	
+	@GetMapping("/test")
+	public String test( Model model) {
+		Map<String, List<Location>> all = pService.getLocationDetails(855);
+		List<Amenity> am = aRepo.findAmenitiesByAmenityType(1);
+		Property prop = pService.getProperty(855);
+		model.addAttribute("prop", prop);
+		model.addAttribute("am", am);
+		model.addAttribute("all", all);
+		return "test";
+	}
+		
 }

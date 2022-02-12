@@ -76,7 +76,7 @@ public interface ProjectService {
 	String findYById(Integer pid);
 	
 	// Calculate the difference in distance
-	Double calculateDistance(Integer pid, Location location);
+	Double calculateDistance(Integer pid, Double latitude, Double longitude);
 	
 	// Get amenities and its distance
 	Map<String, Double> getAmenities(Integer pid, List<Location> locations);
@@ -86,6 +86,9 @@ public interface ProjectService {
 	
 	// Get property details
 	Property getPropertyDetails(Integer pid);
+	
+	// Get location details
+	Map<String, List<Location>> getLocationDetails(Integer pid);
 	
 	
 }

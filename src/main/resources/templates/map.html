@@ -39,23 +39,25 @@
 							<h3 class="card-subtitle text-muted mt-4" th:text="${property.region}"></h3>
 							<h3 class="card-subtitle text-muted mt-4" th:text="${property.street}"></h3>
 							<br>
-							
+
 							<br>
 						</div>
 						<div class="row">
-							
+
 							<div class="col- mx-auto" style="width:25%;">
-								<table th:if="${not #maps.isEmpty(amenities)}"  class="table table-borderless ">
-									<thead >
+								<table th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}" class="table table-borderless ">
+									<thead>
 										<tr>
-											<th>MRT</th>
+											<th th:text="${type.key}">MRT</th>
 											<th style="text-align:right;">Est. Distance</th>
 										</tr>
 									</thead>
-									<tbody  th:if="${amenity.value!=-1}" th:each="amenity : ${amenities}">
+									<tbody  th:each="location: ${type.value}">
 										<tr>
-											<td th:text="${amenity.key}" class="text-primary">Amenities</td>
-											<td style="text-align:right"><span th:text="${#numbers.formatDecimal(amenity.value, 0, 'COMMA', 2, 'POINT')}"></span> KM</td>
+											<td th:text="${location.name}" class="text-primary">Amenities</td>
+											<td style="text-align:right"><span
+													th:text="${#numbers.formatDecimal(location.distance, 0, 'COMMA', 2, 'POINT')}"></span>
+												KM</td>
 										</tr>
 									</tbody>
 								</table>

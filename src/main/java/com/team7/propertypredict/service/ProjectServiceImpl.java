@@ -16,7 +16,11 @@ import com.team7.propertypredict.controller.MapRestController;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.model.Amenity;
+import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
+import com.team7.propertypredict.repository.AmenityRepository;
+import com.team7.propertypredict.repository.AmenityTypeRepository;
 import com.team7.propertypredict.repository.ProjectRepository;
 
 import helper.SearchResultHelper;
@@ -26,6 +30,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ProjectRepository pRepo;
+	
+	@Autowired
+	private AmenityTypeService atService;
+	
+	@Autowired
+	private AmenityService aService;
 
 	@Autowired
 	private TransactionService tService;
@@ -111,6 +121,31 @@ public class ProjectServiceImpl implements ProjectService {
 		prop.setRegion(region);
 		prop.setStreet(project.getStreet());
 		return prop;
+	}
+	
+	@Override
+	public Map<String, List<Location>> getLocationDetails(Integer pid){
+		Map<String, List<Location>> details = new HashMap<String, List<Location>>();
+		
+		List<AmenityType> types = atService.findAll();
+		for(AmenityType type: types) {
+			List<Location> locations = new ArrayList<Location>();
+			List<Amenity> amenities = aService.findAmenitiesByAmenityType(type.getTypeId());
+			for(Amenity amenity: amenities) {
+				String name = amenity.getName();
+				Double lat = Double.parseDouble(amenity.getLatitude());
+				Double lng = Double.parseDouble(amenity.getLongitude());
+				Double distance = calculateDistance(pid, lat, lng);
+				if(distance!=-1.0) {
+					Location location = new Location(name, lat, lng, distance);
+					locations.add(location);
+				}		
+			}
+			if(!locations.isEmpty()) {
+				details.put(type.getType(), locations);
+			}	
+		}
+		return details;
 	}
 
 	@Override
@@ -279,8 +314,9 @@ public class ProjectServiceImpl implements ProjectService {
 		return pRepo.findYById(pid);
 	}
 
+	@Transactional
 	@Override
-	public Double calculateDistance(Integer pid, Location location) {
+	public Double calculateDistance(Integer pid, Double latitude, Double longitude) {
 
 		Property prop = getProperty(pid);
 		Double distance;
@@ -293,8 +329,8 @@ public class ProjectServiceImpl implements ProjectService {
 			double lng = Double.parseDouble(prop.getxCoordinates());
 			double propertyLatitude = Math.toRadians(lat);
 			double propertyLongitude = Math.toRadians(lng);
-			double locationLatitude = Math.toRadians(location.getLatitude());
-			double locationLongitude = Math.toRadians(location.getLongitude());
+			double locationLatitude = Math.toRadians(latitude);
+			double locationLongitude = Math.toRadians(longitude);
 
 			// Haversine formula
 			double dLat = locationLatitude - propertyLatitude;
@@ -323,7 +359,9 @@ public class ProjectServiceImpl implements ProjectService {
 			amenities.put("unavailable", distance);
 		} else {
 			for (Location location : locations) {
-				amenities.put(location.getName(), calculateDistance(pid, location));
+				Double lat = location.getLatitude();
+				Double lng = location.getLongitude();
+				amenities.put(location.getName(), calculateDistance(pid, lat, lng));
 			}
 		}
 		return amenities;

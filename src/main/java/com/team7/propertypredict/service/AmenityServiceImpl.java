@@ -77,4 +77,16 @@ public class AmenityServiceImpl implements AmenityService {
 	public List<Amenity> findAllAmenities() {
 		return aRepo.findAllAmenities();
 	}
+	
+	@Override
+	public List<AmenityType> findAllAmenityTypes(){
+		return atRepo.findAll();
+	}
+	
+	@Override
+	public List<Amenity> findAmenitiesByAmenityType(Integer tid){
+		return aRepo.findAmenitiesByAmenityType(tid);
+	}
+	
+	
 }

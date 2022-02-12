@@ -3,8 +3,9 @@ package com.team7.propertypredict.helper;
 public class Location {
 	
 	private String name;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
+    private Double distance;
     
 	public Location() {
 		super();
@@ -15,6 +16,14 @@ public class Location {
 		this.name = name;
 		this.latitude = latitude;
 		this.longitude = longitude;
+	}
+
+	public Location(String name, Double latitude, Double longitude, Double distance) {
+		super();
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.distance = distance;
 	}
 
 	public String getName() {
@@ -39,6 +48,14 @@ public class Location {
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
     
 }
