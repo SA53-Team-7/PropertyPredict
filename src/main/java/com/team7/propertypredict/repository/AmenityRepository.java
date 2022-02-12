@@ -1,5 +1,4 @@
 package com.team7.propertypredict.repository;
-import com.team7.propertypredict.model.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.team7.propertypredict.model.Amenity;

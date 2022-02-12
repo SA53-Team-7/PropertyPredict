@@ -84,5 +84,8 @@ public interface ProjectService {
 	// Get property object
 	Property getProperty(Integer pid);
 	
+	// Get property details
+	Property getPropertyDetails(Integer pid);
+	
 	
 }

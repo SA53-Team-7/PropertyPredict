@@ -2,7 +2,6 @@ package com.team7.propertypredict.controller;
 
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.service.AmenityService;
-import com.team7.propertypredict.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

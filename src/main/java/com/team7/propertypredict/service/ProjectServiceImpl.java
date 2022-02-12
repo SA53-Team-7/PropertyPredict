@@ -94,6 +94,26 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public Property getPropertyDetails(Integer pid) {
+		Property prop = new Property();
+		Project project = findProjectById(pid);
+		String region = project.getSegment();
+		if (region == "CCR") {
+			region = "Core Central Region (CCR)";
+		} else if (region == "RCR") {
+			region = "Rest of Central Region (RCR)";
+		} else {
+			region = "Ouside Central Region (OCR)";
+		}
+
+		prop.setProjectId(pid);
+		prop.setPropertyName(project.getName());
+		prop.setRegion(region);
+		prop.setStreet(project.getStreet());
+		return prop;
+	}
+
+	@Override
 	public Project findProjectById(Integer pid) {
 		return pRepo.findProjectById(pid);
 	}
@@ -267,7 +287,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
 			distance = -1.0;
-			
+
 		} else {
 			double lat = Double.parseDouble(prop.getyCoordinates());
 			double lng = Double.parseDouble(prop.getxCoordinates());
@@ -290,10 +310,10 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return distance;
 	}
-	
+
 	@Override
-	public Map<String, Double> getAmenities(Integer pid, List<Location> locations){
-		
+	public Map<String, Double> getAmenities(Integer pid, List<Location> locations) {
+
 		Property prop = getProperty(pid);
 		Double distance;
 		Map<String, Double> amenities = new HashMap<>();
@@ -301,8 +321,7 @@ public class ProjectServiceImpl implements ProjectService {
 		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
 			distance = -1.0;
 			amenities.put("unavailable", distance);
-		}
-		else {
+		} else {
 			for (Location location : locations) {
 				amenities.put(location.getName(), calculateDistance(pid, location));
 			}

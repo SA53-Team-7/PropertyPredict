@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
+import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
@@ -57,14 +59,14 @@ public class ProjectController {
 		Map<String, Double> amenities = pService.getAmenities(pid, locations);
 		
 		// Get One Map
-		ProjectDetails projectDetails = pService.getProjectDetails(pid);
+		Property propertyDetails = pService.getPropertyDetails(pid);
 		String map = pService.getMap(pid);
 		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
 		Double distance = pService.calculateDistance(pid, location1);
 		
 		model.addAttribute("amenities", amenities);
 		model.addAttribute("distance", distance);
-		model.addAttribute("project", projectDetails);
+		model.addAttribute("property", propertyDetails);
 		model.addAttribute("map", map);
 		model.addAttribute("exist", exist);
 		return "map";
