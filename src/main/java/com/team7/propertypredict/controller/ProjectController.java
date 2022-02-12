@@ -1,6 +1,5 @@
 package com.team7.propertypredict.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +16,6 @@ import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.repository.AmenityRepository;
-import com.team7.propertypredict.repository.AmenityTypeRepository;
-import com.team7.propertypredict.service.AmenityService;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 
@@ -33,15 +30,9 @@ public class ProjectController {
 	private TransactionService tService;
 	
 	@Autowired
-	private AmenityTypeRepository atRepo;
-	
-	@Autowired
 	private AmenityRepository aRepo;
 	
-	
-	@Autowired
-	private AmenityService aService;
-	
+
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
 	public String viewProject(@PathVariable Integer pid, Model model) {

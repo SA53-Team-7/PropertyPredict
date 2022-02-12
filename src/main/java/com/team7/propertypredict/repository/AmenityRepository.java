@@ -14,5 +14,8 @@ public interface AmenityRepository extends JpaRepository<Amenity, Integer> {
     
     @Query(value = "SELECT * FROM amenities a WHERE a.amenity_type_amenity_type_id = :tid", nativeQuery = true)
     List<Amenity> findAmenitiesByAmenityType(@Param ("tid") Integer tid);
+    
+    @Query(value = "SELECT * FROM amenities a WHERE a.name = :name", nativeQuery = true)
+    Amenity findAmenityByName(@Param ("name") String name);
 
 }

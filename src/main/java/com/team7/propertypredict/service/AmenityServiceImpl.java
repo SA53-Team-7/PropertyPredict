@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.controller.MapRestController;
@@ -37,35 +38,51 @@ public class AmenityServiceImpl implements AmenityService {
 			atRepo.save(type);
 		}
 		for (String search : searchList) {
-			AmenityAPI ap = mControl.getAmenityDetails(search);
+			if(!amenityExist(search)) {
+				AmenityAPI ap = mControl.getAmenityDetails(search);
 
-			if (ap.getFound() == 1) {
+				if (ap.getFound() == 1) {
 
-				List<LinkedHashMap<String, String>> results = ap.getResults();
-				for (LinkedHashMap<String, String> r : results) {
-					Set<String> keys = r.keySet();
-					String name, x, y, lat, lng;
-					name = x = y = lat = lng = "";
-					for (String key : keys) {
-						if (key == "SEARCHVAL") {
-							name = r.get(key);
-						} else if (key == "X") {
-							x = r.get(key);
-						} else if (key == "Y") {
-							y = r.get(key);
-						} else if (key == "LATITUDE") {
-							lat = r.get(key);
-						} else if (key == "LONGITUDE") {
-							lng = r.get(key);
+					List<LinkedHashMap<String, String>> results = ap.getResults();
+					for (LinkedHashMap<String, String> r : results) {
+						Set<String> keys = r.keySet();
+						String name, x, y, lat, lng;
+						name = x = y = lat = lng = "";
+						for (String key : keys) {
+							if (key == "SEARCHVAL") {
+								name = r.get(key);
+							} else if (key == "X") {
+								x = r.get(key);
+							} else if (key == "Y") {
+								y = r.get(key);
+							} else if (key == "LATITUDE") {
+								lat = r.get(key);
+							} else if (key == "LONGITUDE") {
+								lng = r.get(key);
+							}
 						}
+						Amenity am = new Amenity(name, x, y, lat, lng, type);
+						aRepo.saveAndFlush(am);
 					}
-					Amenity am = new Amenity(name, x, y, lat, lng, type);
-					aRepo.saveAndFlush(am);
+				} else {
+					duplicateLocations.add(search);
 				}
-			} else {
-				duplicateLocations.add(search);
 			}
 		}
+	}
+	
+	@Override
+	public Boolean amenityExist(String name) {
+		Amenity amenity = findAmenityByName(name);
+		if(amenity==null) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public Amenity findAmenityByName(String name) {
+		return aRepo.findAmenityByName(name);
 	}
 
 	@Override

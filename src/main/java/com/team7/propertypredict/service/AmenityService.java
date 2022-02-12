@@ -2,8 +2,6 @@ package com.team7.propertypredict.service;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 
@@ -23,4 +21,10 @@ public interface AmenityService {
 	
 	// Find all Amenities by Amenity Types
 	List<Amenity> findAmenitiesByAmenityType(Integer tid);
+	
+	// Check whether amenity already exist in database
+	Boolean amenityExist(String name);
+	
+	// Find Amenity given the name
+	Amenity findAmenityByName(String name);
 }
