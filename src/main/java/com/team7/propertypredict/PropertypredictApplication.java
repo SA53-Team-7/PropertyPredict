@@ -25,7 +25,7 @@ public class PropertypredictApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			List<String> list = AmenityHelper.neLine;
-			//aService.saveAmenities(list, "MRT Station");
+			//aService.saveAmenities(list, "Train Station");
 		};
 	}
 
