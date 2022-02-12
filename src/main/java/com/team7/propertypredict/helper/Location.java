@@ -6,6 +6,7 @@ public class Location{
     private Double latitude;
     private Double longitude;
     private Double distance;
+    private String marker;
     
 	public Location() {
 		super();
@@ -57,4 +58,13 @@ public class Location{
 	public void setDistance(Double distance) {
 		this.distance = distance;
 	}
+
+	public String getMarker() {
+		return marker;
+	}
+
+	public void setMarker(String marker) {
+		this.marker = marker;
+	}
+	
 }

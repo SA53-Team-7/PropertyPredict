@@ -44,8 +44,8 @@
 							<br>
 						</div>
 						<div class="row">
-							<div class="col- mx-auto" style="width:25%;">
-								<h4 class="card-subtitle text-muted mt-4 mb-2 px-2" >Nearby (Within <span th:text="${distanceFilter}"></span> KM)</h4>
+							<div class="col-3 mx-auto" style="width:30%;margin-left:20px">
+								<h4 class="card-subtitle text-muted mt-4 mb-4 px-2" >Nearby (Within <span th:text="${distanceFilter}"></span> KM)</h4>
 								<table th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}" class="table table-borderless ">
 									<thead>
 										<tr>
@@ -55,7 +55,7 @@
 									</thead>
 									<tbody  th:each="location: ${type.value}">
 										<tr>
-											<td th:text="${location.name}" class="text-primary">Amenities</td>
+											<td class="text-primary">(<span th:text="${location.marker}"></span>) <span th:text="${location.name}"></spanth:text="${location.name}"></td>
 											<td style="text-align:right"><span
 													th:text="${#numbers.formatDecimal(location.distance, 0, 'COMMA', 2, 'POINT')}"></span>
 												KM</td>
@@ -63,9 +63,9 @@
 									</tbody>
 								</table>
 							</div>
-							<div class="col-8">
-								<img class="map mx-auto" style="width:90%" th:if="${exist}" th:src="${map}" />
-								<img class="map mx-auto" style="width:90%" th:unless="${exist}"
+							<div class="col-7">
+								<img class="map mx-auto" style="width:90%;margin-right:20px" th:if="${exist}" th:src="${map}" />
+								<img class="map mx-auto" style="width:90%;margin-right:20px" th:unless="${exist}"
 									th:src="@{/images/unknown.png}" />
 							</div>
 						</div>

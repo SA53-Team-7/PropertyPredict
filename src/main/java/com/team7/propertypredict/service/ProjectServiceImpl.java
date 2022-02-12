@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.controller.MapRestController;
+import com.team7.propertypredict.helper.AmenityHelper;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
@@ -322,7 +323,7 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			String lat = prop.getyCoordinates();
 			String lng = prop.getxCoordinates();
-			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"A\"]";
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
 		}
 		return map;
 	}
@@ -340,7 +341,7 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			String lat = prop.getyCoordinates();
 			String lng = prop.getxCoordinates();
-			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"A\"]";
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
 			
 			List<Location> markers = new ArrayList<Location>();
 			for(List<Location> locs: locations.values()) {
@@ -348,10 +349,14 @@ public class ProjectServiceImpl implements ProjectService {
 					markers.add(loc);
 				}
 			}
+			Integer idx = 0;
 			for(Location marker: markers) {
 				Double markerLat = marker.getLatitude();
 				Double markerLng = marker.getLongitude();
-				map += "|[" + markerLat + "," + markerLng + ",\"255,255,178\",\"B\"]";
+				String markerPoint = AmenityHelper.markerPoints.get(idx);
+				marker.setMarker(markerPoint);
+				map += "|[" + markerLat + "," + markerLng + ",\"255,255,178\",\""+ markerPoint + "\"]";
+				idx ++;
 			}
 		}
 		return map;
