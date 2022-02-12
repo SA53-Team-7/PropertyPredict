@@ -326,6 +326,36 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return map;
 	}
+	
+	@Override
+	public String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations) {
+		String map;
+		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
+		String map2 = "&zoom=11&height=300&width=400";
+		
+		Property prop = getProperty(pid);
+
+		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
+			map = "@{/images/unknown.png}";
+		} else {
+			String lat = prop.getyCoordinates();
+			String lng = prop.getxCoordinates();
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"A\"]";
+			
+			List<Location> markers = new ArrayList<Location>();
+			for(List<Location> locs: locations.values()) {
+				for(Location loc: locs) {
+					markers.add(loc);
+				}
+			}
+			for(Location marker: markers) {
+				Double markerLat = marker.getLatitude();
+				Double markerLng = marker.getLongitude();
+				map += "|[" + markerLat + "," + markerLng + ",\"255,255,178\",\"B\"]";
+			}
+		}
+		return map;
+	}
 
 	@Override
 	public String findXById(Integer pid) {

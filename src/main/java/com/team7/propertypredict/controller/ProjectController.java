@@ -69,7 +69,7 @@ public class ProjectController {
 		Integer distanceFilter = 14;
 		Map<String, List<Location>> locationDetails = pService.getLocationDetails(pid);
 		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, distanceFilter);
-		String map = pService.getMap(pid);
+		String map = pService.getMapWithAmenities(pid, filteredLocations);
 		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
 		
 		model.addAttribute("distanceFilter", distanceFilter);

@@ -66,8 +66,11 @@ public interface ProjectService {
 	// Get all distinct tenure filters by parameters
 	ArrayList<String> findDistinctTenureByPara (String searchStr, String segment, String district, String type);
 	
-	// Get static map URL
+	// Get static map 
 	String getMap(Integer pid);
+	
+	// Get static map with amenities
+	String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations);
 	
 	// Get x coordinates
 	String findXById(Integer pid);
