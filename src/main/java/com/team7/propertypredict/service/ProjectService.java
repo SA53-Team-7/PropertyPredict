@@ -66,8 +66,11 @@ public interface ProjectService {
 	// Get all distinct tenure filters by parameters
 	ArrayList<String> findDistinctTenureByPara (String searchStr, String segment, String district, String type);
 	
-	// Get static map URL
+	// Get static map 
 	String getMap(Integer pid);
+	
+	// Get static map with amenities
+	String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations);
 	
 	// Get x coordinates
 	String findXById(Integer pid);
@@ -76,13 +79,22 @@ public interface ProjectService {
 	String findYById(Integer pid);
 	
 	// Calculate the difference in distance
-	Double calculateDistance(Integer pid, Location location);
+	Double calculateDistance(Integer pid, Double latitude, Double longitude);
 	
 	// Get amenities and its distance
 	Map<String, Double> getAmenities(Integer pid, List<Location> locations);
 	
 	// Get property object
 	Property getProperty(Integer pid);
+	
+	// Get property details
+	Property getPropertyDetails(Integer pid);
+	
+	// Get location details
+	Map<String, List<Location>> getLocationDetails(Integer pid);
+	
+	// Filter locations by distance
+	Map<String, List<Location>> filterLocationsByDistance(Map<String, List<Location>> locations, Integer filter);
 	
 	
 }

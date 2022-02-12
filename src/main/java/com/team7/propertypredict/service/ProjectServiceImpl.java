@@ -1,11 +1,15 @@
 package com.team7.propertypredict.service;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,9 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.controller.MapRestController;
+import com.team7.propertypredict.helper.AmenityHelper;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.model.Amenity;
+import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.repository.ProjectRepository;
 
@@ -26,6 +33,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ProjectRepository pRepo;
+	
+	@Autowired
+	private AmenityTypeService atService;
+	
+	@Autowired
+	private AmenityService aService;
 
 	@Autowired
 	private TransactionService tService;
@@ -91,6 +104,73 @@ public class ProjectServiceImpl implements ProjectService {
 		pd.setArea(min + "-" + max + " (square metre)");
 		pd.setFloorRange(topFloor);
 		return pd;
+	}
+
+	@Override
+	public Property getPropertyDetails(Integer pid) {
+		Property prop = new Property();
+		Project project = findProjectById(pid);
+		String region = project.getSegment();
+		if (region == "CCR") {
+			region = "Core Central Region (CCR)";
+		} else if (region == "RCR") {
+			region = "Rest of Central Region (RCR)";
+		} else {
+			region = "Ouside Central Region (OCR)";
+		}
+
+		prop.setProjectId(pid);
+		prop.setPropertyName(project.getName());
+		prop.setRegion(region);
+		prop.setStreet(project.getStreet());
+		return prop;
+	}
+	
+	@Override
+	public Map<String, List<Location>> getLocationDetails(Integer pid){
+		Map<String, List<Location>> details = new HashMap<String, List<Location>>();
+		
+		List<AmenityType> types = atService.findAll();
+		for(AmenityType type: types) {
+			List<Location> locations = new ArrayList<Location>();
+			List<Amenity> amenities = aService.findAmenitiesByAmenityType(type.getTypeId());
+			for(Amenity amenity: amenities) {
+				String name = amenity.getName();
+				Double lat = Double.parseDouble(amenity.getLatitude());
+				Double lng = Double.parseDouble(amenity.getLongitude());
+				Double distance = calculateDistance(pid, lat, lng);
+				if(distance!=-1.0) {
+					Location location = new Location(name, lat, lng, distance);
+					locations.add(location);
+				}		
+			}
+			if(!locations.isEmpty()) {
+				Collections.sort(locations, new Comparator<Location>(){
+				    @Override
+				    public int compare(Location l1, Location l2) {
+				        return Double.compare(l1.getDistance(),l2.getDistance());
+				    }
+				});
+				details.put(type.getType(), locations);
+			}	
+		}
+		return details;
+	}
+	
+	@Override
+	public Map<String, List<Location>> filterLocationsByDistance(Map<String, List<Location>> locations, Integer filter){
+		Map<String, List<Location>> filteredMap = new HashMap<String, List<Location>>();
+		
+		for(String key: locations.keySet()) {
+			List<Location> loc = locations.get(key);
+			List<Location> filteredLocations = loc.stream()
+					.filter(x -> x.getDistance() < filter)
+					.collect(Collectors.toList());
+			if(!filteredLocations.isEmpty()) {
+				filteredMap.put(key, filteredLocations);
+			}
+		}
+		return filteredMap;
 	}
 
 	@Override
@@ -235,7 +315,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
-		String map2 = "&zoom=17&height=300&width=512";
+		String map2 = "&zoom=17&height=300&width=400";
 
 		Property prop = getProperty(pid);
 
@@ -244,7 +324,43 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			String lat = prop.getyCoordinates();
 			String lng = prop.getxCoordinates();
-			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"A\"]";
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
+		}
+		return map;
+	}
+	
+	@Override
+	public String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations) {
+		String map;
+		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
+		String map2 = "&zoom=13&height=300&width=400";
+		
+		Property prop = getProperty(pid);
+
+		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
+			map = "@{/images/unknown.png}";
+		} else {
+			String lat = prop.getyCoordinates();
+			String lng = prop.getxCoordinates();
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
+			
+			List<Location> markers = new ArrayList<Location>();
+			for(List<Location> locs: locations.values()) {
+				for(Location loc: locs) {
+					if(markers.size()<15) {
+						markers.add(loc);
+					}
+				}
+			}
+			Integer idx = 0;
+			for(Location marker: markers) {
+				Double markerLat = marker.getLatitude();
+				Double markerLng = marker.getLongitude();
+				String markerPoint = AmenityHelper.markerPoints.get(idx);
+				marker.setMarker(markerPoint);
+				map += "|[" + markerLat + "," + markerLng + ",\"255,255,178\",\""+ markerPoint + "\"]";
+				idx ++;
+			}
 		}
 		return map;
 	}
@@ -259,22 +375,23 @@ public class ProjectServiceImpl implements ProjectService {
 		return pRepo.findYById(pid);
 	}
 
+	@Transactional
 	@Override
-	public Double calculateDistance(Integer pid, Location location) {
+	public Double calculateDistance(Integer pid, Double latitude, Double longitude) {
 
 		Property prop = getProperty(pid);
 		Double distance;
 
 		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
 			distance = -1.0;
-			
+
 		} else {
 			double lat = Double.parseDouble(prop.getyCoordinates());
 			double lng = Double.parseDouble(prop.getxCoordinates());
 			double propertyLatitude = Math.toRadians(lat);
 			double propertyLongitude = Math.toRadians(lng);
-			double locationLatitude = Math.toRadians(location.getLatitude());
-			double locationLongitude = Math.toRadians(location.getLongitude());
+			double locationLatitude = Math.toRadians(latitude);
+			double locationLongitude = Math.toRadians(longitude);
 
 			// Haversine formula
 			double dLat = locationLatitude - propertyLatitude;
@@ -290,10 +407,10 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return distance;
 	}
-	
+
 	@Override
-	public Map<String, Double> getAmenities(Integer pid, List<Location> locations){
-		
+	public Map<String, Double> getAmenities(Integer pid, List<Location> locations) {
+
 		Property prop = getProperty(pid);
 		Double distance;
 		Map<String, Double> amenities = new HashMap<>();
@@ -301,10 +418,11 @@ public class ProjectServiceImpl implements ProjectService {
 		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
 			distance = -1.0;
 			amenities.put("unavailable", distance);
-		}
-		else {
+		} else {
 			for (Location location : locations) {
-				amenities.put(location.getName(), calculateDistance(pid, location));
+				Double lat = location.getLatitude();
+				Double lng = location.getLongitude();
+				amenities.put(location.getName(), calculateDistance(pid, lat, lng));
 			}
 		}
 		return amenities;

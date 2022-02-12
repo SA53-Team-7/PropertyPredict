@@ -9,6 +9,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+	<link rel="stylesheet" th:href="@{/css/map.css}" />
+	<script type="text/javascript" th:src="@{/js/map.js}"></script>
 </head>
 
 <body>
@@ -18,36 +21,69 @@
 	<body>
 		<div class="prop-main">
 			<div class="row">
-				<div class="col-2"></div>
-				<div class="col-8">
+				<div class="col-1"></div>
+				<div class="col-10">
 					<div class="card mt-5 p-5 shadow" style="width: 100%; background-color: rgba(240, 240, 240, 0.2)">
 						<div class="card-body mx-auto" style="width:90%">
 							<div class="row">
-								<div class="col-11">
-									<h2 class="card-title"><span class="glyphicon glyphicon-home"
-											style="color:cadetblue"></span>
-										Project: </h2>
+								<div class="col-2">
+									<h2 class="card-title" style="text-align:center;"><span class="glyphicon glyphicon-home"
+											style="color:cadetblue"></span>  Project: </h2>
+									<h3 class="card-subtitle text-muted mt-4" style="text-align:center;">Region: </h3>
+									<h3 class="card-subtitle text-muted mt-4 mb-2" style="text-align:center;">Street: </h3>
+								</div>
+								<div class="col-9">
+									<h2 class="card-title" th:text="${property.propertyName}"></h2>	
+									<h3 class="card-subtitle text-muted mt-4" th:text="${property.region}"></h3>	
+									<h3 class="card-subtitle text-muted mt-4 mb-2" th:text="${property.street}"></h3>				
 								</div>
 								<div class="col-1">
-									<h2><button href="#" data-toggle="tooltip" title="Shortlist Property"><span
+									<h2><button style="float:right" href="#" data-toggle="tooltip" title="Shortlist Property"><span
 												class="glyphicon glyphicon-heart-empty"
 												style="color:cadetblue"></span></button>
 									</h2>
 								</div>
 							</div>
-							<h2 class="card-subtitle mb-4 mt-3 text-muted" th:text="${project.name}"></h2>
-							<h3 class="card-subtitle text-muted mt-4" th:text="${project.street}"></h3>
-							<br>
-							<div th:if="${not #maps.isEmpty(amenities)}" th:each="amenity : ${amenities}">
-								<h4 class="card-subtitle text-muted mb-5 mt-3" th:if="${amenity.value!=-1}"> Distance from
-									<span th:text="${amenity.key}"></span> is <span th:text="${#numbers.formatDecimal(amenity.value, 0, 'COMMA', 2, 'POINT')}"></span> KM
-								</h4>
+							<div class="row">
+								<div class="col-11"></div>
+								<div class="col-1" th:if="${exist}">
+									<button class="btn-sm" onclick="zoomIn()" data-toggle="tooltip" title="Zoom In"><span class="fas fa-plus"></span></button>
+									<button class="btn-sm" onclick="zoomOut()" data-toggle="tooltip" title="Zoom Out"><span class="fas fa-minus"></span></button>
+								</div>
 							</div>
-							<br>
 						</div>
-						<img class="map mx-auto" style="width:90%" th:if="${exist}" th:src="${map}" />
-						<img class="map mx-auto" style="width:90%" th:unless="${exist}"
-							th:src="@{/images/unknown.png}" />
+						<div class="row">
+							<div class="col-3 mx-auto" style="width:30%;margin-left:20px">
+								<h4 class="card-subtitle text-muted mt-4 mb-4 px-2">Nearby (Within <span
+										th:text="${distanceFilter}"></span> KM)</h4>
+								<table th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}"
+									class="table table-borderless ">
+									<thead>
+										<tr>
+											<th th:text="${type.key}">MRT</th>
+											<th style="text-align:right;">Est. Distance</th>
+										</tr>
+									</thead>
+									<tbody th:each="location: ${type.value}">
+										<tr>
+											<td class="text-primary">(<span th:text="${location.marker}"></span>) <span
+													th:text="${location.name}"></spanth:text="${location.name}">
+											</td>
+											<td style="text-align:right"><span
+													th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 2, 'POINT')}"></span>
+												KM</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="col-7">
+								<img id="zoom" class="map mx-auto" style="width:90%;margin-right:20px" th:if="${exist}"
+									th:src="${map}" />
+								<img class="map mx-auto" style="width:90%;margin-right:20px" th:unless="${exist}"
+									th:src="@{/images/unknown.png}" />
+							</div>
+						</div>
+						<br>
 					</div>
 				</div>
 			</div>
