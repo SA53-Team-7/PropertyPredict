@@ -1,5 +1,6 @@
 package com.team7.propertypredict.service;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -332,7 +333,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations) {
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
-		String map2 = "&zoom=11&height=300&width=400";
+		String map2 = "&zoom=13&height=300&width=400";
 		
 		Property prop = getProperty(pid);
 
@@ -346,7 +347,9 @@ public class ProjectServiceImpl implements ProjectService {
 			List<Location> markers = new ArrayList<Location>();
 			for(List<Location> locs: locations.values()) {
 				for(Location loc: locs) {
-					markers.add(loc);
+					if(markers.size()<15) {
+						markers.add(loc);
+					}
 				}
 			}
 			Integer idx = 0;

@@ -70,7 +70,7 @@
 													th:text="${location.name}"></spanth:text="${location.name}">
 											</td>
 											<td style="text-align:right"><span
-													th:text="${#numbers.formatDecimal(location.distance, 0, 'COMMA', 2, 'POINT')}"></span>
+													th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 2, 'POINT')}"></span>
 												KM</td>
 										</tr>
 									</tbody>
