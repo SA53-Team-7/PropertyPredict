@@ -1,6 +1,6 @@
 package com.team7.propertypredict.helper;
 
-public class Location {
+public class Location{
 	
 	private String name;
     private Double latitude;
@@ -57,5 +57,4 @@ public class Location {
 	public void setDistance(Double distance) {
 		this.distance = distance;
 	}
-    
 }

@@ -43,8 +43,8 @@
 							<br>
 						</div>
 						<div class="row">
-
 							<div class="col- mx-auto" style="width:25%;">
+								<h4 class="card-subtitle text-muted mt-4 mb-2 px-2" >Nearby (Within <span th:text="${distanceFilter}"></span> KM)</h4>
 								<table th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}" class="table table-borderless ">
 									<thead>
 										<tr>

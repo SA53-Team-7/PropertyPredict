@@ -2,10 +2,13 @@ package com.team7.propertypredict.service;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -19,8 +22,6 @@ import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
-import com.team7.propertypredict.repository.AmenityRepository;
-import com.team7.propertypredict.repository.AmenityTypeRepository;
 import com.team7.propertypredict.repository.ProjectRepository;
 
 import helper.SearchResultHelper;
@@ -142,10 +143,32 @@ public class ProjectServiceImpl implements ProjectService {
 				}		
 			}
 			if(!locations.isEmpty()) {
+				Collections.sort(locations, new Comparator<Location>(){
+				    @Override
+				    public int compare(Location l1, Location l2) {
+				        return Double.compare(l1.getDistance(),l2.getDistance());
+				    }
+				});
 				details.put(type.getType(), locations);
 			}	
 		}
 		return details;
+	}
+	
+	@Override
+	public Map<String, List<Location>> filterLocationsByDistance(Map<String, List<Location>> locations, Integer filter){
+		Map<String, List<Location>> filteredMap = new HashMap<String, List<Location>>();
+		
+		for(String key: locations.keySet()) {
+			List<Location> loc = locations.get(key);
+			List<Location> filteredLocations = loc.stream()
+					.filter(x -> x.getDistance() < filter)
+					.collect(Collectors.toList());
+			if(!filteredLocations.isEmpty()) {
+				filteredMap.put(key, filteredLocations);
+			}
+		}
+		return filteredMap;
 	}
 
 	@Override

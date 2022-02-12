@@ -90,5 +90,8 @@ public interface ProjectService {
 	// Get location details
 	Map<String, List<Location>> getLocationDetails(Integer pid);
 	
+	// Filter locations by distance
+	Map<String, List<Location>> filterLocationsByDistance(Map<String, List<Location>> locations, Integer filter);
+	
 	
 }
