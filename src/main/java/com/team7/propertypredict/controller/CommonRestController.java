@@ -49,7 +49,7 @@ public class CommonRestController {
 	}
 	
 	// Extract data from URA based on CRON schedule
-	@RequestMapping("/data")
+	// @RequestMapping("/data")
 	@Scheduled(cron = "0 43 6 * * SUN", zone = "Asia/Singapore")
 	public void loadData() {
 		long duration, difference; 
@@ -58,7 +58,7 @@ public class CommonRestController {
 		String token = dService.getToken();
 		
 		// Clear data from previous batch
-		dService.clearTables();
+		// dService.clearTables();
 		
 		if (dService.getProjectCount() == 0 && dService.getTransactionCount() == 0) {
 			System.out.println("Table cleared. Start loading new batch.");
