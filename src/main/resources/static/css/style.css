@@ -1,3 +1,8 @@
+#menu, #menu a:hover {
+	text-decoration: none;
+}
+
+
 /* view property page - property.html */
 
 .prop-main {
@@ -147,12 +152,12 @@
 	padding-top: 0px;
 }
 
-a {
+.search-list a {
 	text-decoration: none;
 	color: black;
 }
 
-a:hover {
+.search-list a:hover {
   	color: black;
   	text-decoration: none;
   	cursor: pointer;
@@ -175,7 +180,7 @@ a:hover {
 }
 
 .homeloan-calc-div {
-	margin-bottom: 10%;
+	padding-bottom: 50px;
 }
 
 .homeloan-calc-div h4{

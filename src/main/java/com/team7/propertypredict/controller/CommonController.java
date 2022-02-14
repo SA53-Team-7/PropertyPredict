@@ -38,14 +38,23 @@ public class CommonController {
  	private UserValidator uValidator;
 
 	@GetMapping("/")
-	public String index(HttpSession session) {
-
-		if (session.getAttribute("user") == null) {
-			return "redirect:/login";
-		} else {
-			return "redirect:/home";
-		}
+ 	public String viewHome(Model model, HttpSession session) {
+		String name = (String) session.getAttribute("userName");
+		model.addAttribute("name", name);
+		model.addAttribute("districtFilter", tService.getDistinctDistrict());
+		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		return "index";
 	}
+
+	//	public String index(HttpSession session) {
+//
+//		if (session.getAttribute("user") == null) {
+//			return "redirect:/login";
+//		} else {
+//			return "redirect:/home";
+//		}
+//	}
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -68,16 +77,20 @@ public class CommonController {
 				return "login";
 
 			session.setAttribute("userObj", user);
-			return "redirect:/home";
+			return "redirect:/";
 		}
 	}
 	
-	@RequestMapping(value = "/home")
-	public String homePage(Model model, HttpSession session) {
-		String name = (String) session.getAttribute("userName");
-		model.addAttribute("name", name);
-		return "home";
-	}
+//	@RequestMapping(value = "/home")
+//	public String homePage(Model model, HttpSession session) {
+//		String name = (String) session.getAttribute("userName");
+//		model.addAttribute("name", name);
+//		model.addAttribute("districtFilter", tService.getDistinctDistrict());
+//		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+//		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+//		return "index";	
+//		return "home";
+//	}
 	
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
@@ -89,7 +102,6 @@ public class CommonController {
     public String registration(Model model) {
 		User user = new User();
         model.addAttribute("userForm", user);
-
         return "registration";
     }
 	
@@ -103,17 +115,16 @@ public class CommonController {
         }
 
         uService.save(userForm);
-
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
- 	@GetMapping("/home-temp")
- 	public String viewHome(Model model) {
- 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
- 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
- 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
- 		return "index";
- 	}
+// 	@GetMapping("/home-temp")
+// 	public String viewHome(Model model) {
+// 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
+// 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+// 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+// 		return "index";
+// 	}
 	
  	@RequestMapping(value = "/search", method = RequestMethod.GET) 
  	public String submitSearchRequest(Model model, @Param("searchStr") String searchStr, @Param("district") String district, 
