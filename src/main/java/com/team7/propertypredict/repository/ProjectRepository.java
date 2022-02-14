@@ -51,15 +51,15 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	ArrayList<String> findDistinctSegments();
 	
 	@Query(value ="SELECT distinct p.* FROM projects p INNER JOIN transactions t ON p.project_id = t.project_project_id "
-			+ "WHERE t.district LIKE %:district% AND t.prop_type LIKE %:type% AND p.segment LIKE %:segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
+			+ "WHERE t.district LIKE :district% AND t.prop_type LIKE :type% AND p.segment LIKE :segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
 	ArrayList<Project> searchProjectsWeb(@Param ("searchStr") String searchStr, @Param("segment") String segment, @Param("district") String district, @Param("type") String type);
 	
 	@Query(value ="SELECT distinct t.prop_type FROM projects p INNER JOIN transactions t ON p.project_id = t.project_project_id "
-			+ "WHERE t.district LIKE %:district% AND t.prop_type LIKE %:type% AND p.segment LIKE %:segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
+			+ "WHERE t.district LIKE :district% AND t.prop_type LIKE :type% AND p.segment LIKE :segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
 	ArrayList<String> findDistinctTypeByPara(@Param ("searchStr") String searchStr, @Param("segment") String segment, @Param("district") String district, @Param("type") String type);
 	
 	@Query(value ="SELECT distinct t.tenure FROM projects p INNER JOIN transactions t ON p.project_id = t.project_project_id "
-			+ "WHERE t.district LIKE %:district% AND t.prop_type LIKE %:type% AND p.segment LIKE %:segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
+			+ "WHERE t.district LIKE :district% AND t.prop_type LIKE :type% AND p.segment LIKE :segment% AND (p.name LIKE %:searchStr% OR p.street LIKE %:searchStr%)", nativeQuery = true) 
 	ArrayList<String> findDistinctTenureByPara(@Param ("searchStr") String searchStr, @Param("segment") String segment, @Param("district") String district, @Param("type") String type);
 
 	@Query("Select p.x from Project p where p.projectId = :pid")
