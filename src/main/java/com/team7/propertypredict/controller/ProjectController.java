@@ -39,6 +39,7 @@ public class ProjectController {
 		
 		// Get property details
 		ProjectDetails projectDetails = pService.getProjectDetails(pid);
+		model.addAttribute("id", pid);
 		model.addAttribute("project", projectDetails);
 		
 		// Get all transactions 
@@ -70,17 +71,6 @@ public class ProjectController {
 		model.addAttribute("exist", exist);
 		return "map";
 		
-	}
-	
-	@GetMapping("/test")
-	public String test( Model model) {
-		Map<String, List<Location>> all = pService.getLocationDetails(855);
-		List<Amenity> am = aRepo.findAmenitiesByAmenityType(1);
-		Property prop = pService.getProperty(855);
-		model.addAttribute("prop", prop);
-		model.addAttribute("am", am);
-		model.addAttribute("all", all);
-		return "test";
 	}
 		
 }

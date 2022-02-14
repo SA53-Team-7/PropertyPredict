@@ -27,71 +27,87 @@
 						<div class="card-body mx-auto" style="width:90%">
 							<div class="row">
 								<div class="col-2">
-									<h2 class="card-title" style="text-align:center;"><span class="glyphicon glyphicon-home"
-											style="color:cadetblue"></span>  Project: </h2>
+									<h2 class="card-title" style="text-align:center;"><span
+											class="glyphicon glyphicon-home" style="color:cadetblue"></span> Project:
+									</h2>
 									<h3 class="card-subtitle text-muted mt-4" style="text-align:center;">Region: </h3>
-									<h3 class="card-subtitle text-muted mt-4 mb-2" style="text-align:center;">Street: </h3>
+									<h3 class="card-subtitle text-muted mt-4 mb-2" style="text-align:center;">Street:
+									</h3>
 								</div>
 								<div class="col-9">
-									<h2 class="card-title" th:text="${property.propertyName}"></h2>	
-									<h3 class="card-subtitle text-muted mt-4" th:text="${property.region}"></h3>	
-									<h3 class="card-subtitle text-muted mt-4 mb-2" th:text="${property.street}"></h3>				
+									<h2 class="card-title" th:text="${property.propertyName}"></h2>
+									<h3 class="card-subtitle text-muted mt-4" th:text="${property.region}"></h3>
+									<h3 class="card-subtitle text-muted mt-4 mb-2" th:text="${property.street}"></h3>
 								</div>
 								<div class="col-1">
-									<h2><button style="float:right" href="#" data-toggle="tooltip" title="Shortlist Property"><span
-												class="glyphicon glyphicon-heart-empty"
+									<h2><button style="float:right" href="#" data-toggle="tooltip"
+											title="Shortlist Property"><span class="glyphicon glyphicon-heart-empty"
 												style="color:cadetblue"></span></button>
 									</h2>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-9"></div>
+								<div class="col-10"></div>
 								<div class="col-2">
-									<button class="btn-sm" style="margin-left:38px;margin-bottom:5px" onmouseover="up()" onmouseout ="myStop()" data-toggle="tooltip" title="Up"><span class="fas fa-arrow-up"></span></button>
+									<button class="btn-sm" style="margin-left:114px;margin-bottom:5px" onmouseover="up()"
+										onmouseout="myStop()" data-toggle="tooltip" title="Up"><span
+											class="fas fa-arrow-up"></span></button>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-9"></div>
+								<div class="col-10"></div>
 								<div class="col-2">
-									<button class="btn-sm" onmouseover="left()" onmouseout ="myStop()" data-toggle="tooltip" title="Left"><span class="fas fa-arrow-left"></span></button>
-									<button class="btn-sm" onmouseover="down()" onmouseout ="myStop()" data-toggle="tooltip" title="Down"><span class="fas fa-arrow-down"></span></button>
-									<button class="btn-sm" onmouseover="right()" onmouseout ="myStop()" data-toggle="tooltip" title="Right"><span class="far fas fa-arrow-right"></span></button>
+									<button class="btn-sm" style="margin-left:76px"onmouseover="left()" onmouseout="myStop()"
+										data-toggle="tooltip" title="Left"><span
+											class="fas fa-arrow-left"></span></button>
+									<button class="btn-sm" onmouseover="down()" onmouseout="myStop()"
+										data-toggle="tooltip" title="Down"><span
+											class="fas fa-arrow-down"></span></button>
+									<button class="btn-sm" onmouseover="right()" onmouseout="myStop()"
+										data-toggle="tooltip" title="Right"><span
+											class="far fas fa-arrow-right"></span></button>
 								</div>
-								<div class="col-1" th:if="${exist}">
-									<button class="btn-sm" onclick="zoomIn()" data-toggle="tooltip" title="Zoom In"><span class="fas fa-plus"></span></button>
-									<button class="btn-sm" onclick="zoomOut()" data-toggle="tooltip" title="Zoom Out"><span class="fas fa-minus"></span></button>
-								</div>
+					
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-3 mx-auto" style="width:30%;margin-left:20px">
-								<h4 class="card-subtitle text-muted mt-4 mb-4 px-2">Nearby (Within <span
-										th:text="${distanceFilter}"></span> KM)</h4>
-								<table th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}"
-									class="table table-borderless ">
-									<thead>
-										<tr>
-											<th th:text="${type.key}">MRT</th>
-											<th style="text-align:right;">Est. Distance</th>
-										</tr>
-									</thead>
-									<tbody th:each="location: ${type.value}">
-										<tr>
-											<td class="text-primary">(<span th:text="${location.marker}"></span>) <span
-													th:text="${location.name}"></spanth:text="${location.name}">
-											</td>
-											<td style="text-align:right"><span
-													th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 2, 'POINT')}"></span>
-												KM</td>
-										</tr>
-									</tbody>
-								</table>
+							<div class="col-3 mx-auto" style="width:30%;">
+								<div class="row">
+										<div class="col-9 mt-4 mb-4 text-muted h4" >Nearby (Within <span th:text="${distanceFilter}"></span> KM)</div>
+										<div class="col-3 text-muted h4 text-right"><button class="btn-link" style="text-decoration: none;" onclick="showAll()">See All</button></div>
+								</div>
+								<div th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}">
+									<div class="row my-4">
+										<div class="col-8" style="font-weight:bold;font-size:16px;" th:text="${type.key}"></div>
+										<div class="col-4" style="text-align:right;font-weight:bold;font-size:16px">Est. Distance</div>
+									</div>
+									<div th:each="location: ${type.value}">
+										<a th:onclick="|changeLoc('${location.latitude}' + ','+'${location.longitude}')|">
+											<div class="row my-4">
+												<div class="col-10" style="color:blue">(<span th:text="${location.marker}"></span>) <span th:text="${location.name}">
+												</div>
+												<div class="col-2" style="text-align:right;">
+													<span th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 2, 'POINT')}"></span><span> KM</span>
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>	
 							</div>
 							<div class="col-7">
 								<img id="zoom" class="map mx-auto" style="width:90%;margin-right:20px" th:if="${exist}"
 									th:src="${map}" />
 								<img class="map mx-auto" style="width:90%;margin-right:20px" th:unless="${exist}"
 									th:src="@{/images/unknown.png}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-10"></div>
+							<div class="col-2" th:if="${exist}">
+									<button class="btn-sm" style="margin-left:62px"onclick="zoomIn()" data-toggle="tooltip"
+										title="Zoom In"><span class="fas fa-plus"></span></button>
+									<button class="btn-sm" onclick="zoomOut()" data-toggle="tooltip"
+										title="Zoom Out"><span class="fas fa-minus"></span></button>
 							</div>
 						</div>
 						<br>
@@ -101,4 +117,5 @@
 		</div>
 		<div class="container" style="height: 100px;">
 		</div>
-	</body>
+		<img class="invisible" id="all" th:src="${map}"></img>
+		</body>
