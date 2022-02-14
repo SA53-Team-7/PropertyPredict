@@ -48,7 +48,7 @@
 							</div>
 							<div class="row">
 								<div class="col-10"></div>
-								<div class="col-2">
+								<div class="col-2" th:if="${exist}">
 									<button class="btn-sm" style="margin-left:114px;margin-bottom:5px" onmouseover="up()"
 										onmouseout="myStop()" data-toggle="tooltip" title="Up"><span
 											class="fas fa-arrow-up"></span></button>
@@ -56,7 +56,7 @@
 							</div>
 							<div class="row">
 								<div class="col-10"></div>
-								<div class="col-2">
+								<div class="col-2" th:if="${exist}">
 									<button class="btn-sm" style="margin-left:76px"onmouseover="left()" onmouseout="myStop()"
 										data-toggle="tooltip" title="Left"><span
 											class="fas fa-arrow-left"></span></button>
@@ -74,8 +74,10 @@
 							<div class="col-3 mx-auto" style="width:30%;">
 								<div class="row">
 										<div class="col-9 mt-4 mb-4 text-muted h4" >Nearby (Within <span th:text="${distanceFilter}"></span> KM)</div>
-										<div class="col-3 text-muted h4 text-right"><button class="btn-link" style="text-decoration: none;" onclick="showAll()">See All</button></div>
+										<div class="col-3 text-muted h4 text-right" th:if="${exist}"><button class="btn-link" style="text-decoration: none;" onclick="showAll()">See All</button></div>
 								</div>
+								<div class="mt-5 h4" th:unless="${exist}">Unable to locate property's location</div>
+								
 								<div th:if="${not #maps.isEmpty(locations)}" th:each="type: ${locations}">
 									<div class="row my-4">
 										<div class="col-8" style="font-weight:bold;font-size:16px;" th:text="${type.key}"></div>
