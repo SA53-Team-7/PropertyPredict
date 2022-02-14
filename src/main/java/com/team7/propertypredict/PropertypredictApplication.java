@@ -1,5 +1,6 @@
 package com.team7.propertypredict;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class PropertypredictApplication {
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
-			List<String> list = AmenityHelper.neLine;
+			List<String> list = AmenityHelper.ewLine;
 			//aService.saveAmenities(list, "Train Station");
 		};
 	}

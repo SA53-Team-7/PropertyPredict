@@ -33,20 +33,20 @@ function up(){
     let mapStart = map.substring(0, start+4);
     let mapEnd = latStart.substring(end);
     
-    t = setInterval(add, 500);
+    t = setInterval(add, 200);
     
     function add(){
 		if(zoom ==11){
-			lat += 0.007;
+			lat += 0.003;
 		}
 		else if(zoom == 12 || zoom==13 || zoom==14){
-			lat += 0.005;	
+			lat += 0.002;	
 		}
 		else if(zoom == 15 || zoom==16 || zoom==17){
-			lat += 0.003;	
+			lat += 0.001;	
 		}
 		else if(zoom == 18 || zoom==19){
-			lat += 0.001;	
+			lat += 0.0005;	
 		}
 			
         let newMap = mapStart + lat + mapEnd;
@@ -67,20 +67,20 @@ function down(){
     let mapStart = map.substring(0, start+4);
     let mapEnd = latStart.substring(end);
     
-    t = setInterval(add, 500);
+    t = setInterval(add, 200);
     
     function add(){
 		if(zoom ==11){
-			lat -= 0.007;
+			lat -= 0.003;
 		}
 		else if(zoom == 12 || zoom==13 || zoom==14){
-			lat -= 0.005;	
+			lat -= 0.002;	
 		}
 		else if(zoom == 15 || zoom==16 || zoom==17){
-			lat -= 0.003;	
+			lat -= 0.001;	
 		}
 		else if(zoom == 18 || zoom==19){
-			lat -= 0.001;	
+			lat -= 0.0005;	
 		}
 			
         let newMap = mapStart + lat + mapEnd;
@@ -101,20 +101,20 @@ function left(){
     let mapStart = map.substring(0, start+4);
     let mapEnd = lngStart.substring(end);
     
-    t = setInterval(add, 100);
+    t = setInterval(add, 200);
     
     function add(){
 		if(zoom ==11){
-			lng -= 0.002;
+			lng -= 0.003;
 		}
 		else if(zoom == 12 || zoom==13 || zoom==14){
-			lng -= 0.001;	
+			lng -= 0.002;	
 		}
 		else if(zoom == 15 || zoom==16 || zoom==17){
-			lng -= 0.0005;	
+			lng -= 0.001;	
 		}
 		else if(zoom == 18 || zoom==19){
-			lng -= 0.0003;	
+			lng -= 0.0005;	
 		}
 			
         let newMap = mapStart + lng + mapEnd;
@@ -135,20 +135,20 @@ function right(){
     let mapStart = map.substring(0, start+4);
     let mapEnd = lngStart.substring(end);
     
-    t = setInterval(add, 500);
+    t = setInterval(add, 200);
     
     function add(){
 		if(zoom ==11){
-			lng += 0.007;
+			lng += 0.003;
 		}
 		else if(zoom == 12 || zoom==13 || zoom==14){
-			lng += 0.005;	
+			lng += 0.002;	
 		}
 		else if(zoom == 15 || zoom==16 || zoom==17){
-			lng += 0.003;	
+			lng += 0.001;	
 		}
 		else if(zoom == 18 || zoom==19){
-			lng += 0.001;	
+			lng += 0.0005;	
 		}
 			
         let newMap = mapStart + lng + mapEnd;

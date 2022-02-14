@@ -38,7 +38,11 @@ public class AmenityServiceImpl implements AmenityService {
 			atRepo.save(type);
 		}
 		for (String search : searchList) {
-			if(!amenityExist(search)) {
+			Amenity amenity = findAmenityByName(search);
+			if(amenity!=null) {
+				continue;
+			}
+			else {
 				AmenityAPI ap = mControl.getAmenityDetails(search);
 
 				if (ap.getFound() == 1) {

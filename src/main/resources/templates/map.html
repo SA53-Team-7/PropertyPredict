@@ -73,7 +73,7 @@
 						<div class="row">
 							<div class="col-3 mx-auto" style="width:30%;">
 								<div class="row">
-										<div class="col-9 mt-4 mb-4 text-muted h4" >Nearby (Within <span th:text="${distanceFilter}"></span> KM)</div>
+										<div class="col-9 mt-4 mb-4 text-muted h4" >Nearby (Within 1 KM)</div>
 										<div class="col-3 text-muted h4 text-right" th:if="${exist}"><button class="btn-link" style="text-decoration: none;" onclick="showAll()">See All</button></div>
 								</div>
 								<div class="mt-5 h4" th:unless="${exist}">Unable to locate property's location</div>
@@ -89,7 +89,7 @@
 												<div class="col-10" style="color:blue">(<span th:text="${location.marker}"></span>) <span th:text="${location.name}">
 												</div>
 												<div class="col-2" style="text-align:right;">
-													<span th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 2, 'POINT')}"></span><span> KM</span>
+													<span th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 0, 'POINT')}"></span><span> m</span>
 												</div>
 											</div>
 										</a>

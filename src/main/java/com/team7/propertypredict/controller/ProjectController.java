@@ -58,7 +58,7 @@ public class ProjectController {
 	public String viewMap(@PathVariable Integer pid, Model model) {
 		
 		Property propertyDetails = pService.getPropertyDetails(pid);
-		Integer distanceFilter = 3;
+		Integer distanceFilter = 1000;
 		Map<String, List<Location>> locationDetails = pService.getLocationDetails(pid);
 		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, distanceFilter);
 		String map = pService.getMapWithAmenities(pid, filteredLocations);
