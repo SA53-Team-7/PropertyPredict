@@ -9,6 +9,7 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 
 <body>
+	<div th:replace="navbar.html :: menu"/>
 	<div class="container login-main">
 		<form action="#" th:object="${userForm}" th:action="@{'/add'}" method="post">
 			<h2 class="form-heading">Create an account</h2><br>
