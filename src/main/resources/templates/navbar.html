@@ -13,7 +13,7 @@
 	  	</button>
 	  	
 	  	<div class="collapse navbar-collapse" id="navbarTogglerDemo01" th:if="${session.userObj == null}">
-	    	<a class="navbar-brand" href="/login">Property Market Indicator</a>    
+	    	<a class="navbar-brand" href="/">Property Market Indicator</a>    
 		    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 		    	<li class="nav-item">
 		        	<a class="nav-link" th:href="@{/registration}">Register <span class="sr-only">(current)</span></a>
@@ -25,7 +25,7 @@
 	  	</div>
 	  	
 	  	<div class="collapse navbar-collapse" id="navbarTogglerDemo01" th:if="${session.userObj != null}">
-	    	<a class="navbar-brand" href="/home">Property Market Indicator</a>
+	    	<a class="navbar-brand" href="/">Property Market Indicator</a>
 		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		    	<li class="nav-item">
 		        	<a class="nav-link" href="#">Favourites <span class="sr-only">(current)</span></a>
