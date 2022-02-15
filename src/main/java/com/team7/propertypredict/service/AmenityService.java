@@ -15,6 +15,9 @@ public interface AmenityService {
 
 	// Find all Amenities
 	List<Amenity> findAllAmenities();
+
+	// Find all Train Stations
+	List<Amenity> getAllTrainStations();
 	
 	//Find all Amenity Types
 	List<AmenityType> findAllAmenityTypes();
