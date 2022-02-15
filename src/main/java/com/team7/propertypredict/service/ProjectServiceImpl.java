@@ -176,6 +176,7 @@ public class ProjectServiceImpl implements ProjectService {
 			List<Location> loc = locations.get(key);
 			List<Location> filteredLocations = loc.stream()
 					.filter(x -> x.getDistance() < filter)
+					.limit(3)
 					.collect(Collectors.toList());
 			if(!filteredLocations.isEmpty()) {
 				filteredMap.put(key, filteredLocations);

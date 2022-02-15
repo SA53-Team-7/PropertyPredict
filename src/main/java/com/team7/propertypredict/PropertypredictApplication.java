@@ -2,6 +2,8 @@ package com.team7.propertypredict;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,9 +32,9 @@ public class PropertypredictApplication {
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
-			//List<String> list = pService.getAmenityNameFromOneMapKmlFile("hawkercentre.kml");
+			List<String> list = pService.getAmenityNameFromOneMapKmlFile("hawkercentre.kml");
 			// List<String> list = AmenityHelper.ewLine
-			// aService.saveAmenities(list, "Train Station");
+			//aService.saveAmenities(list, "Hawker Centre");
 		};
 	};
 
