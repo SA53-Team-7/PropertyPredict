@@ -1,6 +1,7 @@
 package com.team7.propertypredict.service;
 
-import java.text.DecimalFormat;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +13,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.team7.propertypredict.controller.MapRestController;
 import com.team7.propertypredict.helper.AmenityHelper;
@@ -165,6 +176,7 @@ public class ProjectServiceImpl implements ProjectService {
 			List<Location> loc = locations.get(key);
 			List<Location> filteredLocations = loc.stream()
 					.filter(x -> x.getDistance() < filter)
+					.limit(3)
 					.collect(Collectors.toList());
 			if(!filteredLocations.isEmpty()) {
 				filteredMap.put(key, filteredLocations);
@@ -426,5 +438,37 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return amenities;
+	}
+	
+	@Override
+	public List<String> getAmenityNameFromOneMapKmlFile(String filename) throws IOException, ParserConfigurationException, SAXException{
+		List<String> locations = new ArrayList<String>();
+		
+		Resource resource = new ClassPathResource(filename);
+		File file = resource.getFile();		
+		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		Document doc = builder.parse(file);	
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("Placemark");
+	
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			Element element = (Element) nNode;		
+			NodeList exts = element.getElementsByTagName("SimpleData");
+			
+			int count=0;
+			for (int ex=0; ex<exts.getLength(); ex++) {
+				Node ext = exts.item(ex);
+				Element elem = (Element) ext;
+				String value = elem.getAttribute("name");
+
+				if(value.contains("NAME")) {
+					count=ex;
+					break;
+				}
+			}
+			locations.add(exts.item(count).getTextContent());		
+		}
+		return locations;
 	}
 }

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
-import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.Transaction;
-import com.team7.propertypredict.repository.AmenityRepository;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 
@@ -29,10 +27,6 @@ public class ProjectController {
 	@Autowired
 	private TransactionService tService;
 	
-	@Autowired
-	private AmenityRepository aRepo;
-	
-
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
 	public String viewProject(@PathVariable Integer pid, Model model) {
