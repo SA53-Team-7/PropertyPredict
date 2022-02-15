@@ -1,7 +1,6 @@
 package com.team7.propertypredict.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"amenityType"})
@@ -18,6 +19,7 @@ public class Amenity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer amenityId;
+	@Column(unique=true)
 	private String name;
 	private String xCoordinates;
 	private String yCoordinates;

@@ -39,6 +39,7 @@ public class ProjectController {
 		
 		// Get property details
 		ProjectDetails projectDetails = pService.getProjectDetails(pid);
+		model.addAttribute("id", pid);
 		model.addAttribute("project", projectDetails);
 		
 		// Get all transactions 
@@ -57,7 +58,7 @@ public class ProjectController {
 	public String viewMap(@PathVariable Integer pid, Model model) {
 		
 		Property propertyDetails = pService.getPropertyDetails(pid);
-		Integer distanceFilter = 3;
+		Integer distanceFilter = 1000;
 		Map<String, List<Location>> locationDetails = pService.getLocationDetails(pid);
 		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, distanceFilter);
 		String map = pService.getMapWithAmenities(pid, filteredLocations);
@@ -70,17 +71,6 @@ public class ProjectController {
 		model.addAttribute("exist", exist);
 		return "map";
 		
-	}
-	
-	@GetMapping("/test")
-	public String test( Model model) {
-		Map<String, List<Location>> all = pService.getLocationDetails(855);
-		List<Amenity> am = aRepo.findAmenitiesByAmenityType(1);
-		Property prop = pService.getProperty(855);
-		model.addAttribute("prop", prop);
-		model.addAttribute("am", am);
-		model.addAttribute("all", all);
-		return "test";
 	}
 		
 }
