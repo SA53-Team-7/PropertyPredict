@@ -20,4 +20,9 @@ public class AmentiesMobileRestController {
     public List<Amenity> getAllAmenities() {
         return amenityService.findAllAmenities();
     }
+
+    @GetMapping("/trains")
+    public List<Amenity> getAllTrainStations() {
+        return amenityService.getAllTrainStations();
+    }
 }

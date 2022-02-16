@@ -1,7 +1,10 @@
 package com.team7.propertypredict.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
-import com.team7.propertypredict.model.Amenity;
+import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
-import com.team7.propertypredict.repository.AmenityRepository;
+import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
+import com.team7.propertypredict.service.UserService;
 
 @Controller
 @RequestMapping("/project")
@@ -30,9 +34,10 @@ public class ProjectController {
 	private TransactionService tService;
 	
 	@Autowired
-	private AmenityRepository aRepo;
+	private UserService uService;
 	
-
+	
+	
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
 	public String viewProject(@PathVariable Integer pid, Model model) {
@@ -72,5 +77,37 @@ public class ProjectController {
 		return "map";
 		
 	}
+	
+	@GetMapping("/add-shortlist/{pid}")
+	public String addShortlist(HttpSession session, @PathVariable Integer pid, Model model) {
+		//Integer userId = (Integer) session.getAttribute("userId");
 		
+		/*if(userId==null) {
+			return "forward:/login";
+		}*/	
+		Integer userId = 1;
+		pService.updateShortlistedProject(pid, userId);
+		
+		return "redirect:/project/view-shortlist";
+	}
+	
+	@GetMapping("/view-shortlist")
+	public String viewShortlist(Model model, HttpSession session) {
+		//Integer userId = (Integer) session.getAttribute("userId");
+		
+		/*if(userId==null) {
+		return "forward:/login";
+		}*/
+		Integer userId = 1;
+		User user = uService.findUserById(userId);
+		List<Project> projects = user.getProjects();
+		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+		for(Project project: projects) {
+			ProjectDetails pd = pService.getProjectDetails(project.getProjectId());
+			projectDetails.add(pd);
+		}
+		model.addAttribute("projects", projectDetails);
+		
+		return "shortlist";
+	}
 }

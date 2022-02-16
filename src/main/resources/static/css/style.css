@@ -2,12 +2,12 @@
 	text-decoration: none;
 }
 
-
 /* view property page - property.html */
 
 .prop-main {
 	width: 80%;
 	margin:auto;
+	padding-bottom: 100px;
 }
 
 /* past-transactions.html */
@@ -20,7 +20,8 @@
 }
 
 .txn-ind-filter {
-	font-size: 13px;
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .toggle-grp {
@@ -45,7 +46,7 @@
 }
 
 .toggle-grp button.active {
-  	background-color: #B0B3BB;
+  	background-color: cadetblue;
 }
 
 .toggle-cont {
@@ -58,7 +59,7 @@
 }
 
 #txn-table {
-	font-size: 12px;
+	font-size: 13px;
 	padding-left: 0px;
 }
 
@@ -83,10 +84,16 @@
 	padding-left: 0px;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	font-weight: bold;
 }
 
 #est-btn {
-	padding-left: 3%;
+	width: 100%;
+}
+
+#top-note {
+	font-size: 12px;
+	font-weight: normal;
 }
 
 /* Search page */
@@ -178,10 +185,6 @@
 	left: 0;
 	width: 40%;
 	float: left;
-}
-
-.homeloan-calc-div {
-	padding-bottom: 50px;
 }
 
 .homeloan-calc-div h4{

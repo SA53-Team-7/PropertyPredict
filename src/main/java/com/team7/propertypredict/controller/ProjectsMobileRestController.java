@@ -1,5 +1,6 @@
 package com.team7.propertypredict.controller;
 
+import java.sql.PseudoColumnUsage;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class ProjectsMobileRestController {
 	@GetMapping("/search/{string}")
 	public List<Project> searchProjects(@PathVariable("string") String searchString) {
 		return pService.searchProjects(searchString);
+	}
+
+	@GetMapping("/recommend/{district}")
+	public List<Project> getAndroidRecommendations(@PathVariable("district") String district) {
+		return pService.getMobileRecommendationsByDistrict(district);
 	}
 }

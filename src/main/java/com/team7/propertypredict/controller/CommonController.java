@@ -75,7 +75,8 @@ public class CommonController {
 
 			if (u == null)
 				return "login";
-
+			
+			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("userObj", user);
 			return "redirect:/";
 		}

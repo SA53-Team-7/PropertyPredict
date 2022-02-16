@@ -1,6 +1,7 @@
 package com.team7.propertypredict.service;
 
-import java.text.DecimalFormat;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +13,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.team7.propertypredict.controller.MapRestController;
 import com.team7.propertypredict.helper.AmenityHelper;
@@ -24,7 +35,9 @@ import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
+import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.repository.ProjectRepository;
+import com.team7.propertypredict.repository.UserRepository;
 
 import helper.SearchResultHelper;
 
@@ -35,6 +48,9 @@ public class ProjectServiceImpl implements ProjectService {
 	private ProjectRepository pRepo;
 	
 	@Autowired
+	private UserRepository uRepo;
+	
+	@Autowired
 	private AmenityTypeService atService;
 	
 	@Autowired
@@ -42,9 +58,18 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private TransactionService tService;
+	
+	@Autowired
+	private UserService uService;
+	
+	@Autowired
+	private ProjectService pService;
 
 	@Autowired
 	private MapRestController mController;
+	
+	@Autowired
+	
 
 	@Override
 	public List<Project> findAllProjects() {
@@ -64,6 +89,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public ArrayList<Project> findProjectsByStreet(String street) {
 		return pRepo.findProjectsByStreet(street);
+	}
+
+	@Override
+	public ArrayList<Project> getMobileRecommendationsByDistrict(String district) {
+		return pRepo.getMobileRecommendationsByDistrict(district);
 	}
 
 	@Override
@@ -165,6 +195,7 @@ public class ProjectServiceImpl implements ProjectService {
 			List<Location> loc = locations.get(key);
 			List<Location> filteredLocations = loc.stream()
 					.filter(x -> x.getDistance() < filter)
+					.limit(3)
 					.collect(Collectors.toList());
 			if(!filteredLocations.isEmpty()) {
 				filteredMap.put(key, filteredLocations);
@@ -427,4 +458,59 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return amenities;
 	}
+	
+	@Override
+	public List<String> getAmenityNameFromOneMapKmlFile(String filename) throws IOException, ParserConfigurationException, SAXException{
+		List<String> locations = new ArrayList<String>();
+		
+		Resource resource = new ClassPathResource(filename);
+		File file = resource.getFile();		
+		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		Document doc = builder.parse(file);	
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("Placemark");
+	
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			Element element = (Element) nNode;		
+			NodeList exts = element.getElementsByTagName("SimpleData");
+			
+			int count=0;
+			for (int ex=0; ex<exts.getLength(); ex++) {
+				Node ext = exts.item(ex);
+				Element elem = (Element) ext;
+				String value = elem.getAttribute("name");
+
+				if(value.contains("NAME")) {
+					count=ex;
+					break;
+				}
+			}
+			locations.add(exts.item(count).getTextContent());		
+		}
+		return locations;
+	}
+	
+	@Override
+	public List<Project> findAllShortlistProjects(Integer uid){
+		return pRepo.findAllShortlistProjects(uid);
+	}
+	
+	@Override
+	public void updateShortlistedProject(Integer pid, Integer uid){
+		User user = uService.findUserById(uid);		
+		Project project = pService.findProjectById(pid);
+		List<Project> projectList = user.getProjects();
+		
+		if(projectList.contains(project)) {
+			projectList.remove(project);		
+		}
+		else {
+			projectList.add(project);
+		}			
+		user.setProjects(projectList);
+		uRepo.saveAndFlush(user);
+	}
+	
+
 }

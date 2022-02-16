@@ -1,23 +1,22 @@
-<div class="container" style="height: 75px;">
+<div class="container" style="height: 50px;">
 </div>
 
-<div class="card mt-5 p-5 shadow" style="width: 100%; background-color: rgba(240, 240, 240, 0.2)">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-11">
-				<h2 class="card-title"><span class="glyphicon glyphicon-home" style="color:cadetblue"></span>
-					Project: </h2>
+<div class="card shadow-lg p-3 mb-5 bg-white rounded" style="background-color: rgba(240, 240, 240, 0.2)">
+ 	<div class="card-body px-5">
+	  	<div class="row">
+	  		<div class="col-11">
+				<h3 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i> Project: </h3>
 			</div>
 			<div class="col-1">
-				<h2><button href="#" data-toggle="tooltip" title="Shortlist Property"><span
-							class="glyphicon glyphicon-heart-empty" style="color:cadetblue"></span></button>
-				</h2>
+				<a class="h3 btn btn-outline-dark" style="float:right" th:href = "${'/project/add-shortlist/' + {id}}" data-toggle="tooltip" title="Shortlist Property">
+					<i class="fa-solid fa-heart fa-xl" style="color: cadetblue"></i>
+				</a>
 			</div>
-		</div>
-		<h3 class="card-subtitle mb-3 mt-3 text-muted" th:text="${project.name}"></h3>
-		<h4 class="card-subtitle text-muted mb-5" th:text="${project.street}"></h4>
-		<br>
-		<div class="row mb-5">
+	  	</div>
+	  	<h4 class="card-subtitle mb-3 mt-3 text-muted font-weight-normal" th:text="${project.name}"></h4>
+	  	<h5 class="card-subtitle text-muted mb-2 font-weight-normal" th:text="${project.street}"></h5>
+	  	<br>
+		<div class="row mb-3">
 			<div class="col-4" style="font-size:18px"><b>Average Price: </b> S<span
 					th:text="${project.averagePrice}"></span></div>
 			<div class="col-1">
@@ -26,7 +25,7 @@
 					th:text="${#strings.listJoin(tenureFilter, ', ')}"></span>
 			</div>
 		</div>
-		<div class="row mb-5">
+		<div class="row mb-3">
 			<div class="col-3" style="font-size:18px"><b>Floor Range: </b> <span
 					th:text="${project.floorRange}"></span>
 			</div>
@@ -34,16 +33,13 @@
 			</div>
 			<div class="col-4" style="font-size:18px"><b>Area: </b><span th:text="${project.area}">111-222</span></div>
 		</div>
-		<div class="row mb-5">
+		<div class="row mb-3">
 			<div class="col-3" style="font-size:18px"><b>Top Years: </b><span
 					th:text="${#strings.listJoin(topFilter, ', ')}"></span>
 			</div>
 		</div>
+		<div class="mb-3" style="padding-left: 20px;">
+			<a th:href = "${'/project/view-map/' + {id}}" class="card-link" style="font-size:18px;color:blue">View nearby amenities</a>
+		</div>
 	</div>
-	<div class="mb-3">
-		<a th:href = "${'/project/view-map/' + {id}}" class="card-link" style="font-size:18px;color:blue">View nearby amenities</a>
-	</div>
-</div>
-
-<div class="container" style="height: 100px;">
 </div>
