@@ -2,6 +2,7 @@ package com.team7.propertypredict.helper;
 
 public class ProjectDetails {
 	
+	private Integer projectId;
 	private String name;
 	private String street;
 	private String averagePrice;
@@ -60,6 +61,14 @@ public class ProjectDetails {
 
 	public void setFloorRange(String floorRange) {
 		this.floorRange = floorRange;
+	}
+
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
 	}
 	
 }

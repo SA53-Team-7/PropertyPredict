@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -103,4 +104,10 @@ public interface ProjectService {
 	// Get Amenity's Name from OneMap kml files
 	List<String> getAmenityNameFromOneMapKmlFile(String filename) throws IOException, ParserConfigurationException, SAXException;
 	
+	// Get all shortlisted projects given user id
+	List<Project> findAllShortlistProjects(Integer uid);
+	
+	// Update shortlisted project given project id and user id
+	void updateShortlistedProject(Integer pid, Integer uid);
+
 }

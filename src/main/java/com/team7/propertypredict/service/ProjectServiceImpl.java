@@ -35,7 +35,9 @@ import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
+import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.repository.ProjectRepository;
+import com.team7.propertypredict.repository.UserRepository;
 
 import helper.SearchResultHelper;
 
@@ -46,6 +48,9 @@ public class ProjectServiceImpl implements ProjectService {
 	private ProjectRepository pRepo;
 	
 	@Autowired
+	private UserRepository uRepo;
+	
+	@Autowired
 	private AmenityTypeService atService;
 	
 	@Autowired
@@ -53,9 +58,18 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private TransactionService tService;
+	
+	@Autowired
+	private UserService uService;
+	
+	@Autowired
+	private ProjectService pService;
 
 	@Autowired
 	private MapRestController mController;
+	
+	@Autowired
+	
 
 	@Override
 	public List<Project> findAllProjects() {
@@ -471,4 +485,27 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return locations;
 	}
+	
+	@Override
+	public List<Project> findAllShortlistProjects(Integer uid){
+		return pRepo.findAllShortlistProjects(uid);
+	}
+	
+	@Override
+	public void updateShortlistedProject(Integer pid, Integer uid){
+		User user = uService.findUserById(uid);		
+		Project project = pService.findProjectById(pid);
+		List<Project> projectList = user.getProjects();
+		
+		if(projectList.contains(project)) {
+			projectList.remove(project);		
+		}
+		else {
+			projectList.add(project);
+		}			
+		user.setProjects(projectList);
+		uRepo.saveAndFlush(user);
+	}
+	
+
 }

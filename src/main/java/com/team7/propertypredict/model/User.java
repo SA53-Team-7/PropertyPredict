@@ -1,12 +1,15 @@
 package com.team7.propertypredict.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -35,8 +38,11 @@ public class User {
 	
 	private String districtInterest;
 	
-	@ManyToMany(mappedBy="users")
-	private Collection<Project> projects;
+	@ManyToMany
+	@JoinTable(name="projects_users",
+	joinColumns = @JoinColumn(name = "users_user_id"),
+	inverseJoinColumns = @JoinColumn(name="projects_project_id"))
+	private List<Project> projects;
 
 	public User() {
 		super();
@@ -93,11 +99,11 @@ public class User {
 		this.districtInterest = districtInterest;
 	}
 
-	public Collection<Project> getProjects() {
+	public List<Project> getProjects() {
 		return projects;
 	}
 
-	public void setProjects(Collection<Project> projects) {
+	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
 	
