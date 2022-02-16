@@ -8,8 +8,11 @@
 				<h3 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i> Project: </h3>
 			</div>
 			<div class="col-1">
-				<a class="h3 btn btn-outline-dark" style="float:right" th:href = "${'/project/add-shortlist/' + {id}}" data-toggle="tooltip" title="Shortlist Property">
+				<a class="h3 btn btn-outline-dark" th:if="${shortlisted}==-1" style="float:right" th:href = "${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip" title="Shortlist Property">
 					<i class="fa-solid fa-heart fa-xl" style="color: cadetblue"></i>
+				</a>
+				<a class="h3 btn btn-outline-dark" th:if="${shortlisted}==1" style="float:right" th:href = "${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip" title="Shortlist Property">
+					<i class="fa-solid fa-heart fa-xl" style="color: lightcoral"></i>
 				</a>
 			</div>
 	  	</div>
@@ -22,7 +25,7 @@
 			<div class="col-1">
 			</div>
 			<div class="col-3" style="font-size:18px"><b>Tenure (years): </b><span
-					th:text="${#strings.listJoin(tenureFilter, ', ')}"></span>
+					th:text="${#strings.listJoin(project.tenureYears, ', ')}"></span>
 			</div>
 		</div>
 		<div class="row mb-3">
@@ -35,11 +38,11 @@
 		</div>
 		<div class="row mb-3">
 			<div class="col-3" style="font-size:18px"><b>Top Years: </b><span
-					th:text="${#strings.listJoin(topFilter, ', ')}"></span>
+					th:text="${#strings.listJoin(project.TOPYears, ', ')}"></span>
 			</div>
 		</div>
-		<div class="mb-3" style="padding-left: 20px;">
-			<a th:href = "${'/project/view-map/' + {id}}" class="card-link" style="font-size:18px;color:blue">View nearby amenities</a>
+		<div class="mb-3">
+			<a th:href = "${'/project/view-map/' + {project.projectId}}" class="card-link" style="font-size:18px;color:blue">View nearby amenities</a>
 		</div>
 	</div>
 </div>

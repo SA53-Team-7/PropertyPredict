@@ -1,6 +1,5 @@
 package com.team7.propertypredict.model;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;

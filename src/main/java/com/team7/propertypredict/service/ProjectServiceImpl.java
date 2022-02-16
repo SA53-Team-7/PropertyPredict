@@ -104,6 +104,8 @@ public class ProjectServiceImpl implements ProjectService {
 		Integer min = findMinAreaByProjectId(pid).intValue();
 		Integer max = findMaxAreaByProjectId(pid).intValue();
 		ArrayList<String> floors = findfloorRangeByProjectId(pid);
+		List<String> TOPYears = tService.getDistinctTOP(pid);
+		List<String> tenureYears = tService.getDistinctTenure(pid);
 
 		Locale usa = new Locale("en", "US");
 		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
@@ -127,13 +129,28 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			topFloor = top.toString();
 		}
-
+		pd.setProjectId(project.getProjectId());
 		pd.setName(project.getName());
 		pd.setStreet(project.getStreet());
 		pd.setAveragePrice(averagePrice);
 		pd.setArea(min + "-" + max + " (square metre)");
 		pd.setFloorRange(topFloor);
+		pd.setTOPYears(TOPYears);
+		pd.setTenureYears(tenureYears);
 		return pd;
+	}
+	
+	@Override
+	public List<ProjectDetails> getProjectsDetails(Integer uid){
+		User user = uService.findUserById(uid);
+		List<Project> projects = user.getProjects();
+		List<ProjectDetails> projectsDetails = new ArrayList<ProjectDetails>();
+		
+		for(Project project: projects) {
+			ProjectDetails pd = pService.getProjectDetails(project.getProjectId());
+			projectsDetails.add(pd);
+		}
+		return projectsDetails;
 	}
 
 	@Override
@@ -148,7 +165,6 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			region = "Ouside Central Region (OCR)";
 		}
-
 		prop.setProjectId(pid);
 		prop.setPropertyName(project.getName());
 		prop.setRegion(region);
@@ -512,5 +528,18 @@ public class ProjectServiceImpl implements ProjectService {
 		uRepo.saveAndFlush(user);
 	}
 	
-
+	@Override
+	public Integer checkIfShortlisted(Integer pid, Integer uid) {
+		Integer shortlisted = -1;
+		
+		if(uid!=null) {
+			User user = uService.findUserById(uid);
+			Project project = pService.findProjectById(pid);
+			List<Project> list = user.getProjects();
+			if(list.contains(project)) {
+				shortlisted = 1;
+			}
+		}
+		return shortlisted;
+	}
 }

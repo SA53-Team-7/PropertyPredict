@@ -32,7 +32,7 @@ public class PropertypredictApplication {
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
-			List<String> list = pService.getAmenityNameFromOneMapKmlFile("hawkercentre.kml");
+			//List<String> list = pService.getAmenityNameFromOneMapKmlFile("hawkercentre.kml");
 			// List<String> list = AmenityHelper.ewLine
 			//aService.saveAmenities(list, "Hawker Centre");
 		};
