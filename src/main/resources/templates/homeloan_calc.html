@@ -1,15 +1,15 @@
-<html>
-<body>
-<div class="container" style="height: 50px;"> </div>
+<hr/>
+<div class="container" style="height: 20px;"> </div>
 <div class = "homeloan-calc-div">
-	<hr/>
-	<h4>Mortgage Calculator</h4>
+	<h4 class="font-weight-normal">Mortgage Calculator</h4 >
 	<div class="loan-form">
 		<form>
 			<div class="form-group">
 				<label for="loan-amt">Loan Amount</label>
 	    		<div class="input-group">
-	      			<div class="input-group-addon">$</div>
+	      			 <div class="input-group-prepend">
+          				<div class="input-group-text">$</div>
+        			</div>
 	      			<input type="text" class="form-control" id="loan-amt" placeholder="750000">
 	    		</div>
 	    		<p><span id="amt-error" style="color:red;"></span></p>
@@ -19,7 +19,9 @@
 	  		<div class="form-group">
 	    		<div class="input-group">
 	      			<input type="text" class="form-control" id="loan-tenure" placeholder="30">
-	      			<div class="input-group-addon">years</div>
+	      			<div class="input-group-append">
+          				<div class="input-group-text">years</div>
+        			</div>
 	    		</div>
 	    		<p><span id="tenure-error" style="color:red;"></span></p>
 	  		</div>
@@ -28,7 +30,9 @@
 	  		<div class="form-group">
 	    		<div class="input-group">
 	      			<input type="text" class="form-control" id="int-rate" placeholder="2">
-	      			<div class="input-group-addon">%</div>
+	      			<div class="input-group-append">
+          				<div class="input-group-text">%</div>
+        			</div>
 	    		</div>
 	    		<p><span id="int-error" style="color:red;"></span></p>
 
@@ -47,5 +51,3 @@
 		<canvas id="loan-canvas"></canvas>
 	</div>
 </div >
-</body>
-</html>

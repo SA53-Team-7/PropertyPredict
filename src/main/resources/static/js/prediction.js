@@ -1,6 +1,6 @@
 function determineTenure(t) {
 	if (t !== "Freehold") {
-		return tenure
+		return t
 	} else {
 		return '999999'
 	}
@@ -34,7 +34,6 @@ function determineDistrict(district) {
 }
 
 function predict() {
-		
 	var currDate = new Date();
 	
 	var pid = document.getElementById("pred_pid").value
