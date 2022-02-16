@@ -54,12 +54,11 @@ function predict() {
 		"tenure": tenure,
 		"year": year,
 		"month": month };
-
+	
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: "https://msdocs-python-webapp-quickstart-te7.azurewebsites.net",
-		// data: JSON.stringify(info),
-		headers: info,
+		body: JSON.stringify(info),
 		contentType: "application/json",
 		dataType: 'json',
 		success: function(result){
