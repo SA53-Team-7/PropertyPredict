@@ -24,6 +24,8 @@ public interface ProjectService {
 
 	ArrayList<Project> searchProjects(String searchString);
 
+	ArrayList<Project> getMobileRecommendationsByDistrict(String district);
+
 	// Get all the projects given a location
 	ArrayList<Project> findProjectsByStreet(String street);
 	
