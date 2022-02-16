@@ -126,6 +126,7 @@
 	float: right;
 }
 
+
 .search-results-div {
 	width: 80%;
 	margin: auto;
@@ -207,5 +208,13 @@
 #donut-text {
 	font-weight: bold;
 	font-size: 15px;
+}
+
+/* new project list - newproj_list.html */
+
+.new-proj-list {
+	width: 80%;
+	margin: auto;
+	margin-top: 3%;
 }
 
