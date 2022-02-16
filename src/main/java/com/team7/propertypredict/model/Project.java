@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"saleType", "transactions"})
+@JsonIgnoreProperties({"saleType", "transactions", "users"})
 @Table(name="projects")
 public class Project {
 	@Id
