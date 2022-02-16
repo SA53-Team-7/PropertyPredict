@@ -1,6 +1,6 @@
 function determineTenure(t) {
 	if (t !== "Freehold") {
-		return tenure
+		return t
 	} else {
 		return '999999'
 	}
@@ -34,7 +34,6 @@ function determineDistrict(district) {
 }
 
 function predict() {
-		
 	var currDate = new Date();
 	
 	var pid = document.getElementById("pred_pid").value
@@ -58,7 +57,7 @@ function predict() {
 
 	$.ajax({
 		type: 'GET',
-		url: "http://127.0.0.1:5000",
+		url: "https://msdocs-python-webapp-quickstart-te7.azurewebsites.net",
 		// data: JSON.stringify(info),
 		headers: info,
 		contentType: "application/json",
