@@ -92,6 +92,11 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public ArrayList<Project> getMobileRecommendationsByDistrict(String district) {
+		return pRepo.getMobileRecommendationsByDistrict(district);
+	}
+
+	@Override
 	public ProjectDetails getProjectDetails(Integer pid) {
 		ProjectDetails pd = new ProjectDetails();
 
