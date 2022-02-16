@@ -97,6 +97,11 @@ public class AmenityServiceImpl implements AmenityService {
 	public List<Amenity> findAllAmenities() {
 		return aRepo.findAllAmenities();
 	}
+
+	@Override
+	public List<Amenity> getAllTrainStations() {
+		return aRepo.getAllTrainStations();
+	}
 	
 	@Override
 	public List<AmenityType> findAllAmenityTypes(){
