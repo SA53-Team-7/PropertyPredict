@@ -45,7 +45,7 @@ function predict() {
 	var year = currDate.getFullYear().toString().substring(2)
 	var month = (currDate.getMonth() + 1).toString()
 	
-	var info = {
+	var info = [{
 		"projectId": pid, 
 		"district": district,
 		"floor_area": floorArea,
@@ -53,12 +53,12 @@ function predict() {
 		"top": top,
 		"tenure": tenure,
 		"year": year,
-		"month": month };
-	
+		"month": month }];
+				
 	$.ajax({
 		type: 'POST',
 		url: "https://msdocs-python-webapp-quickstart-te7.azurewebsites.net",
-		body: JSON.stringify(info),
+		data: JSON.stringify(info),
 		contentType: "application/json",
 		dataType: 'json',
 		success: function(result){
@@ -66,6 +66,9 @@ function predict() {
     		document.getElementById("price").innerHTML = formatCurrency(price / floorArea);
     		document.getElementById("tot-price").innerHTML = formatCurrency(price);
     		document.getElementById("price-pred").style.display="block";
+		},
+		error: function(e) {
+			console.log(e)
 		}
 	})
 }	

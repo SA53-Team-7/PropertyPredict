@@ -1,4 +1,4 @@
-package helper;
+package com.team7.propertypredict.helper;
 
 public class SearchResultHelper {
 	private String projectId;

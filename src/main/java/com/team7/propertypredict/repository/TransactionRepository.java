@@ -34,4 +34,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	
 	@Query(value = "SELECT distinct prop_type FROM transactions ORDER BY prop_type ASC", nativeQuery=true)
 	List<String> findDistinctPropertyType();
+	
+	@Query(value = "SELECT project_project_id FROM transactions WHERE contract_date IN (:d1,:d2,:d3,:d4,:d5,:d6) " 
+			+ "GROUP BY project_project_id ORDER BY COUNT(*) DESC LIMIT 6", nativeQuery=true)
+	List<String> findPopularProjectsByTxn(String d1, String d2, String d3, String d4, String d5, String d6);
+
 }
