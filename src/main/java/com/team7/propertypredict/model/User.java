@@ -24,6 +24,7 @@ public class User {
 	
 	@Size(max = 10)
 	@Column(name = "name")
+	@NotBlank(message = "Name is mandatory")
 	private String username;
 	
 	@Column(name = "password", nullable = false)

@@ -98,14 +98,6 @@ public class CommonController {
         uService.save(userForm);
         return "redirect:/login";
     }
-
-// 	@GetMapping("/home-temp")
-// 	public String viewHome(Model model) {
-// 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
-// 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
-// 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
-// 		return "index";
-// 	}
 	
  	@RequestMapping(value = "/search", method = RequestMethod.GET) 
  	public String submitSearchRequest(Model model, @Param("searchStr") String searchStr, @Param("district") String district, 
