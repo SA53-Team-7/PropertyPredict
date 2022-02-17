@@ -74,6 +74,16 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> findAllProjects() {
 		return pRepo.findAllProjects();
 	}
+	
+	@Override
+	public List<String> findAllProjectNames(){
+		List<Project> projects = findAllProjects();
+		List<String> names = new ArrayList<String>();
+		for(Project project: projects) {
+			names.add(project.getName());
+		}
+		return names;
+	}
 
 	@Override
 	public List<Project> getTop20Projects() {
@@ -88,6 +98,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public ArrayList<Project> findProjectsByStreet(String street) {
 		return pRepo.findProjectsByStreet(street);
+	}
+	
+	@Override
+	public Project findProjectByName(String name) {
+		return pRepo.findProjectByName(name);
 	}
 
 	@Override

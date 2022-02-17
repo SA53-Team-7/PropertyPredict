@@ -29,6 +29,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query("Select p from Project p where p.projectId = :pid")
 	Project findProjectById(@Param ("pid") Integer pid);
 	
+	@Query(value = "SELECT * from projects p where p.name = :name", nativeQuery = true)
+	Project findProjectByName(@Param ("name") String name);
+	
 	@Query("Select distinct t.tenure from Project p join p.transactions t where p.projectId = :pid")
 	String findTenureByProjectId(@Param ("pid") Integer pid);
 	

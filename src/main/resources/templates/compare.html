@@ -16,9 +16,9 @@
 <body>
 	<div th:replace="navbar.html :: menu" />
 	<div class"container">
-		<h1 style="text-align:center;margin-top:70px;margin-bottom:70px">Comparison Between Projects</h1>
+		<h1 class="text-muted" style="text-align:center;margin-top:70px;margin-bottom:70px;">Comparison Between Projects</h1>
 	
-		<form autocomplete="off" action="/compare-result" method="GET>
+		<form autocomplete="off" th:action="@{/project/compare-result}" method="GET">
 			<div class="form-row">
 				<div class="col-sm4 form-group mb-5" style="text-align:center;">
 					<label for="project1" class="mx-5">Project 1: </label>
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</form>
-s
+
 <script th:inline="javascript">
 	var names = /*[[${names}]]*/[];
 </script>
