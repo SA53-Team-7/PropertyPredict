@@ -160,15 +160,13 @@
 	padding-top: 0px;
 }
 
-.search-list a {
+.search-list a, .rec-div a {
 	text-decoration: none;
 	color: black;
 }
 
-.search-list a:hover {
-  	color: black;
-  	text-decoration: none;
-  	cursor: pointer;
+.search-list a:hover, .rec-div a:hover {
+	background-color: rgba(95, 158, 160, 0.2)
 }
 
 /* login.html */
@@ -219,5 +217,24 @@
 	width: 70%;
 	margin: auto;
 	margin-top: 3%;
+}
+
+/* recommendations in index page - recommendation.html */
+.rec-div {
+	padding-top: 25px;
+	width: 80%;
+	margin: auto;
+}
+
+#rec-popular {
+	background-color: rgba(240, 240, 240, 0.2);
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 10px;
+}
+
+#rec-popular h5 {
+	background-color: rgba(41, 43, 44, 0.9);
+	color: white;
 }
 
