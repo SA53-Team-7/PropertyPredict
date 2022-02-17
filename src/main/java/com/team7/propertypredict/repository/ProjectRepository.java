@@ -29,6 +29,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query("Select p from Project p where p.projectId = :pid")
 	Project findProjectById(@Param ("pid") Integer pid);
 	
+	@Query(value = "SELECT * from projects p where p.name = :name", nativeQuery = true)
+	Project findProjectByName(@Param ("name") String name);
+	
 	@Query("Select distinct t.tenure from Project p join p.transactions t where p.projectId = :pid")
 	String findTenureByProjectId(@Param ("pid") Integer pid);
 	
@@ -71,7 +74,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query("Select p.y from Project p where p.projectId = :pid")
 	String findYById(@Param ("pid") Integer pid);
 	
-	@Query(value = "SELECT * FROM projects p join projects_users pu where pu.users_user_id = :uid", nativeQuery = true)
+	@Query(value = "SELECT * FROM projects p join projects_users pu ON p.project_id = pu.projects_project_id WHERE pu.users_user_id = :uid", nativeQuery = true)
 	List<Project> findAllShortlistProjects(@Param ("uid") Integer uid);
 	
 }

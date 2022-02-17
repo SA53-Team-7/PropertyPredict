@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
-
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
@@ -19,9 +17,10 @@ import com.team7.propertypredict.model.Project;
 @Service
 public interface ProjectService {
 	
-	//ArrayList<Project> findProjectsByStreet(String street);
-	
 	List<Project> findAllProjects();
+	
+	// Get all project names
+	List<String> findAllProjectNames();
 	
 	List<Project> getTop20Projects();
 
@@ -40,6 +39,9 @@ public interface ProjectService {
 	
 	// Get project given a project id
 	Project findProjectById(Integer pid);
+	
+	// Get project given a project name
+	Project findProjectByName(String name);
 	
 	// Get the average price of all the transactions of a project given a project id
 	Double findAveragePriceByProjectId(Integer pid);

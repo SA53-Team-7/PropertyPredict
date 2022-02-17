@@ -50,15 +50,6 @@ public class CommonController {
 		return "index";
 	}
 
-	//	public String index(HttpSession session) {
-//
-//		if (session.getAttribute("user") == null) {
-//			return "redirect:/login";
-//		} else {
-//			return "redirect:/home";
-//		}
-//	}
-
 	@GetMapping("/login")
 	public String login(Model model) {
 		User user = new User();
@@ -75,7 +66,6 @@ public class CommonController {
 		} else {
 
 			User u = uService.authenticate(user.getEmail(), user.getPassword());
-
 			if (u == null)
 				return "login";
 			
@@ -84,17 +74,6 @@ public class CommonController {
 			return "redirect:/";
 		}
 	}
-	
-//	@RequestMapping(value = "/home")
-//	public String homePage(Model model, HttpSession session) {
-//		String name = (String) session.getAttribute("userName");
-//		model.addAttribute("name", name);
-//		model.addAttribute("districtFilter", tService.getDistinctDistrict());
-//		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
-//		model.addAttribute("segmentFilter", pService.findDistinctSegment());
-//		return "index";	
-//		return "home";
-//	}
 	
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
@@ -119,16 +98,8 @@ public class CommonController {
         }
 
         uService.save(userForm);
-        return "redirect:/login";
+        return "registration-confirm";
     }
-
-// 	@GetMapping("/home-temp")
-// 	public String viewHome(Model model) {
-// 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
-// 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
-// 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
-// 		return "index";
-// 	}
 	
  	@RequestMapping(value = "/search", method = RequestMethod.GET) 
  	public String submitSearchRequest(Model model, @Param("searchStr") String searchStr, @Param("district") String district, 

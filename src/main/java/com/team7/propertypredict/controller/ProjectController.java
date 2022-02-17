@@ -1,19 +1,25 @@
 package com.team7.propertypredict.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.team7.propertypredict.helper.Location;
+import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
@@ -92,4 +98,26 @@ public class ProjectController {
 		model.addAttribute("projects", pService.getProjectsDetails(1));	
 		return "shortlist";
 	}
+	
+	@GetMapping("/compare")
+	public String compare(Model model) {
+		model.addAttribute("names", pService.findAllProjectNames());
+		return "compare";
+	}
+	
+	@RequestMapping(value = "/compare-result", method = RequestMethod.GET) 
+ 	public String submitSearchRequest(Model model, @Param("searchStr1") String searchStr1, 
+ 			@Param("searchStr2") String searchStr2, @Param("searchStr3") String searchStr3) {
+		List<String> searchStrs = Arrays.asList(searchStr1, searchStr2, searchStr3);
+		List<Project> projects = new ArrayList<Project>();
+		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+		for(String str: searchStrs) {
+			projects.add(pService.findProjectByName(str));
+		}
+		for(Project project: projects) {
+			projectDetails.add(pService.getProjectDetails(project.getProjectId()));
+		}
+		model.addAttribute("projects", projectDetails);
+ 		return "compare-result";
+ 	}
 }

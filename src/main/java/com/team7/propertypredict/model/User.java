@@ -105,6 +105,14 @@ public class User {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", districtInterest=" + districtInterest + ", projects=" + projects + "]";
+	}
+	
+	
 	
 	
 } 
