@@ -7,28 +7,54 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 
 <body>
 	<div th:replace="navbar.html :: menu" />
-
 	<div class="new-proj-list">
-		<div id="txn-table" class="toggle-cont" th:if="${not #lists.isEmpty(newProjectList)}">
+		<div th:if="${session.userObj != null}">
+			<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+				<a th:href="@{/newprojects/create}"><input type="button" class="btn btn-success" th:value="ADD-A-PROJECT" /></a>
+			</div>
+		</div>
+		<div id="new-proj table" th:if="${not #lists.isEmpty(newProjectList)}">
 			<table class="table table-hover" id="property-txn-list">
 				<thead class="thead-dark">
 					<tr>
+						<div th:if="${session.userObj != null}">
+							<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+								<th>Project Id</th>
+							</div>
+						</div>
 						<th>Project Name (Temporary)</th>
 						<th>Land Transaction Date</th>
-						<th>Land Transaction Price</th>
-						<th>Predict Price</th>
+						<th>Land Transaction Price (PSF)</th>
+						<th>Predict Price (PSF)</th>
+						<div th:if="${session.userObj != null}">
+							<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+								<th>Operation</th>
+							</div>
+						</div>
 					</tr>
 				</thead>
 				<tr th:each="proj : ${newProjectList}">
-					<td th:text="${proj.projectName}">Floor Range</td>
-					<td th:text="${proj.landTxnDate}">Floor Range</td>
-					<td th:text="${proj.landTxnPrice}">Floor Range</td>
-					<td th:text="${proj.predictPrice}">Floor Area</td>
+					<div th:if="${session.userObj != null}">
+						<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+							<td th:text="${proj.id}">Project Id</td>
+						</div>
+					</div>
+					<td th:text="${proj.projectName}">Project Name</td>
+					<td th:text="${proj.landTxnDate}">Land Transaction Date</td>
+					<td th:text="${proj.landTxnPrice}">Land Transaction Price</td>
+					<td th:text="${proj.predictPrice}">Predict Price</td>
+					<div th:if="${session.userObj != null}">
+						<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+							<td><a th:href="@{/newprojects/delete/}+${proj.id}">
+									<input type="button" class="btn btn-warning" th:value="DELETE"/></a>
+							</td>
+						</div>
+					</div>
 				</tr>
 			</table>
 		</div>

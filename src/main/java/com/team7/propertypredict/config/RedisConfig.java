@@ -17,7 +17,7 @@ public class RedisConfig {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
         configuration.setHostName("20.124.252.164"); // 20.124.252.164
         configuration.setPort(7000); // 7000 // 6379
-        configuration.setPassword("guilinview");
+        configuration.setPassword("team_seven");
         return new JedisConnectionFactory(configuration);
     }
 
@@ -27,13 +27,13 @@ public class RedisConfig {
         template.setConnectionFactory(connectionFactory());
 
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        // key采用 String的序列化方式
+        // key use String serialization
         template.setKeySerializer(stringRedisSerializer);
-        // hash的 key也采用 String的序列化方式
+        // hash key use String serialization
         template.setHashKeySerializer(stringRedisSerializer);
-        // value序列化方式采用 jackson
+        // value use jackson serialization
         template.setValueSerializer(stringRedisSerializer);
-        // hash的 value序列化方式采用 jackson
+        // hash value use jackson serialization
         template.setHashValueSerializer(stringRedisSerializer);
         template.afterPropertiesSet();
         return template;
