@@ -44,6 +44,9 @@ public class CommonController {
 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		
+		// Data for recommendations (non-logged in users)
+		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
 		return "index";
 	}
 
