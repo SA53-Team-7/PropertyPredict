@@ -21,6 +21,7 @@ public class AuthMobileRestController {
 
         if (userService.authenticate(user.getEmail(), user.getPassword()) != null) {
             success.put("login", 1);
+            success.put("id", userService.authenticate(user.getEmail(), user.getPassword()).getUserId());
             return success;
         }
         else {
