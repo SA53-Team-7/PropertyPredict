@@ -17,9 +17,9 @@ public class FavouritesMobileRestController {
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/list")
-    public List<Project> getAllSavedProjects(@RequestBody User user) {
-        return projectService.findAllShortlistProjects(user.getUserId());
+    @GetMapping("/list/{id}")
+    public List<Project> getAllSavedProjects(@PathVariable("id") int id) {
+        return projectService.findAllShortlistProjects(id);
     }
 
     @PostMapping("/check")
@@ -35,7 +35,8 @@ public class FavouritesMobileRestController {
         Map<String, Integer> response = new HashMap<>();
 
         projectService.updateShortlistedProject(userAndProject.getProject().getProjectId(), userAndProject.getUser().getUserId());
-        response.put("success", 1);
+        int check = projectService.checkIfShortlisted(userAndProject.getProject().getProjectId(), userAndProject.getUser().getUserId());
+        response.put("success", check);
 
         return response;
     }
