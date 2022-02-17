@@ -98,7 +98,7 @@ public class CommonController {
         }
 
         uService.save(userForm);
-        return "redirect:/login";
+        return "registration-confirm";
     }
 	
  	@RequestMapping(value = "/search", method = RequestMethod.GET) 
