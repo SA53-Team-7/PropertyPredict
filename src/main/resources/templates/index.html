@@ -16,8 +16,11 @@
 <body>
 	<div th:replace="navbar.html :: menu"/>
 	<div class="home-main">
+		<!-- search bar -->
 		<div class="search-div" th:replace="/search" />
-		<div class="recommendation-div"></div>
+		
+		<!-- recommendations -->
+		<div class="recommendation-div" th:replace="/recommendation"/>
 	</div>
 </body>
 </html>
