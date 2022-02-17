@@ -8,14 +8,17 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.helper.SearchResultHelper;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
@@ -101,4 +104,11 @@ public class ProjectController {
 		model.addAttribute("names", names);
 		return "compare";
 	}
+	
+	@RequestMapping(value = "/compare-result", method = RequestMethod.GET) 
+ 	public String submitSearchRequest(Model model, @Param("searchStr1") String searchStr1, 
+ 			@Param("searchStr2") String searchStr2, @Param("searchStr3") String searchStr3) {
+		
+ 		return "search-result";
+ 	}
 }
