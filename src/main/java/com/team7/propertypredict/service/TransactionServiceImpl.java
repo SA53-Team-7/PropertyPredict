@@ -1,5 +1,6 @@
 package com.team7.propertypredict.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,5 +103,27 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public List<String> getDistinctPropertyTypeById(Integer id) {		
 		return trepo.findDistinctPropertyTypeByID(id);
+	}
+	
+	@Override
+	public List<String> getTopProjectIDsByTransactions() {
+		List<String> parameters = new ArrayList<String>();
+		List<LocalDate> dates = new ArrayList<LocalDate>();
+		dates.add(LocalDate.now());
+		
+		// Get dates to use as parameters
+		for (int i = 1; i < 6; i++) {
+			dates.add(dates.get(i-1).minusMonths(1));
+		}
+		
+		// Format parameters according to DB's values
+		for (LocalDate dt : dates) {
+			String month = String.valueOf(dt.getMonthValue()).length() == 2 ? String.valueOf(dt.getMonthValue()) : "0" + String.valueOf(dt.getMonthValue()); 
+			String year = String.valueOf(dt.getYear()).substring(2);
+			parameters.add(month.concat(year));
+		}
+		
+		return trepo.findPopularProjectsByTxn(parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3),
+				parameters.get(4), parameters.get(5));
 	}
 }
