@@ -71,7 +71,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query("Select p.y from Project p where p.projectId = :pid")
 	String findYById(@Param ("pid") Integer pid);
 	
-	@Query(value = "SELECT * FROM projects p join projects_users pu where pu.users_user_id = :uid", nativeQuery = true)
+	@Query(value = "SELECT * FROM projects p join projects_users pu ON p.project_id = pu.projects_project_id WHERE pu.users_user_id = :uid", nativeQuery = true)
 	List<Project> findAllShortlistProjects(@Param ("uid") Integer uid);
 	
 }
