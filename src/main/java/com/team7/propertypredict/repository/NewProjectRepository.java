@@ -19,9 +19,13 @@ public class NewProjectRepository {
 	private RedisTemplate template;
 	
 	
-    public NewProject save(NewProject newProject){
+//    public NewProject save(NewProject newProject){
+//    	template.opsForHash().put(HASH_KEY,String.valueOf(newProject.getId()), JSON.toJSONString(newProject));
+//        return newProject;
+//    }
+    
+    public void save(NewProject newProject){
     	template.opsForHash().put(HASH_KEY,String.valueOf(newProject.getId()), JSON.toJSONString(newProject));
-        return newProject;
     }
 
     public List<NewProject> findAll(){
@@ -31,10 +35,10 @@ public class NewProjectRepository {
     		projects.add(JSON.parseObject(p, NewProject.class)); 
     	}
     	return projects;
-//    	User user = JSON.parseObject(objectToJson, User.class);
     }
-    
-    public NewProject findProductById(int id){
-        return (NewProject) template.opsForHash().get(HASH_KEY,id);
-    }
+        
+    public String deleteNewProject(int id){
+        template.opsForHash().delete(HASH_KEY,String.valueOf(id));
+       return "project removed !!";
+   }
 }
