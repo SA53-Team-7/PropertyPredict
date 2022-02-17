@@ -32,14 +32,13 @@ import com.team7.propertypredict.helper.AmenityHelper;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.helper.SearchResultHelper;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.UserRepository;
-
-import helper.SearchResultHelper;
 
 @Component
 public class ProjectServiceImpl implements ProjectService {
@@ -541,5 +540,38 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return shortlisted;
+	}
+
+	@Override
+	public List<SearchResultHelper> getPopularLocationsByTxn() {
+		List<SearchResultHelper> recommendations = new ArrayList<SearchResultHelper>();
+		List<String> pids = tService.getTopProjectIDsByTransactions();
+		
+		for (String id : pids) {
+			String districtModified = "", typeModified = "";
+			Project p = pRepo.findProjectById(Integer.valueOf(id));
+			
+			// Get district
+			List<String> districtList = tService.getDistrictValues(p.getProjectId());
+
+			for (String s : districtList) {
+				districtModified += s + ",";
+			}
+
+			// Get type
+			List<String> typeList = tService.getDistinctPropertyTypeById(p.getProjectId());
+			for (String s : typeList) {
+				typeModified += s + ",";
+			}
+			
+			SearchResultHelper s = new SearchResultHelper(p.getProjectId().toString(), p.getName(), p.getStreet(),
+					p.getSegment(), districtModified.substring(0, districtModified.lastIndexOf(',')),
+					typeModified.substring(0, typeModified.lastIndexOf(',')),
+					null);
+			
+			recommendations.add(s);
+		}
+		
+		return recommendations;
 	}
 }

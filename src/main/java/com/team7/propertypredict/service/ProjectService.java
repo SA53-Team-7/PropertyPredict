@@ -13,9 +13,8 @@ import org.xml.sax.SAXException;
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
+import com.team7.propertypredict.helper.SearchResultHelper;
 import com.team7.propertypredict.model.Project;
-
-import helper.SearchResultHelper;
 
 @Service
 public interface ProjectService {
@@ -116,5 +115,8 @@ public interface ProjectService {
 	
 	// To check if the project is shortlisted already or not
 	Integer checkIfShortlisted(Integer pid, Integer uid);
+
+	// Get list of popular projects for recommendations
+	List<SearchResultHelper> getPopularLocationsByTxn();
 
 }

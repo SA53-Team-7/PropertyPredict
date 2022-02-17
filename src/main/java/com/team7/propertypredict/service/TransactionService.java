@@ -37,4 +37,7 @@ public interface TransactionService {
 
 	// Get all distinct property type by project ID
 	List<String> getDistinctPropertyTypeById(Integer id);
+
+	// Get all project IDs with high transaction count
+	List<String> getTopProjectIDsByTransactions();
 }
