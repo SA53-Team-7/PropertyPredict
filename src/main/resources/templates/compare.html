@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Compare Projects</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" th:src="@{/js/compare.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/compare.css}" />
+</head>
+
+<body>
+
+	<form autocomplete="off" action="/action_page.php">
+		<div class="autocomplete" style="width:300px;">
+			<input id="myInput" type="text" name="searchStr1" placeholder="Search for Project 1">
+		</div>
+		<input type="submit">
+	</form>
+
+<script th:inline="javascript">
+		var names = /*[[${names}]]*/[];
+</script>
+<script>
+	autocomplete(document.getElementById("myInput"), names);
+</script>
+
+
+</body>
+
+</html>

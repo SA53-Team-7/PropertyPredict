@@ -1,5 +1,7 @@
 package com.team7.propertypredict.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -91,5 +93,12 @@ public class ProjectController {
 
 		model.addAttribute("projects", pService.getProjectsDetails(1));	
 		return "shortlist";
+	}
+	
+	@GetMapping("/compare")
+	public String compare(Model model) {
+		List<String> names = Arrays.asList("Ama", "Amalina", "Anne");
+		model.addAttribute("names", names);
+		return "compare";
 	}
 }
