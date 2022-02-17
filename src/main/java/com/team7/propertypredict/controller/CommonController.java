@@ -66,7 +66,6 @@ public class CommonController {
 		} else {
 
 			User u = uService.authenticate(user.getEmail(), user.getPassword());
-
 			if (u == null)
 				return "login";
 			

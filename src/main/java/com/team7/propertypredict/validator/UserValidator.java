@@ -29,6 +29,10 @@ public class UserValidator implements Validator{
             errors.rejectValue("email", "error.user.email.duplicate");
         }	
 		
+		if (user.getUsername() == null) {
+            errors.rejectValue("name", "error.user.name.blank");
+        }	
+		
 	}
 
 }

@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -24,7 +25,6 @@ public class User {
 	
 	@Size(max = 10)
 	@Column(name = "name")
-	@NotBlank(message = "Name is mandatory")
 	private String username;
 	
 	@Column(name = "password", nullable = false)
@@ -106,6 +106,14 @@ public class User {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", districtInterest=" + districtInterest + ", projects=" + projects + "]";
+	}
+	
+	
 	
 	
 } 
