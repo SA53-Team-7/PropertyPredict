@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.team7.propertypredict.helper.SearchResultHelper;
 import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 import com.team7.propertypredict.service.UserService;
 import com.team7.propertypredict.validator.UserValidator;
+
+import helper.SearchResultHelper;
 
 @Controller
 public class CommonController {
@@ -47,15 +47,6 @@ public class CommonController {
 		return "index";
 	}
 
-	//	public String index(HttpSession session) {
-//
-//		if (session.getAttribute("user") == null) {
-//			return "redirect:/login";
-//		} else {
-//			return "redirect:/home";
-//		}
-//	}
-
 	@GetMapping("/login")
 	public String login(Model model) {
 		User user = new User();
@@ -81,17 +72,6 @@ public class CommonController {
 			return "redirect:/";
 		}
 	}
-	
-//	@RequestMapping(value = "/home")
-//	public String homePage(Model model, HttpSession session) {
-//		String name = (String) session.getAttribute("userName");
-//		model.addAttribute("name", name);
-//		model.addAttribute("districtFilter", tService.getDistinctDistrict());
-//		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
-//		model.addAttribute("segmentFilter", pService.findDistinctSegment());
-//		return "index";	
-//		return "home";
-//	}
 	
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
