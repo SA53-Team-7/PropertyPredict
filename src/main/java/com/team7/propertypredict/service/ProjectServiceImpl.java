@@ -35,7 +35,9 @@ import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
+import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.repository.ProjectRepository;
+import com.team7.propertypredict.repository.UserRepository;
 
 import helper.SearchResultHelper;
 
@@ -46,6 +48,9 @@ public class ProjectServiceImpl implements ProjectService {
 	private ProjectRepository pRepo;
 	
 	@Autowired
+	private UserRepository uRepo;
+	
+	@Autowired
 	private AmenityTypeService atService;
 	
 	@Autowired
@@ -53,9 +58,18 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private TransactionService tService;
+	
+	@Autowired
+	private UserService uService;
+	
+	@Autowired
+	private ProjectService pService;
 
 	@Autowired
 	private MapRestController mController;
+	
+	@Autowired
+	
 
 	@Override
 	public List<Project> findAllProjects() {
@@ -78,6 +92,11 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public ArrayList<Project> getMobileRecommendationsByDistrict(String district) {
+		return pRepo.getMobileRecommendationsByDistrict(district);
+	}
+
+	@Override
 	public ProjectDetails getProjectDetails(Integer pid) {
 		ProjectDetails pd = new ProjectDetails();
 
@@ -85,6 +104,8 @@ public class ProjectServiceImpl implements ProjectService {
 		Integer min = findMinAreaByProjectId(pid).intValue();
 		Integer max = findMaxAreaByProjectId(pid).intValue();
 		ArrayList<String> floors = findfloorRangeByProjectId(pid);
+		List<String> TOPYears = tService.getDistinctTOP(pid);
+		List<String> tenureYears = tService.getDistinctTenure(pid);
 
 		Locale usa = new Locale("en", "US");
 		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
@@ -108,13 +129,28 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			topFloor = top.toString();
 		}
-
+		pd.setProjectId(project.getProjectId());
 		pd.setName(project.getName());
 		pd.setStreet(project.getStreet());
 		pd.setAveragePrice(averagePrice);
 		pd.setArea(min + "-" + max + " (square metre)");
 		pd.setFloorRange(topFloor);
+		pd.setTOPYears(TOPYears);
+		pd.setTenureYears(tenureYears);
 		return pd;
+	}
+	
+	@Override
+	public List<ProjectDetails> getProjectsDetails(Integer uid){
+		User user = uService.findUserById(uid);
+		List<Project> projects = user.getProjects();
+		List<ProjectDetails> projectsDetails = new ArrayList<ProjectDetails>();
+		
+		for(Project project: projects) {
+			ProjectDetails pd = pService.getProjectDetails(project.getProjectId());
+			projectsDetails.add(pd);
+		}
+		return projectsDetails;
 	}
 
 	@Override
@@ -129,7 +165,6 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			region = "Ouside Central Region (OCR)";
 		}
-
 		prop.setProjectId(pid);
 		prop.setPropertyName(project.getName());
 		prop.setRegion(region);
@@ -470,5 +505,41 @@ public class ProjectServiceImpl implements ProjectService {
 			locations.add(exts.item(count).getTextContent());		
 		}
 		return locations;
+	}
+	
+	@Override
+	public List<Project> findAllShortlistProjects(Integer uid){
+		return pRepo.findAllShortlistProjects(uid);
+	}
+	
+	@Override
+	public void updateShortlistedProject(Integer pid, Integer uid){
+		User user = uService.findUserById(uid);		
+		Project project = pService.findProjectById(pid);
+		List<Project> projectList = user.getProjects();
+		
+		if(projectList.contains(project)) {
+			projectList.remove(project);		
+		}
+		else {
+			projectList.add(project);
+		}			
+		user.setProjects(projectList);
+		uRepo.saveAndFlush(user);
+	}
+	
+	@Override
+	public Integer checkIfShortlisted(Integer pid, Integer uid) {
+		Integer shortlisted = -1;
+		
+		if(uid!=null) {
+			User user = uService.findUserById(uid);
+			Project project = pService.findProjectById(pid);
+			List<Project> list = user.getProjects();
+			if(list.contains(project)) {
+				shortlisted = 1;
+			}
+		}
+		return shortlisted;
 	}
 }

@@ -28,11 +28,16 @@ public interface ProjectService {
 
 	ArrayList<Project> searchProjects(String searchString);
 
+	ArrayList<Project> getMobileRecommendationsByDistrict(String district);
+
 	// Get all the projects given a location
 	ArrayList<Project> findProjectsByStreet(String street);
 	
 	// Get all the project details given a project id 
 	ProjectDetails getProjectDetails(Integer pid);
+	
+	// Get all the projects details given a project id 
+	List<ProjectDetails> getProjectsDetails(Integer uid);
 	
 	// Get project given a project id
 	Project findProjectById(Integer pid);
@@ -103,4 +108,13 @@ public interface ProjectService {
 	// Get Amenity's Name from OneMap kml files
 	List<String> getAmenityNameFromOneMapKmlFile(String filename) throws IOException, ParserConfigurationException, SAXException;
 	
+	// Get all shortlisted projects given user id
+	List<Project> findAllShortlistProjects(Integer uid);
+	
+	// Update shortlisted project given project id and user id
+	void updateShortlistedProject(Integer pid, Integer uid);
+	
+	// To check if the project is shortlisted already or not
+	Integer checkIfShortlisted(Integer pid, Integer uid);
+
 }

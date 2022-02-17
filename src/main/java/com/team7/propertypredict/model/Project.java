@@ -1,5 +1,6 @@
 package com.team7.propertypredict.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,13 +9,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"saleType", "transactions"})
+@JsonIgnoreProperties({"saleType", "transactions", "users"})
 @Table(name="projects")
 public class Project {
 	@Id
@@ -28,6 +30,9 @@ public class Project {
 	
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
 	private List<Transaction> transactions;
+	
+	@ManyToMany(mappedBy="projects")
+	private Collection<User> users;
 	
 	public Project() {
 		super();
@@ -99,4 +104,14 @@ public class Project {
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
+
+	public Collection<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Collection<User> users) {
+		this.users = users;
+	}
+	
+	
 }

@@ -20,6 +20,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query(value = "Select * FROM projects WHERE name LIKE %:searchString% OR street LIKE %:searchString%", nativeQuery = true)
 	ArrayList<Project> searchProjects(@Param ("searchString") String searchString);
 	
+	@Query(value = "SELECT project_id, name, segment, street, x, y FROM projects INNER JOIN transactions ON project_id = project_project_id WHERE district = 5 ORDER BY RAND() LIMIT 2", nativeQuery = true)
+	ArrayList<Project> getMobileRecommendationsByDistrict(@Param ("district") String district);
+
 	@Query("Select p from Project p where p.street like %:street%")
 	ArrayList<Project> findProjectsByStreet(@Param ("street") String street);
 	
@@ -67,4 +70,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query("Select p.y from Project p where p.projectId = :pid")
 	String findYById(@Param ("pid") Integer pid);
+	
+	@Query(value = "SELECT * FROM projects p join projects_users pu where pu.users_user_id = :uid", nativeQuery = true)
+	List<Project> findAllShortlistProjects(@Param ("uid") Integer uid);
+	
 }

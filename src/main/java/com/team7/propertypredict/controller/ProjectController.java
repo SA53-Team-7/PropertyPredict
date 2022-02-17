@@ -3,6 +3,8 @@ package com.team7.propertypredict.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.team7.propertypredict.helper.Location;
-import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.service.ProjectService;
@@ -29,12 +30,12 @@ public class ProjectController {
 	
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
-	public String viewProject(@PathVariable Integer pid, Model model) {
-		
+	public String viewProject(@PathVariable Integer pid, Model model, HttpSession session) {
+		//Integer uid = (Integer) session.getAttribute("userId");
+			
 		// Get property details
-		ProjectDetails projectDetails = pService.getProjectDetails(pid);
-		model.addAttribute("id", pid);
-		model.addAttribute("project", projectDetails);
+		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, 1));
+		model.addAttribute("project", pService.getProjectDetails(pid));
 		
 		// Get all transactions 
 		model.addAttribute("allTxn", (List<Transaction>) tService.getTransactionsByProjectId(pid));
@@ -66,5 +67,29 @@ public class ProjectController {
 		return "map";
 		
 	}
+	
+	@GetMapping("/add-shortlist/{pid}")
+	public String addShortlist(HttpSession session, @PathVariable Integer pid, Model model) {
+		//Integer uid = (Integer) session.getAttribute("userId");
 		
+		/*if(userId==null) {
+			return "forward:/login";
+		}*/	
+
+		pService.updateShortlistedProject(pid, 1);
+		
+		return "redirect:/project/view-shortlist";
+	}
+	
+	@GetMapping("/view-shortlist")
+	public String viewShortlist(Model model, HttpSession session) {
+		//Integer uid = (Integer) session.getAttribute("userId");
+		
+		/*if(uid==null) {
+		return "forward:/login";
+		}*/
+
+		model.addAttribute("projects", pService.getProjectsDetails(1));	
+		return "shortlist";
+	}
 }

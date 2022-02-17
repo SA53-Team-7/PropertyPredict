@@ -14,21 +14,21 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository uRepo;
 	
-	@Transactional
+	@Override
 	public User authenticate(String email, String password) {
 		
 		User user =  findUserByEmailAndPassword(email, password);
 		return user;
 	}
 	
-	@Transactional
+	@Override
 	public User findUserByEmailAndPassword(String email, String password) {
 		
 		User user = uRepo.findUserByEmailAndPassword(email, password);
 		return user;
 	}
 	
-	@Transactional
+	@Override
 	public User findUserByEmail(String email) {
 		
 		User user =  uRepo.findUserByEmail(email);
@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public void save(User user) {
 		uRepo.saveAndFlush(user);
+	}
+	
+	@Override
+	public User findUserById(Integer uid) {
+		return uRepo.findUserById(uid);
 	}
 
 }
