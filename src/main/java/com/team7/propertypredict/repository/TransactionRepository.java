@@ -38,5 +38,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	@Query(value = "SELECT project_project_id FROM transactions WHERE contract_date IN (:d1,:d2,:d3,:d4,:d5,:d6) " 
 			+ "GROUP BY project_project_id ORDER BY COUNT(*) DESC LIMIT 6", nativeQuery=true)
 	List<String> findPopularProjectsByTxn(String d1, String d2, String d3, String d4, String d5, String d6);
+	
+	@Query(value = "SELECT distinct t.district FROM projects_users s INNER JOIN transactions t ON s.projects_project_id = t.project_project_id "
+			+ "WHERE users_user_id = :uid", nativeQuery=true)
+	List<String> findInterestedDistricts(Integer uid);
+	
+	@Query(value = "SELECT distinct project_project_id FROM transactions WHERE district =:district AND price BETWEEN :lower AND :upper", nativeQuery=true)
+	List<String> findSimilarProjects(String district, Double lower, Double upper);
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 
 @Service
@@ -40,4 +41,7 @@ public interface TransactionService {
 
 	// Get all project IDs with high transaction count
 	List<String> getTopProjectIDsByTransactions();
+	
+	// Get all project IDs with similar price range and district 
+	List<Project> getSimilarProjectIDsByPrice(Integer id);
 }
