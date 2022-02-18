@@ -16,16 +16,24 @@ public class AuthMobileRestController {
     private UserService userService;
 
     @PostMapping("/login")
-    public Map<String, Integer> loginFromMobile (@RequestBody User user) {
-        Map<String, Integer> success = new HashMap<>();
+    public Map<String, String> loginFromMobile (@RequestBody User user) {
+        Map<String, String> success = new HashMap<>();
+        User result = userService.findUserByEmail(user.getEmail());
 
         if (userService.authenticate(user.getEmail(), user.getPassword()) != null) {
-            success.put("login", 1);
-            success.put("id", userService.authenticate(user.getEmail(), user.getPassword()).getUserId());
-            return success;
+            success.put("login", "1");
+            success.put("id", userService.authenticate(user.getEmail(), user.getPassword()).getUserId().toString());
+            if (result.getUsername() == null) {
+                success.put("name", user.getEmail());
+                return success;
+            }
+            else {
+                success.put("name", result.getUsername());
+                return success;
+            }
         }
         else {
-            success.put("login", 0);
+            success.put("login", "0");
             return success;
         }
     }
@@ -45,20 +53,20 @@ public class AuthMobileRestController {
         }
     }
 
-    @PostMapping("/name")
-    public Map<String, String> getUserFirstName (@RequestBody User user) {
-        Map<String, String> success = new HashMap<>();
-
-        User result = userService.findUserByEmail(user.getEmail());
-
-        if (result.getUsername() == null) {
-            success.put("name", user.getEmail());
-            return success;
-        }
-        else {
-            success.put("name", result.getUsername());
-            return success;
-        }
-    }
+//    @PostMapping("/name")
+//    public Map<String, String> getUserFirstName (@RequestBody User user) {
+//        Map<String, String> success = new HashMap<>();
+//
+//        User result = userService.findUserByEmail(user.getEmail());
+//
+//        if (result.getUsername() == null) {
+//            success.put("name", user.getEmail());
+//            return success;
+//        }
+//        else {
+//            success.put("name", result.getUsername());
+//            return success;
+//        }
+//    }
 
 }

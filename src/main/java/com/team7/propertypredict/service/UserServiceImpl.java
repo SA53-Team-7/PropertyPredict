@@ -1,5 +1,7 @@
 package com.team7.propertypredict.service;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,17 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User findUserById(Integer uid) {
 		return uRepo.findUserById(uid);
+	}
+
+	@Override
+	public ArrayList<User> findUserHaveShortlist() {
+		return uRepo.findByProjectsIsNotNull();
+	}
+
+	@Override
+	public ArrayList<User> findAllUser() {
+
+		return uRepo.findByUserIdIsNotNull();
 	}
 
 }
