@@ -79,6 +79,9 @@ public interface ProjectService {
 	// Get static map 
 	String getMap(Integer pid);
 	
+	// Get map with nearest train station
+	String getMapWithNearestTrain(Integer pid);
+	
 	// Get static map with amenities
 	String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations);
 	
@@ -90,6 +93,9 @@ public interface ProjectService {
 	
 	// Calculate the difference in distance
 	Double calculateDistance(Integer pid, Double latitude, Double longitude);
+	
+	// Get nearest train location and its distance
+	Map<String, Double> getNearestTrainAndLocation(Integer pid);
 	
 	// Get amenities and its distance
 	Map<String, Double> getAmenities(Integer pid, List<Location> locations);

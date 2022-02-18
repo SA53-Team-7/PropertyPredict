@@ -2,6 +2,8 @@ package com.team7.propertypredict.helper;
 
 import java.util.List;
 
+import com.team7.propertypredict.model.Transaction;
+
 public class ProjectDetails {
 	
 	private Integer projectId;
@@ -12,6 +14,10 @@ public class ProjectDetails {
 	private String floorRange;
 	private List<String> TOPYears;
 	private List<String> tenureYears;
+	private String map;
+	private Boolean mapExist;
+	private List<String> dates;
+	private List<Double> prices;
 	
 	public ProjectDetails() {
 		super();
@@ -89,5 +95,37 @@ public class ProjectDetails {
 
 	public void setTenureYears(List<String> tenureYears) {
 		this.tenureYears = tenureYears;
+	}
+
+	public String getMap() {
+		return map;
+	}
+
+	public void setMap(String map) {
+		this.map = map;
+	}
+
+	public Boolean getMapExist() {
+		return mapExist;
+	}
+
+	public void setMapExist(Boolean mapExist) {
+		this.mapExist = mapExist;
+	}
+
+	public List<String> getDates() {
+		return dates;
+	}
+
+	public void setDates(List<String> dates) {
+		this.dates = dates;
+	}
+
+	public List<Double> getPrices() {
+		return prices;
+	}
+
+	public void setPrices(List<Double> prices) {
+		this.prices = prices;
 	}
 }
