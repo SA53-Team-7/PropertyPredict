@@ -111,6 +111,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ArrayList<Project> getMobileRecommendationsByDistrict(String district) {
+		if (district.length() == 1){
+			district = "0" + district;
+		}
 		return pRepo.getMobileRecommendationsByDistrict(district);
 	}
 
