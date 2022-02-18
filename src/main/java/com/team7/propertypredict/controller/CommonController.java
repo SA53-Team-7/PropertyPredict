@@ -40,6 +40,7 @@ public class CommonController {
 	@GetMapping("/")
  	public String viewHome(Model model, HttpSession session) {
 		String name = (String) session.getAttribute("userName");
+		
 		model.addAttribute("name", name);
 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
@@ -47,6 +48,10 @@ public class CommonController {
 		
 		// Data for recommendations (non-logged in users)
 		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		
+		// Data for users' recommendation (logged in users)
+		
+		
 		return "index";
 	}
 
@@ -66,11 +71,13 @@ public class CommonController {
 		} else {
 
 			User u = uService.authenticate(user.getEmail(), user.getPassword());
+			
 			if (u == null)
 				return "login";
 			
-			session.setAttribute("userId", user.getUserId());
-			session.setAttribute("userObj", user);
+			session.setAttribute("userId", u.getUserId());
+			session.setAttribute("userObj", u);
+			
 			return "redirect:/";
 		}
 	}

@@ -120,5 +120,9 @@ public interface ProjectService {
 
 	// Get list of popular projects for recommendations
 	List<SearchResultHelper> getPopularLocationsByTxn();
+	
+	// Get list of recommendations for logged in users
+	List<SearchResultHelper> getUsersRecommendations(Integer userId);
+
 
 }

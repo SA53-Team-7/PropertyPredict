@@ -3,10 +3,12 @@ package com.team7.propertypredict.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.TransactionRepository;
@@ -19,7 +21,7 @@ public class TransactionServiceImpl implements TransactionService {
 	TransactionRepository trepo;
 	
 	@Autowired
-	ProjectRepository prepo;
+	ProjectService pservice;
 
   @Override
 	public List<Transaction> findAllTransactions() {
@@ -125,5 +127,48 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		return trepo.findPopularProjectsByTxn(parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3),
 				parameters.get(4), parameters.get(5));
+	}
+
+	@Override
+	public List<Project> getSimilarProjectIDsByPrice(Integer id) {
+		List<String> projectIDs = new ArrayList<String>();
+		List<Project> results = new ArrayList<Project>();
+		Integer count = 0;
+		Double avg_amt, total_amt = 0.0;
+		Double lower = null, upper = null;
+		
+		// Find interested districts
+		List<String> districts = trepo.findInterestedDistricts(id);
+		
+		// Find shortlisted projects
+		List<Project> shortlisted = pservice.findAllShortlistProjects(id);
+		
+		// Find average price of all shortlisted properties
+		for (Project p : shortlisted) {
+			total_amt += pservice.findAveragePriceByProjectId(id);
+		}
+		
+		avg_amt = total_amt / shortlisted.size();
+		lower = 0.9 * avg_amt;
+		upper = 1.1 * avg_amt;
+		
+		// Find project IDs with similar price range and in the same district
+		for (String district : districts) {
+			projectIDs.addAll(trepo.findSimilarProjects(district, lower, upper));
+		}
+		
+		// Randomly choose 3 projects with similar characteristics
+		Random r = new Random();
+		
+		while (count != 3) {
+			Integer pid = Integer.valueOf(projectIDs.get(r.nextInt(projectIDs.size())));
+			
+			if (!shortlisted.contains(pservice.findProjectById(pid))) {
+				results.add(pservice.findProjectById(pid));
+				count++;
+			}
+		}
+		
+		return results;
 	}
 }
