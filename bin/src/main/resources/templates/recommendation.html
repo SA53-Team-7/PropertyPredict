@@ -1,0 +1,18 @@
+<body>
+	<div class="rec-div">
+		<h4 class="font-weight-normal">Popular Properties</h4>
+		<div id="rec-popular"class="card shadow-sm p-3 mb-5 bg-white rounded">
+			<div class="card" th:each = "rec : ${popularProp}">
+				<a th:href="${'/project/viewProperty/' + {rec.projectId}}">
+				<h5 class="card-header" th:text="${rec.name}">Project Name</h5>					
+				<div class="card-body">
+					<h6 class="card-title" th:text="${rec.street}">Street</h6>
+					<p class="card-text" th:text="'Type: ' + ${rec.type}">Type</p>
+					<p class="card-text" th:text="'Segment: ' + ${rec.segment}">Segment</p>
+					<p class="card-text" th:text="'District: ' + ${rec.district}">Segment</p>			
+				</div>
+				</a>
+			</div>
+		</div>
+	</div >
+</body>

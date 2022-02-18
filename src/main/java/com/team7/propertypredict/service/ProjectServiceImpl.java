@@ -45,41 +45,43 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ProjectRepository pRepo;
-	
+
 	@Autowired
 	private UserRepository uRepo;
-	
+
+	@Autowired
+	private TransactionRepository tRepo;
+
 	@Autowired
 	private AmenityTypeService atService;
-	
+
 	@Autowired
 	private AmenityService aService;
 
 	@Autowired
 	private TransactionService tService;
-	
+
 	@Autowired
 	private UserService uService;
-	
+
 	@Autowired
 	private ProjectService pService;
 
 	@Autowired
 	private MapRestController mController;
-	
+
 	@Autowired
-	
 
 	@Override
 	public List<Project> findAllProjects() {
 		return pRepo.findAllProjects();
 	}
-	
+
 	@Override
-	public List<String> findAllProjectNames(){
+	public List<String> findAllProjectNames() {
 		List<Project> projects = findAllProjects();
 		List<String> names = new ArrayList<String>();
-		for(Project project: projects) {
+		for (Project project : projects) {
 			names.add(project.getName());
 		}
 		return names;
@@ -99,7 +101,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public ArrayList<Project> findProjectsByStreet(String street) {
 		return pRepo.findProjectsByStreet(street);
 	}
-	
+
 	@Override
 	public Project findProjectByName(String name) {
 		return pRepo.findProjectByName(name);
@@ -107,6 +109,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ArrayList<Project> getMobileRecommendationsByDistrict(String district) {
+		if (district.length() == 1) {
+			district = "0" + district;
+		}
 		return pRepo.getMobileRecommendationsByDistrict(district);
 	}
 
@@ -120,6 +125,8 @@ public class ProjectServiceImpl implements ProjectService {
 		ArrayList<String> floors = findfloorRangeByProjectId(pid);
 		List<String> TOPYears = tService.getDistinctTOP(pid);
 		List<String> tenureYears = tService.getDistinctTenure(pid);
+		String map = getMap(project.getProjectId());
+		Boolean exist = (map == "@{/images/unknown.png}") ? false : true;
 
 		Locale usa = new Locale("en", "US");
 		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
@@ -151,16 +158,18 @@ public class ProjectServiceImpl implements ProjectService {
 		pd.setFloorRange(topFloor);
 		pd.setTOPYears(TOPYears);
 		pd.setTenureYears(tenureYears);
+		pd.setMap(map);
+		pd.setMapExist(exist);
 		return pd;
 	}
-	
+
 	@Override
-	public List<ProjectDetails> getProjectsDetails(Integer uid){
+	public List<ProjectDetails> getProjectsDetails(Integer uid) {
 		User user = uService.findUserById(uid);
 		List<Project> projects = user.getProjects();
 		List<ProjectDetails> projectsDetails = new ArrayList<ProjectDetails>();
-		
-		for(Project project: projects) {
+
+		for (Project project : projects) {
 			ProjectDetails pd = pService.getProjectDetails(project.getProjectId());
 			projectsDetails.add(pd);
 		}
@@ -185,49 +194,48 @@ public class ProjectServiceImpl implements ProjectService {
 		prop.setStreet(project.getStreet());
 		return prop;
 	}
-	
+
 	@Override
-	public Map<String, List<Location>> getLocationDetails(Integer pid){
+	public Map<String, List<Location>> getLocationDetails(Integer pid) {
 		Map<String, List<Location>> details = new HashMap<String, List<Location>>();
-		
+
 		List<AmenityType> types = atService.findAll();
-		for(AmenityType type: types) {
+		for (AmenityType type : types) {
 			List<Location> locations = new ArrayList<Location>();
 			List<Amenity> amenities = aService.findAmenitiesByAmenityType(type.getTypeId());
-			for(Amenity amenity: amenities) {
+			for (Amenity amenity : amenities) {
 				String name = amenity.getName();
 				Double lat = Double.parseDouble(amenity.getLatitude());
 				Double lng = Double.parseDouble(amenity.getLongitude());
 				Double distance = calculateDistance(pid, lat, lng);
-				if(distance!=-1.0) {
-					Location location = new Location(name, lat, lng, distance*1000);
+				if (distance != -1.0) {
+					Location location = new Location(name, lat, lng, distance * 1000);
 					locations.add(location);
-				}		
+				}
 			}
-			if(!locations.isEmpty()) {
-				Collections.sort(locations, new Comparator<Location>(){
-				    @Override
-				    public int compare(Location l1, Location l2) {
-				        return Double.compare(l1.getDistance(),l2.getDistance());
-				    }
+			if (!locations.isEmpty()) {
+				Collections.sort(locations, new Comparator<Location>() {
+					@Override
+					public int compare(Location l1, Location l2) {
+						return Double.compare(l1.getDistance(), l2.getDistance());
+					}
 				});
 				details.put(type.getType(), locations);
-			}	
+			}
 		}
 		return details;
 	}
-	
+
 	@Override
-	public Map<String, List<Location>> filterLocationsByDistance(Map<String, List<Location>> locations, Integer filter){
+	public Map<String, List<Location>> filterLocationsByDistance(Map<String, List<Location>> locations,
+			Integer filter) {
 		Map<String, List<Location>> filteredMap = new HashMap<String, List<Location>>();
-		
-		for(String key: locations.keySet()) {
+
+		for (String key : locations.keySet()) {
 			List<Location> loc = locations.get(key);
-			List<Location> filteredLocations = loc.stream()
-					.filter(x -> x.getDistance() < filter)
-					.limit(3)
+			List<Location> filteredLocations = loc.stream().filter(x -> x.getDistance() < filter).limit(3)
 					.collect(Collectors.toList());
-			if(!filteredLocations.isEmpty()) {
+			if (!filteredLocations.isEmpty()) {
 				filteredMap.put(key, filteredLocations);
 			}
 		}
@@ -376,7 +384,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
-		String map2 = "&zoom=17&height=300&width=400";
+		String map2 = "&zoom=17&height=350&width=350";
 
 		Property prop = getProperty(pid);
 
@@ -389,13 +397,67 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return map;
 	}
-	
+
+	@Override
+	public String getMapWithNearestTrain(Integer pid) {
+		 Map<String, Double> nearestMrt = getNearestTrainAndLocation(pid);
+		 	String nearestLocation="";
+			for (Map.Entry<String, Double> entry : nearestMrt.entrySet()) {
+				nearestLocation = entry.getKey();
+			}
+
+		 Amenity train = aService.findAmenityByName(nearestLocation);
+         String nearestLat = train.getLatitude();
+         String nearestLng = train.getLongitude();
+         
+         String map;
+ 		 String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
+ 	 	 String map2 = "&zoom=15&height=300&width=400";
+ 		
+ 		 Property prop = getProperty(pid);
+ 
+ 		 if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
+ 			 map = "@{/images/unknown.png}";
+ 		 } else {
+ 			 String lat = prop.getyCoordinates();
+ 			 String lng = prop.getxCoordinates();
+ 			 map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
+ 		 }
+ 		map += "|[" + nearestLat + "," + nearestLng + ",\"255,255,178\",\"" + "A" + "\"]";
+ 		
+ 		return map;
+	}
+
+	@Override
+	public Map<String, Double> getNearestTrainAndLocation(Integer pid) {
+		Map<String, Double> mrtHashMap = new HashMap<>();
+		List<Amenity> trains = aService.getAllTrainStations();
+		for (Amenity train : trains) {
+			Double lat = Double.parseDouble(train.getLatitude());
+			Double lng = Double.parseDouble(train.getLongitude());
+			Double distance = calculateDistance(pid, lat, lng);
+			mrtHashMap.put(train.getName(), distance);
+		}
+		String nearestLocation = "";
+		double nearestDistance = Collections.min(mrtHashMap.values());
+
+		for (Map.Entry<String, Double> entry : mrtHashMap.entrySet()) {
+			if (entry.getValue().equals(nearestDistance)) {
+				nearestLocation = entry.getKey();
+			}
+		}
+		Map<String, Double> nearestMrt = new HashMap<>();
+		nearestMrt.put(nearestLocation, nearestDistance);
+
+		return nearestMrt;
+	}
+
 	@Override
 	public String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations) {
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
 		String map2 = "&zoom=15&height=300&width=400";
-		
+
 		Property prop = getProperty(pid);
 
 		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
@@ -404,23 +466,23 @@ public class ProjectServiceImpl implements ProjectService {
 			String lat = prop.getyCoordinates();
 			String lng = prop.getxCoordinates();
 			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
-			
+
 			List<Location> markers = new ArrayList<Location>();
-			for(List<Location> locs: locations.values()) {
-				for(Location loc: locs) {
-					if(markers.size()<15) {
+			for (List<Location> locs : locations.values()) {
+				for (Location loc : locs) {
+					if (markers.size() < 15) {
 						markers.add(loc);
 					}
 				}
 			}
 			Integer idx = 0;
-			for(Location marker: markers) {
+			for (Location marker : markers) {
 				Double markerLat = marker.getLatitude();
 				Double markerLng = marker.getLongitude();
 				String markerPoint = AmenityHelper.markerPoints.get(idx);
 				marker.setMarker(markerPoint);
-				map += "|[" + markerLat + "," + markerLng + ",\"255,255,178\",\""+ markerPoint + "\"]";
-				idx ++;
+				map += "|[" + markerLat + "," + markerLng + ",\"255,255,178\",\"" + markerPoint + "\"]";
+				idx++;
 			}
 		}
 		return map;
@@ -488,69 +550,69 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return amenities;
 	}
-	
+
 	@Override
-	public List<String> getAmenityNameFromOneMapKmlFile(String filename) throws IOException, ParserConfigurationException, SAXException{
+	public List<String> getAmenityNameFromOneMapKmlFile(String filename)
+			throws IOException, ParserConfigurationException, SAXException {
 		List<String> locations = new ArrayList<String>();
-		
+
 		Resource resource = new ClassPathResource(filename);
-		File file = resource.getFile();		
+		File file = resource.getFile();
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		Document doc = builder.parse(file);	
+		Document doc = builder.parse(file);
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("Placemark");
-	
+
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			Node nNode = nList.item(temp);
-			Element element = (Element) nNode;		
+			Element element = (Element) nNode;
 			NodeList exts = element.getElementsByTagName("SimpleData");
-			
-			int count=0;
-			for (int ex=0; ex<exts.getLength(); ex++) {
+
+			int count = 0;
+			for (int ex = 0; ex < exts.getLength(); ex++) {
 				Node ext = exts.item(ex);
 				Element elem = (Element) ext;
 				String value = elem.getAttribute("name");
 
-				if(value.contains("NAME")) {
-					count=ex;
+				if (value.contains("NAME")) {
+					count = ex;
 					break;
 				}
 			}
-			locations.add(exts.item(count).getTextContent());		
+			locations.add(exts.item(count).getTextContent());
 		}
 		return locations;
 	}
-	
+
 	@Override
-	public List<Project> findAllShortlistProjects(Integer uid){
+	public List<Project> findAllShortlistProjects(Integer uid) {
 		return pRepo.findAllShortlistProjects(uid);
 	}
-	
+
 	@Override
-	public void updateShortlistedProject(Integer pid, Integer uid){
-		User user = uService.findUserById(uid);		
+	public void updateShortlistedProject(Integer pid, Integer uid) {
+		User user = uService.findUserById(uid);
 		Project project = pService.findProjectById(pid);
 		List<Project> projectList = user.getProjects();
-		
-		if(projectList.contains(project)) {
-			projectList.remove(project);		
-		}
-		else {
+
+		if (projectList.contains(project)) {
+			projectList.remove(project);
+		} else {
 			projectList.add(project);
-		}			
+		}
 		user.setProjects(projectList);
 		uRepo.saveAndFlush(user);
 	}
-	
+
 	@Override
 	public Integer checkIfShortlisted(Integer pid, Integer uid) {
 		Integer shortlisted = -1;
-		
-		if(uid!=null) {
+
+		if (uid != null) {
 			User user = uService.findUserById(uid);
 			Project project = pService.findProjectById(pid);
 			List<Project> list = user.getProjects();
-			if(list.contains(project)) {
+			if (list.contains(project)) {
 				shortlisted = 1;
 			}
 		}
@@ -561,11 +623,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<SearchResultHelper> getPopularLocationsByTxn() {
 		List<SearchResultHelper> recommendations = new ArrayList<SearchResultHelper>();
 		List<String> pids = tService.getTopProjectIDsByTransactions();
-		
+
 		for (String id : pids) {
 			String districtModified = "", typeModified = "";
 			Project p = pRepo.findProjectById(Integer.valueOf(id));
-			
+
 			// Get district
 			List<String> districtList = tService.getDistrictValues(p.getProjectId());
 
@@ -578,15 +640,14 @@ public class ProjectServiceImpl implements ProjectService {
 			for (String s : typeList) {
 				typeModified += s + ",";
 			}
-			
+
 			SearchResultHelper s = new SearchResultHelper(p.getProjectId().toString(), p.getName(), p.getStreet(),
 					p.getSegment(), districtModified.substring(0, districtModified.lastIndexOf(',')),
-					typeModified.substring(0, typeModified.lastIndexOf(',')),
-					null);
-			
+					typeModified.substring(0, typeModified.lastIndexOf(',')), null);
+
 			recommendations.add(s);
 		}
-		
+
 		return recommendations;
 	}
 
@@ -594,7 +655,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<SearchResultHelper> getUsersRecommendations(Integer userId) {
 		List<Project> projects = tService.getSimilarProjectIDsByPrice(userId);
 		List<SearchResultHelper> results = new ArrayList<SearchResultHelper>();
-		
+
 		for (Project p : projects) {
 			String tenureModified = "";
 			String districtModified = "";
@@ -624,7 +685,7 @@ public class ProjectServiceImpl implements ProjectService {
 					p.getSegment(), districtModified.substring(0, districtModified.lastIndexOf(',')),
 					typeModified.substring(0, typeModified.lastIndexOf(',')),
 					tenureModified.substring(0, tenureModified.lastIndexOf(',')));
-			
+
 			results.add(s);
 		}
 		return results;

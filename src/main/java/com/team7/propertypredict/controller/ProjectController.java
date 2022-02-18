@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
-import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
+import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.service.ProjectService;
 import com.team7.propertypredict.service.TransactionService;
 
@@ -58,15 +58,12 @@ public class ProjectController {
 	@GetMapping("/view-map/{pid}")
 	public String viewMap(@PathVariable Integer pid, Model model) {
 		
-		Property propertyDetails = pService.getPropertyDetails(pid);
-		Integer distanceFilter = 1000;
 		Map<String, List<Location>> locationDetails = pService.getLocationDetails(pid);
-		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, distanceFilter);
+		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, 1000);
 		String map = pService.getMapWithAmenities(pid, filteredLocations);
 		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
 		
-		model.addAttribute("distanceFilter", distanceFilter);
-		model.addAttribute("property", propertyDetails);
+		model.addAttribute("property", pService.getPropertyDetails(pid));
 		model.addAttribute("locations", filteredLocations);
 		model.addAttribute("map", map);
 		model.addAttribute("exist", exist);
@@ -76,26 +73,26 @@ public class ProjectController {
 	
 	@GetMapping("/add-shortlist/{pid}")
 	public String addShortlist(HttpSession session, @PathVariable Integer pid, Model model) {
-		//Integer uid = (Integer) session.getAttribute("userId");
-		
-		/*if(userId==null) {
-			return "forward:/login";
-		}*/	
+		User user = (User) session.getAttribute("userObj");
 
-		pService.updateShortlistedProject(pid, 1);
+		if (user == null) {
+			return "forward:/login";
+		}
+		
+		pService.updateShortlistedProject(pid, user.getUserId());
 		
 		return "redirect:/project/view-shortlist";
 	}
 	
 	@GetMapping("/view-shortlist")
 	public String viewShortlist(Model model, HttpSession session) {
-		//Integer uid = (Integer) session.getAttribute("userId");
-		
-		/*if(uid==null) {
-		return "forward:/login";
-		}*/
+		User user = (User) session.getAttribute("userObj");
 
-		model.addAttribute("projects", pService.getProjectsDetails(1));	
+		if (user == null) {
+			return "forward:/login";
+		}
+
+		model.addAttribute("projects", pService.getProjectsDetails(user.getUserId()));	
 		return "shortlist";
 	}
 	

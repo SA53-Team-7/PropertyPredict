@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>Confirmation Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/css/style.css}" />
+<body>
+	<div th:replace="navbar.html :: menu" />
+	<section class="vh-100" style="background-color: #eee;">
+		<div class="container" style="padding-top: 70px;">
+			
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-lg-12 col-xl-11">
+						<div class="card text-black" style="border-radius: 25px;">
+							<div class="card-body p-md-5" style="justify-content: center;">
+								<img th:src="@{/images/confirm1.jpg}" class="img-fluid" style="margin-left:auto;margin-right:auto;display:block;width:35%" alt="Confirm image">
+								<h2 style="text-align:center;margin-bottom:30px;margin-top:40px">Thank You For Your Registration</h2>
+								<div style="text-align:center">Your registration process is now completed.</div>
+								<div style="text-align:center">You can log in now.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</section>
+</body>
+
+</html> 
