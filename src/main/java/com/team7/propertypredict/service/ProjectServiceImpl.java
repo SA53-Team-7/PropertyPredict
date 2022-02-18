@@ -38,7 +38,6 @@ import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.repository.ProjectRepository;
-import com.team7.propertypredict.repository.TransactionRepository;
 import com.team7.propertypredict.repository.UserRepository;
 
 @Component
@@ -689,6 +688,47 @@ public class ProjectServiceImpl implements ProjectService {
 
 			results.add(s);
 		}
+		return results;
+	}
+
+	@Override
+	public List<SearchResultHelper> getRecentTxn() {
+		List<Project> recentProjs = tService.getRecentlyTransactedProjects();
+		List<SearchResultHelper> results = new ArrayList<SearchResultHelper>();
+		
+		for (Project p : recentProjs) {
+			String tenureModified = "";
+			String districtModified = "";
+			String typeModified = "";
+
+			// Get tenure
+			List<String> tenureList = tService.getDistinctTenure(p.getProjectId());
+
+			for (String s : tenureList) {
+				tenureModified += s + ",";
+			}
+
+			// Get district
+			List<String> districtList = tService.getDistrictValues(p.getProjectId());
+
+			for (String s : districtList) {
+				districtModified += s + ",";
+			}
+
+			// Get type
+			List<String> typeList = tService.getDistinctPropertyTypeById(p.getProjectId());
+			for (String s : typeList) {
+				typeModified += s + ",";
+			}
+
+			SearchResultHelper s = new SearchResultHelper(p.getProjectId().toString(), p.getName(), p.getStreet(),
+					p.getSegment(), districtModified.substring(0, districtModified.lastIndexOf(',')),
+					typeModified.substring(0, typeModified.lastIndexOf(',')),
+					tenureModified.substring(0, tenureModified.lastIndexOf(',')));
+			
+			results.add(s);
+		}
+		
 		return results;
 	}
 }

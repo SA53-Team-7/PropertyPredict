@@ -34,8 +34,10 @@ function determineDistrict(district) {
 }
 
 function predict() {
+	document.getElementById("price-pred-loading").style.visibility = 'visible';
+	document.getElementById("price-pred").style.display = 'none';
+
 	var currDate = new Date();
-	
 	var pid = document.getElementById("pred_pid").value
 	var district = determineDistrict(document.getElementById("pred-district").value)
 	var floorArea = Number(document.getElementById("pred-area").value)
@@ -65,6 +67,7 @@ function predict() {
     		price = result[0][0]
     		document.getElementById("price").innerHTML = formatCurrency(price / floorArea);
     		document.getElementById("tot-price").innerHTML = formatCurrency(price);
+    		document.getElementById("price-pred-loading").style.visibility = 'hidden';
     		document.getElementById("price-pred").style.display="block";
 		},
 		error: function(e) {

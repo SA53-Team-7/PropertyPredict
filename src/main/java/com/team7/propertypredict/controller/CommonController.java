@@ -50,9 +50,12 @@ public class CommonController {
 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
 		
-		// Data for recommendations (non-logged in users)
+		// Data for recommendations - popular projects (non-logged in users)
 		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
 		
+		// Date for recommendations - recently transacted projects (non-logged in users)
+		model.addAttribute("recentProp", pService.getRecentTxn());
+
 		return "index";
 	}
 	
@@ -69,8 +72,11 @@ public class CommonController {
 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
 		
-		// Data for recommendations (non-logged in users)
+		// Data for recommendations - popular projects (non-logged in users)
 		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		
+		// Date for recommendations - recently transacted projects (non-logged in users)
+		model.addAttribute("recentProp", pService.getRecentTxn());
 		
 		// Data for users' recommendation (logged in users)
 		model.addAttribute("userRec", pService.getUsersRecommendations(user.getUserId()));
