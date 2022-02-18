@@ -14,16 +14,17 @@
 	<div th:replace="navbar.html :: menu" />
 	<div class="new-proj-list">
 		<div th:if="${session.userObj != null}">
-			<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
-				<a th:href="@{/newprojects/create}"><input type="button" class="btn btn-success" th:value="ADD-A-PROJECT" /></a>
+			<div th:if="${session.userObj.email == 'admin@gmail.com'}">
+				<a th:href="@{/newprojects/create}"><input type="button" class="btn btn-lg btn-primary btn-block mt-4 mb-3" th:value="#{fieldLabel.addproject}" /></a>
 			</div>
 		</div>
+		<br>
 		<div id="new-proj table" th:if="${not #lists.isEmpty(newProjectList)}">
 			<table class="table table-hover" id="property-txn-list">
 				<thead class="thead-dark">
 					<tr>
 						<div th:if="${session.userObj != null}">
-							<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+							<div th:if="${session.userObj.email == 'admin@gmail.com'}">
 								<th>Project Id</th>
 							</div>
 						</div>
@@ -32,7 +33,7 @@
 						<th>Land Transaction Price (PSF)</th>
 						<th>Predict Price (PSF)</th>
 						<div th:if="${session.userObj != null}">
-							<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+							<div th:if="${session.userObj.email == 'admin@gmail.com'}">
 								<th>Operation</th>
 							</div>
 						</div>
@@ -40,7 +41,7 @@
 				</thead>
 				<tr th:each="proj : ${newProjectList}">
 					<div th:if="${session.userObj != null}">
-						<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+						<div th:if="${session.userObj.email == 'admin@gmail.com'}">
 							<td th:text="${proj.id}">Project Id</td>
 						</div>
 					</div>
@@ -49,7 +50,7 @@
 					<td th:text="${proj.landTxnPrice}">Land Transaction Price</td>
 					<td th:text="${proj.predictPrice}">Predict Price</td>
 					<div th:if="${session.userObj != null}">
-						<div th:if="${session.userObj.email == 'pupu@gmail.com'}">
+						<div th:if="${session.userObj.email == 'admin@gmail.com'}">
 							<td><a th:href="@{/newprojects/delete/}+${proj.id}">
 									<input type="button" class="btn btn-warning" th:value="DELETE"/></a>
 							</td>
@@ -59,5 +60,7 @@
 			</table>
 		</div>
 	</div>
+	
+
 
 </body>
