@@ -78,12 +78,25 @@
 	float: right;
 }
 
+ #price-pred-loading {
+	align-content: center;
+	padding-left: 150px;
+	width: 50%;
+	float: right;
+}
+
 .pred-form-input {
 	width: 100%;
 	padding-top: 15px;
 	padding-left: 0px;
-	display: grid;
+	display: grid; 
 	grid-template-columns: 1fr 1fr;
+	font-weight: bold;
+}
+
+#price-pred-text {
+	padding-left: 25px;
+	padding-top: 15px;
 	font-weight: bold;
 }
 
@@ -99,7 +112,7 @@
 /* Search page */
 
 .search-panel {
-	background-color: rgba(95, 158, 160, 0.9);	
+	background-color: rgba(95, 158, 160, 0.75);	
 	height: 10%;
 	padding-top: 3%;
 	padding-bottom:3%;
@@ -222,19 +235,21 @@
 /* recommendations in index page - recommendation.html */
 .rec-div {
 	padding-top: 25px;
-	width: 80%;
+	width: 75%;
 	margin: auto;
 }
 
-#rec-popular, #rec-user {
+#rec-popular, #rec-user, #rec-recent {
 	background-color: rgba(240, 240, 240, 0.2);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 10px;
+	padding-bottom: 25px;
 }
 
-#rec-popular h5, #rec-user h5 {
+#rec-popular h5, #rec-user h5, #rec-recent h5 {
 	background-color: rgba(41, 43, 44, 0.9);
 	color: white;
+	padding-left: 10px;
 }
 
