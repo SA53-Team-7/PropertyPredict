@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>Add An Project</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/93e747320c.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+
+<body>
+	<div th:replace="navbar.html :: menu" />
+	<div class="container login-main">
+		<form action="#" th:action="@{'/newprojects/create'}" th:object="${newProject}" method="post">
+			<h2 class="form-heading">Add a Project</h2><br>
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group p-2">
+						<fieldset class="mt-1">
+							<h5>Id:</h5>
+							<input th:field="*{id}" type="number" class="form-control" placeholder="Id"
+								autofocus="true" /><br>
+						</fieldset>
+						<fieldset class="mt-1">
+							<h5>Project Name</h5>
+							<input th:field="*{projectName}" type="text" class="form-control" placeholder="Project Name"
+								autofocus="true" />
+						</fieldset>
+						<fieldset class="mt-1">
+							<h5>Land Transaction Date</h5><br>
+							<input th:field="*{landTxnDate}" type="text" class="form-control" placeholder="YYYY/MM/DD"
+								autofocus="true" /><br>
+						</fieldset>
+						<fieldset class="mt-1">
+							<h5>Land Transaction Price</h5>
+							<input id="landtxnprice" th:field="*{landTxnPrice}" type="number" class="form-control"
+								placeholder="Land Transaction Price" autofocus="true" onchange="predict_new()" /><br>
+						</fieldset>
+						<fieldset class="mt-1">
+							<h5>Prediction Price</h5>
+							<input id="predictprice" th:field="*{predictPrice}" type="number" class="form-control"
+								placeholder="Prediction Price" autofocus="true" onchange="get_predict()" /><br>
+						</fieldset>
+
+						<br>
+						<button id="submitbtn" class="btn btn-lg btn-primary btn-block mt-4 mb-3"
+							type="submit">Create</button>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+<script>
+	function predict_new() {
+		var landprice = document.getElementById("landtxnprice").value;
+		var info = {"land_price": landprice};
+		$.ajax({
+			type: 'POST',
+			url: "https://msdocs-python-webapp-quickstart-newte7.azurewebsites.net",
+			dataType: "json",
+			data: JSON.stringify(info),
+			contentType: "application/json",
+			success: function (result) {
+				price = result[0]
+				document.getElementById("predictprice").value = parseInt(price)
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {alert("Error: " + errorThrown);
+			}
+		})
+	}
+</script>
+
+</html>

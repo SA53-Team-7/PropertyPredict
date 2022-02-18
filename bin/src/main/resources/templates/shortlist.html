@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Shortlisted Properties</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/93e747320c.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/transactions.js}"></script>
+	<script type="text/javascript" th:src="@{/js/prediction.js}"></script>
+	<script type="text/javascript" th:src="@{/js/mortgageCalculator.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<div th:replace="navbar.html :: menu" />	
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-2"></div>
+		<div class="col-8">
+			<h2>My Shortlisted Projects</h2>
+		</div>	
+	</div>
+	<div style="margin-top: 50px;">
+	<div class="row" th:if="${not #lists.isEmpty(projects)}" th:each="project: ${projects}">
+		<div class="col-2"></div>
+		<div class="col-8">
+			<div class="card shadow-lg p-3 mb-5 bg-white rounded" style="background-color: rgba(240, 240, 240, 0.2);">
+				<div class="card-body px-5">
+					<div class="row">
+						<div class="col-11">
+							<h3 class="card-title font-weight-normal"><i class="fa-solid fa-house"
+									style="color: cadetblue"></i> Project: </h3>
+						</div>
+						<div class="col-1">
+							<a class="h3 btn btn-outline-dark" style="float:right"
+								th:href="${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip"
+								title="Shortlist Property">
+								<i class="fa-solid fa-heart fa-xl" style="color: lightcoral"></i>
+							</a>
+						</div>
+					</div>
+					<h4 class="card-subtitle mb-3 mt-3 text-muted font-weight-normal" th:text="${project.name}"></h4>
+					<h5 class="card-subtitle text-muted mb-2 font-weight-normal" th:text="${project.street}"></h5>
+					<br>
+					<div class="row mb-3">
+						<div class="col-4" style="font-size:18px"><b>Average Price: </b> S<span
+								th:text="${project.averagePrice}"></span></div>
+						<div class="col-1">
+						</div>
+						<div class="col-3" style="font-size:18px"><b>Tenure (years): </b><span
+								th:text="${#strings.listJoin(project.tenureYears, ', ')}"></span>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3" style="font-size:18px"><b>Floor Range: </b> <span
+								th:text="${project.floorRange}"></span>
+						</div>
+						<div class="col-2">
+						</div>
+						<div class="col-4" style="font-size:18px"><b>Area: </b><span
+								th:text="${project.area}"></span></div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3" style="font-size:18px"><b>Top Years: </b><span
+								th:text="${#strings.listJoin(project.TOPYears, ', ')}"></span>
+						</div>
+					</div>
+					<div class="mb-3">
+						<a th:href="${'/project/view-map/' + {id}}" class="card-link"
+							style="font-size:18px;color:blue">View nearby amenities</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
