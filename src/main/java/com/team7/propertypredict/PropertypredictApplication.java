@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.team7.propertypredict.service.AmenityService;
 import com.team7.propertypredict.service.ProjectService;
 
+@EnableScheduling
 @SpringBootApplication
 public class PropertypredictApplication {
 
