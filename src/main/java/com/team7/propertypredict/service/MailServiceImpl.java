@@ -30,8 +30,8 @@ public class MailServiceImpl implements MailService {
             helper.setText(content, true);
             
             mailSender.send(message);
-        } catch (MessagingException e) {
-            System.out.println(e);;
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
 	}

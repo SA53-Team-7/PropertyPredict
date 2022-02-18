@@ -45,20 +45,20 @@ public class SchedulerTask {
 	    	System.out.println("SchedulerTask");
 	    	ArrayList<User> shortListUsers=userService.findUserHaveShortlist();
 	    	System.out.println(shortListUsers.size());
-	    	for (User user : shortListUsers) {
-	    		
-	    		mailTo = user.getEmail();
-	    		System.out.println(mailTo);
-	    		
-	    		List<Project> shortListUsersListProjects=tsService.getSimilarProjectIDsByPrice(user.getUserId());
-
-		        Context context = new Context();
-		        context.setVariable("recommendresult", shortListUsersListProjects);
-
-		        String emailContent = templateEngine.process("sendMail", context);
-
-		        mailService.sendHtmlMail(mailTo,emailSubject,emailContent);				
-			}   	
+//	    	for (User user : shortListUsers) {
+//	    		
+//	    		mailTo = user.getEmail();
+//	    		System.out.println(mailTo);
+//	    		
+//	    		List<Project> shortListUsersListProjects=tsService.getSimilarProjectIDsByPrice(user.getUserId());
+//
+//		        Context context = new Context();
+//		        context.setVariable("recommendresult", shortListUsersListProjects);
+//
+//		        String emailContent = templateEngine.process("sendMail", context);
+//
+//		        mailService.sendHtmlMail(mailTo,emailSubject,emailContent);				
+//			}   	
 	    	
 	    }
 }
