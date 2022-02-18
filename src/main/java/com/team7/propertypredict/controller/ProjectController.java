@@ -58,15 +58,12 @@ public class ProjectController {
 	@GetMapping("/view-map/{pid}")
 	public String viewMap(@PathVariable Integer pid, Model model) {
 		
-		Property propertyDetails = pService.getPropertyDetails(pid);
-		Integer distanceFilter = 1000;
 		Map<String, List<Location>> locationDetails = pService.getLocationDetails(pid);
-		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, distanceFilter);
+		Map<String, List<Location>> filteredLocations = pService.filterLocationsByDistance(locationDetails, 1000);
 		String map = pService.getMapWithAmenities(pid, filteredLocations);
 		Boolean exist = (map== "@{/images/unknown.png}") ? false : true;
 		
-		model.addAttribute("distanceFilter", distanceFilter);
-		model.addAttribute("property", propertyDetails);
+		model.addAttribute("property", pService.getPropertyDetails(pid));
 		model.addAttribute("locations", filteredLocations);
 		model.addAttribute("map", map);
 		model.addAttribute("exist", exist);
