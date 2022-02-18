@@ -1,5 +1,7 @@
 package com.team7.propertypredict.service;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
 import com.team7.propertypredict.model.User;
@@ -17,4 +19,8 @@ public interface UserService {
 	void save(User user);
 	
 	User findUserById(Integer uid);
+	
+	ArrayList<User> findUserHaveShortlist();
+	
+	ArrayList<User> findAllUser();
 }
