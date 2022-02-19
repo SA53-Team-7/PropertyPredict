@@ -20,7 +20,7 @@ import com.team7.propertypredict.service.UserService;
 
 @Component
 public class SchedulerTask {
-	   private String emailSubject="Recommendations";
+	   private String emailSubject;
 	   private String mailTo;
 	   
 
@@ -36,29 +36,36 @@ public class SchedulerTask {
 	    @Autowired
 	    private TemplateEngine templateEngine;
 
-	    /**
-	     * one time in one mins
-	     */
-	    @Scheduled(cron="0 */1 * * * ?")
+	    //one time in one min
+//	    @Scheduled(cron="0 */1 * * * ?")
+	    //one time in 20 mins
+//	    @Scheduled(cron="0 */20 * * * ?")
+	    //Every Friday at 2 am
+	    @Scheduled(cron="* * 2 * * 5 ")
 	    private void process(){
     	
 	    	System.out.println("SchedulerTask");
+
 	    	ArrayList<User> shortListUsers=userService.findUserHaveShortlist();
 	    	System.out.println(shortListUsers.size());
-//	    	for (User user : shortListUsers) {
-//	    		
-//	    		mailTo = user.getEmail();
-//	    		System.out.println(mailTo);
-//	    		
-//	    		List<Project> shortListUsersListProjects=tsService.getSimilarProjectIDsByPrice(user.getUserId());
-//
-//		        Context context = new Context();
-//		        context.setVariable("recommendresult", shortListUsersListProjects);
-//
-//		        String emailContent = templateEngine.process("sendMail", context);
-//
-//		        mailService.sendHtmlMail(mailTo,emailSubject,emailContent);				
-//			}   	
+	    	for (User user : shortListUsers) {
+	    		
+	    		mailTo = user.getEmail();
+	    		System.out.println(mailTo);
+	    		
+	    		List<Project> shortListUsersListProjects=tsService.getSimilarProjectIDsByPrice(user.getUserId());
+	    		
+		        Context context = new Context();
+		        context.setVariable("recommendresult", shortListUsersListProjects);
+
+		        String emailContent = templateEngine.process("sendMail", context);
+		        emailSubject="Hi "+user.getUsername()+", Your Recommendations Here!";
+
+		        //test
+		        mailService.sendHtmlMail("mycojer@gmail.com",emailSubject,emailContent);
+		        
+		        //mailService.sendHtmlMail("mailTo",emailSubject,emailContent);
+			}   	
 	    	
 	    }
 }

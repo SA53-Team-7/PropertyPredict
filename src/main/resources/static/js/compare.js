@@ -1,9 +1,3 @@
-window.onload = function() {
-	getPriceTrendChart1();
-	getPriceTrendChart2();
-	getPriceTrendChart3();
-}
-
 function autocomplete(inp, arr) {
 	var currentFocus;
 

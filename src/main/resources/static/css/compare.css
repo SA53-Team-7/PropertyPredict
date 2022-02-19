@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -54,4 +55,8 @@ input[type=submit] {
 .autocomplete-active {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
+}
+
+input.search-query {
+    background-color:white;
 }
