@@ -28,10 +28,10 @@ public class TransactionServiceImpl implements TransactionService {
 		return trepo.findAll();
 	}
   
-  @Override
-	public ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id) {
-	  return trepo.getMobileRecommendationsDistrict(id);
-	}
+//  @Override
+//	public ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id) {
+//	  return trepo.getMobileRecommendationsDistrict(id);
+//	}
   
 	@Override
 	public List<Transaction> getTransactionsByProjectId(Integer id) {
@@ -175,5 +175,10 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		
 		return results;
+	}
+
+	@Override
+	public List<Transaction> getTopTransactionByProjectId(int projectId) {
+	  return trepo.getTopTransactionByProjectId(projectId);
 	}
 }

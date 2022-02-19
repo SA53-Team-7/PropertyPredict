@@ -50,4 +50,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	@Query(value = "SELECT district FROM transactions t INNER JOIN projects ON project_id = project_project_id WHERE project_id = :id LIMIT 1", nativeQuery = true)
 	ArrayList<Transaction> getMobileRecommendationsDistrict(@Param ("id") Integer id);
 
+	@Query(value = "SELECT * FROM transactions WHERE project_project_id = :projectId LIMIT 1;", nativeQuery=true)
+	List<Transaction> getTopTransactionByProjectId(int projectId);
+
 }

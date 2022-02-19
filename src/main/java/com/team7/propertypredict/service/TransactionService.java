@@ -46,5 +46,8 @@ public interface TransactionService {
 	// Get all project IDs with similar price range and district 
 	List<Project> getSimilarProjectIDsByPrice(Integer id);
 	
-	ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id);
+//	ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id);
+
+	// Get first transaction for project ID
+	List<Transaction> getTopTransactionByProjectId(int projectId);
 }
