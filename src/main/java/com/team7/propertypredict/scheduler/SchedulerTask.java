@@ -37,11 +37,11 @@ public class SchedulerTask {
 	    private TemplateEngine templateEngine;
 
 	    //one time in one min
-//	    @Scheduled(cron="0 */1 * * * ?")
+//	    @Scheduled(cron="0 0 1 ? * L")
 	    //one time in 20 mins
 //	    @Scheduled(cron="0 */20 * * * ?")
-	    //Every Sunday at 1 am
-	    @Scheduled(cron="0 0 1 ? * L")
+	    //Every Friday at 2 am
+	    @Scheduled(cron="* * 2 * * 5 ")
 	    private void process(){
     	
 	    	System.out.println("SchedulerTask");
