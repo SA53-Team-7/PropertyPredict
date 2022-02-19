@@ -50,9 +50,6 @@ public class ProjectServiceImpl implements ProjectService {
 	private UserRepository uRepo;
 
 	@Autowired
-	private TransactionRepository tRepo;
-
-	@Autowired
 	private AmenityTypeService atService;
 
 	@Autowired

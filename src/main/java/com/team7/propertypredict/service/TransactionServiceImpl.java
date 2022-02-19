@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
-import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.TransactionRepository;
 
 	
