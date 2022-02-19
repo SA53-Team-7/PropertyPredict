@@ -1,6 +1,7 @@
 package com.team7.propertypredict.service;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -146,5 +147,8 @@ public interface ProjectService {
 	
 	// Validate the search Strings from the compare search page
 	String validateSearchStrings(String str1, String str2, String str3);
+	
+	// Get project details from compare search strings
+	List<ProjectDetails> getProjectDetailsFromSearchStrings(String str1, String str2, String str3) throws ParseException;
 	
 }

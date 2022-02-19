@@ -1,60 +1,158 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
-	<title>Property Market Indicator</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">	
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<script type="text/javascript" th:src="@{/js/search.js}"></script>
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	<title class="text-muted">Comparison Results</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/93e747320c.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script type="text/javascript" th:src="@{/js/compare.js}"></script>
 </head>
+
 <body>
-	<div th:replace="navbar.html :: menu"/>
-	<div class="search-results-div">
-		<div class=search-filters>
-			<h6>Property Type</h6>
-			<div class="type-filter" th:each= "type : ${typeFilter}">
-				<div class="form-check">
-				  	<input class="propertyType" type="checkbox" th:value="${type}" th:id="${type}" onclick="filterResults()" checked>
-					<label th:for = "${type}" th:text="${type}"></label>
+	<div th:replace="navbar.html :: menu" />
+	<div class"container" style="margin-left:200px;margin-right:200px">
+		<h1 class="text-muted " style="text-align:center;margin-top:70px;margin-bottom:70px">Comparison Results</h1>
+
+		<div class="row" style="display:flex;justify-content:space-between">
+
+			<div class="col-3">
+				<h4 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i>
+					Project: </h4>
+				<h4 th:text="${project1.name}" style="width:380px"><span>THE COAST AT SENTOSA COVE SINGAPORE</span></h4>
+				<h5 class="text-muted mb-5" th:text="${project1.street}">OCEAN DRIVE</h5>
+
+				<div class="mb-2 mt-2" style="font-size:18px"><b class="pr-3">Average Price: </b><span
+						th:text="${project1.averagePrice}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Tenure (years): </b><span
+						th:text="${#strings.listJoin(project1.tenureYears, ', ')}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Floor Range: </b> <span
+						th:text="${project1.floorRange}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Area: </b><span
+						th:text="${project1.area}"></span></div>
+				<div class="mb-5" style="font-size:18px"><b class="pr-3">Top Years: </b><span
+						th:text="${#strings.listJoin(project1.TOPYears, ', ')}"></span></div>
+
+				<h4 class="text-muted mt-2" style="text-align:center" th:if="${project1.mapExist}"
+					th:text="${project1.segment}"></h4>
+				<img class="rounded mx-auto d-block mt-3 mb-5" style="width:350px;" th:if="${project1.mapExist}"
+					th:src="${project1.map}" />
+				<img class="rounded mx-auto d-block mb-2" style="width:350px;margin-top:120px"
+					th:unless="${project1.mapExist}" th:src="@{/images/unknown.png}" />
+				<h5 th:unless="${project1.mapExist}" style="text-align:center;margin-bottom:150px">Unable to locate location</h5>
+
+				<h5 class="text-muted mt-5 mb-3" style="text-align:center">PRICE TREND</h5>
+				<div style="width:350;height:300px">
+					<canvas id="price-trend1"></canvas>
+				</div>
+
+			</div>
+			<script th:inline="javascript">
+				var labels1 = /*[[${project1.dates}]]*/[];
+				var datapoints1 = /*[[${project1.prices}]]*/[];
+			</script>
+			<script>
+				getPriceTrendChart1();
+			</script>
+
+
+			<div class="col-3">
+				<h4 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i>
+					Project: </h4>
+				<h4 th:text="${project2.name}" style="width:380px"><span>THE COAST AT SENTOSA COVE SINGAPORE</span></h4>
+				<h5 class="text-muted mb-5" th:text="${project2.street}">OCEAN DRIVE</h5>
+
+				<div class="mb-2 mt-2" style="font-size:18px"><b class="pr-3">Average Price: </b><span
+						th:text="${project2.averagePrice}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Tenure (years): </b><span
+						th:text="${#strings.listJoin(project2.tenureYears, ', ')}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Floor Range: </b> <span
+						th:text="${project2.floorRange}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Area: </b><span
+						th:text="${project2.area}"></span></div>
+				<div class="mb-5" style="font-size:18px"><b class="pr-3">Top Years: </b><span
+						th:text="${#strings.listJoin(project2.TOPYears, ', ')}"></span></div>
+
+				<h4 class="text-muted mt-2" style="text-align:center" th:if="${project2.mapExist}"
+					th:text="${project2.segment}"></h4>
+				<img class="rounded mx-auto d-block mt-3 mb-5" style="width:350px;" th:if="${project2.mapExist}"
+					th:src="${project2.map}" />
+				<img class="rounded mx-auto d-block mb-2" style="width:350px;margin-top:97px"
+					th:unless="${project2.mapExist}" th:src="@{/images/unknown.png}" />
+				<h5 th:unless="${project2.mapExist}" style="text-align:center;margin-bottom:150px;">Unable to locate location</h5>
+				
+				<h5 class="text-muted mb-3 mt-5" style="text-align:center">PRICE TREND</h5>
+				<div style="width:350px;height:300px">
+					<canvas id="price-trend2"></canvas>
 				</div>
 			</div>
-			
-			<h6>Tenure (Years)</h6>
-			<div class="tenure-filter" th:each= "tenure : ${tenureFilter}">
-				<div class="form-check">
-				  	<input class="tenure" type="checkbox" th:value="${tenure}" th:id="${tenure}" onclick="filterResults()" checked>
-					<label th:for = "${tenure}" th:text="${tenure}"></label>
+
+			<script th:inline="javascript">
+				var labels2 = /*[[${project2.dates}]]*/[];
+				var datapoints2 = /*[[${project2.prices}]]*/[];
+			</script>
+			<script>
+				getPriceTrendChart2();
+			</script>
+
+
+
+
+			<div class="col-3">
+				<h4 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i>
+					Project: </h4>
+				<h4 th:text="${project3.name}" style="width:380px"><span>THE COAST AT SENTOSA COVE SINGAPORE</span></h4>
+				<h5 class="text-muted mb-5" th:text="${project3.street}">OCEAN DRIVE</h5>
+
+				<div class="mb-2 mt-2" style="font-size:18px"><b class="pr-3">Average Price: </b><span
+						th:text="${project3.averagePrice}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Tenure (years): </b><span
+						th:text="${#strings.listJoin(project3.tenureYears, ', ')}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Floor Range: </b> <span
+						th:text="${project3.floorRange}"></span></div>
+				<div class="mb-2" style="font-size:18px"><b class="pr-3">Area: </b><span
+						th:text="${project3.area}"></span></div>
+				<div class="mb-5" style="font-size:18px"><b class="pr-3">Top Years: </b><span
+						th:text="${#strings.listJoin(project3.TOPYears, ', ')}"></span></div>
+
+				<h4 class="text-muted mt-2" style="text-align:center" th:if="${project3.mapExist}"
+					th:text="${project3.segment}"></h4>
+				<img class="rounded mx-auto d-block mt-3 mb-5" style="width:350px;" th:if="${project3.mapExist}"
+					th:src="${project3.map}" />
+				<img class="rounded mx-auto d-block mb-2" style="width:350px;margin-top:120px"
+					th:unless="${project3.mapExist}" th:src="@{/images/unknown.png}" />
+				<h5 th:unless="${project3.mapExist}" style="text-align:center;margin-bottom:150px;">Unable to locate location</h5>
+				
+				<h5 class="text-muted mb-3 mt-5" style="text-align:center;">PRICE TREND</h5>
+				<div style="width:350px;height:300px">
+					<canvas id="price-trend3"></canvas>
 				</div>
 			</div>
+
+
+			<script th:inline="javascript">
+				var labels3 = /*[[${project3.dates}]]*/[];
+				var datapoints3 = /*[[${project3.prices}]]*/[];
+			</script>
+			<script>
+				getPriceTrendChart3();
+			</script>
 		</div>
-	
-		<h4>Search Results</h4>
-		<div class="search-list">
-			<table id = "search-tbl">
-				<tr class = "result-row" th:each="search : ${searchresult}">
-					<td>
-						<a th:href = "${'/project/viewProperty/' + {search.projectId}}"
-						<div class="card">
-							<div class="card-body">
-							    <h5 class="card-title" th:text="${search.name}">Project Name</h5>
-							    <p class="street-text" th:text= "'Street: ' + ${search.street}">Street</p>
-							    <p class="type-text" th:text= "'Type: ' + ${search.type}">Type</p>
-							   	<p class ="card-text" th:text= "'Segment: ' + ${search.segment}">Segment</p>
-							   	<p class="card-text" th:text= "'District: ' + ${search.district}">District</p>
-							   	<p class="tenure-text" th:text= "'Tenure: ' + ${search.tenure}" style="display:none">Tenure</p>
-		  					</div>
-						</div>
-						</a>
-					</td>
-				</tr>
-			</table >
-		</div>
+
 	</div>
+	<div style="margin-bottom:150px">
 </body>
+
 </html>

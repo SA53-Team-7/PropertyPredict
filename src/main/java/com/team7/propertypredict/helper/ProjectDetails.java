@@ -1,8 +1,7 @@
 package com.team7.propertypredict.helper;
 
+import java.util.Date;
 import java.util.List;
-
-import com.team7.propertypredict.model.Transaction;
 
 public class ProjectDetails {
 	

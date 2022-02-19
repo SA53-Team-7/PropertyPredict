@@ -48,7 +48,7 @@
 				<h4 class="text-muted mt-2" style="text-align:center" th:if="${project.mapExist}" th:text="${project.segment}"></h4>
 				<img class="rounded mx-auto d-block mt-3 mb-5" style="width:350px;" th:if="${project.mapExist}"
 					th:src="${project.map}" />
-				<img class="rounded mx-auto d-block mb-3" style="width:350px;margin-top:97px" th:unless="${project.mapExist}"
+				<img class="rounded mx-auto d-block mb-3" style="width:300px;margin-top:97px" th:unless="${project.mapExist}"
 					th:src="@{/images/unknown.png}" />
 				<h5 th:unless="${project.mapExist}" style="text-align:center">Unable to locate location</h5>
 

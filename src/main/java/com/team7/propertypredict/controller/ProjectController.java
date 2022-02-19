@@ -1,12 +1,15 @@
 package com.team7.propertypredict.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
+import com.team7.propertypredict.helper.TransactionHelper;
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.model.User;
@@ -131,9 +135,7 @@ public class ProjectController {
 
 	@RequestMapping(value = "/compare-result", method = RequestMethod.GET)
 	public String submitSearchRequest(Model model, @Param("searchStr1") String searchStr1,
-			@Param("searchStr2") String searchStr2, @Param("searchStr3") String searchStr3) {
-		List<String> searchStrs = Arrays.asList(searchStr1, searchStr2, searchStr3);
-		List<Project> projects = new ArrayList<Project>();
+			@Param("searchStr2") String searchStr2, @Param("searchStr3") String searchStr3) throws ParseException {
 		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
 
 		if (searchStr1 != null && searchStr2 != null && searchStr3 != null) {
@@ -142,39 +144,13 @@ public class ProjectController {
 			if (errorMsg != "No error") {
 				return "redirect:/project/compare?msg=" + errorMsg;
 			} else {
-				for (String str : searchStrs) {
-					projects.add(pService.findProjectByName(str.toUpperCase()));
-				}
-				for (Project project : projects) {
-					projectDetails.add(pService.getProjectDetails(project.getProjectId()));
-				}
+				projectDetails = pService.getProjectDetailsFromSearchStrings(searchStr1, searchStr2, searchStr3);
 			}
+
 		}
-		model.addAttribute("projects", projectDetails);
-		return "compare-result";
+		model.addAttribute("project1", projectDetails.get(0));
+		model.addAttribute("project2", projectDetails.get(1));
+		model.addAttribute("project3", projectDetails.get(2));
+		return "search-result";
 	}
-
-	/*
-	 * @RequestMapping(value = "/compare-result", method = RequestMethod.GET) public
-	 * String submitSearchRequest(Model model, @Param("searchStr1") String
-	 * searchStr1,
-	 * 
-	 * @Param("searchStr2") String searchStr2, @Param("searchStr3") String
-	 * searchStr3) { List<String> searchStrs = Arrays.asList(searchStr1, searchStr2,
-	 * searchStr3); List<Project> projects = new ArrayList<Project>();
-	 * List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
-	 * ProjectDetails project1 = null; ProjectDetails project2 = null;
-	 * ProjectDetails project3 = null; for (String str : searchStrs) {
-	 * projects.add(pService.findProjectByName(str)); } for (Project project :
-	 * projects) {
-	 * projectDetails.add(pService.getProjectDetails(project.getProjectId()));
-	 * project1 = pService.getProjectDetails(project.getProjectId()); project2 =
-	 * pService.getProjectDetails(project.getProjectId()); project3 =
-	 * pService.getProjectDetails(project.getProjectId()); }
-	 * model.addAttribute("projects", projectDetails);
-	 * model.addAttribute("project1", project1); model.addAttribute("project2",
-	 * project2); model.addAttribute("project3", project3); return "compare-result";
-	 * }
-	 */
-
 }
