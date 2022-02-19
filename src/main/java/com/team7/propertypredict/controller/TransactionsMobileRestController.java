@@ -38,12 +38,6 @@ public class TransactionsMobileRestController {
 		List<Transaction> transactions = tService.getTransactionsByProjectId(id);
 		return transactions;
 	}
-	
-//	@GetMapping("/district/{id}")
-//	public List<Transaction> getMobileRecommendationsDistrict(@PathVariable("id") Integer id) {
-//		List<Transaction> transactions = tService.getMobileRecommendationsDistrict(id);
-//		return transactions;
-//	}
 
 	@GetMapping("/top/{id}")
 	public List<Transaction> getTopTransactionByProjectId(@PathVariable("id") Integer id) {
