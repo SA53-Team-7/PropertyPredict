@@ -357,8 +357,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Property getProperty(Integer pid) {
-		String x = findXById(pid);
-		String y = findYById(pid);
+		String x = findXById(pid) == null ? "" : findXById(pid);
+		String y = findYById(pid) == null ? "" : findYById(pid);
 		String lat;
 		String lng;
 
@@ -397,32 +397,32 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public String getMapWithNearestTrain(Integer pid) {
-		 Map<String, Double> nearestMrt = getNearestTrainAndLocation(pid);
-		 	String nearestLocation="";
-			for (Map.Entry<String, Double> entry : nearestMrt.entrySet()) {
-				nearestLocation = entry.getKey();
-			}
+		Map<String, Double> nearestMrt = getNearestTrainAndLocation(pid);
+		String nearestLocation = "";
+		for (Map.Entry<String, Double> entry : nearestMrt.entrySet()) {
+			nearestLocation = entry.getKey();
+		}
 
-		 Amenity train = aService.findAmenityByName(nearestLocation);
-         String nearestLat = train.getLatitude();
-         String nearestLng = train.getLongitude();
-         
-         String map;
- 		 String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
- 	 	 String map2 = "&zoom=15&height=300&width=400";
- 		
- 		 Property prop = getProperty(pid);
- 
- 		 if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
- 			 map = "@{/images/unknown.png}";
- 		 } else {
- 			 String lat = prop.getyCoordinates();
- 			 String lng = prop.getxCoordinates();
- 			 map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
- 		 }
- 		map += "|[" + nearestLat + "," + nearestLng + ",\"255,255,178\",\"" + "A" + "\"]";
- 		
- 		return map;
+		Amenity train = aService.findAmenityByName(nearestLocation);
+		String nearestLat = train.getLatitude();
+		String nearestLng = train.getLongitude();
+
+		String map;
+		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
+		String map2 = "&zoom=15&height=300&width=400";
+
+		Property prop = getProperty(pid);
+
+		if (prop.getyCoordinates().isEmpty() || prop.getxCoordinates().isEmpty()) {
+			map = "@{/images/unknown.png}";
+		} else {
+			String lat = prop.getyCoordinates();
+			String lng = prop.getxCoordinates();
+			map = map1 + lat + "&lng=" + lng + map2 + "&points=[" + lat + "," + lng + ",\"168,228,160\", \"P\"]";
+		}
+		map += "|[" + nearestLat + "," + nearestLng + ",\"255,255,178\",\"" + "A" + "\"]";
+
+		return map;
 	}
 
 	@Override
@@ -692,7 +692,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<SearchResultHelper> getRecentTxn() {
 		List<Project> recentProjs = tService.getRecentlyTransactedProjects();
 		List<SearchResultHelper> results = new ArrayList<SearchResultHelper>();
-		
+
 		for (Project p : recentProjs) {
 			String tenureModified = "";
 			String districtModified = "";
@@ -722,10 +722,32 @@ public class ProjectServiceImpl implements ProjectService {
 					p.getSegment(), districtModified.substring(0, districtModified.lastIndexOf(',')),
 					typeModified.substring(0, typeModified.lastIndexOf(',')),
 					tenureModified.substring(0, tenureModified.lastIndexOf(',')));
-			
+
 			results.add(s);
 		}
-		
+
 		return results;
+	}
+
+	@Override
+	public List<String> getNamesFromProjectDetailList(List<ProjectDetails> pd, Integer uid) {
+		List<String> names = new ArrayList<String>();
+
+		for (ProjectDetails p : pd) {
+			names.add(p.getName());
+		}
+		return names;
+	}
+	
+	@Override
+	public List<ProjectDetails> getProjectDetailFromSearch(List<ProjectDetails> pd, String str){
+		List<ProjectDetails> filterProjects = new ArrayList<ProjectDetails>();
+		
+		for (ProjectDetails p : pd) {
+			if(p.getName().toLowerCase().contains(str.toLowerCase())) {
+				filterProjects.add(p);
+			}
+		}
+		return filterProjects;
 	}
 }
