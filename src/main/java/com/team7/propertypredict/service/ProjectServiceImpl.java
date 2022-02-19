@@ -2,10 +2,15 @@ package com.team7.propertypredict.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -33,9 +38,11 @@ import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.helper.SearchResultHelper;
+import com.team7.propertypredict.helper.TransactionHelper;
 import com.team7.propertypredict.model.Amenity;
 import com.team7.propertypredict.model.AmenityType;
 import com.team7.propertypredict.model.Project;
+import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.UserRepository;
@@ -128,6 +135,15 @@ public class ProjectServiceImpl implements ProjectService {
 		Double av = findAveragePriceByProjectId(pid);
 		Integer avInt = (int) Math.round(av);
 		String averagePrice = dollarFormat.format(av);
+		
+		String region = project.getSegment();
+		if (region == "CCR") {
+			region = "Core Central Region (CCR)";
+		} else if (region == "RCR") {
+			region = "Rest of Central Region (RCR)";
+		} else {
+			region = "Outside Central Region (OCR)";
+		}
 
 		Integer top = 0;
 		for (String floor : floors) {
@@ -149,6 +165,7 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		pd.setProjectId(project.getProjectId());
 		pd.setName(project.getName());
+		pd.setSegment(region);
 		pd.setStreet(project.getStreet());
 		pd.setPrice(avInt);
 		pd.setAveragePrice(averagePrice);
@@ -184,7 +201,7 @@ public class ProjectServiceImpl implements ProjectService {
 		} else if (region == "RCR") {
 			region = "Rest of Central Region (RCR)";
 		} else {
-			region = "Ouside Central Region (OCR)";
+			region = "Outside Central Region (OCR)";
 		}
 		prop.setProjectId(pid);
 		prop.setPropertyName(project.getName());
@@ -382,7 +399,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
-		String map2 = "&zoom=17&height=350&width=350";
+		String map2 = "&zoom=12&height=350&width=350";
 
 		Property prop = getProperty(pid);
 
@@ -787,5 +804,73 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return pd;
+	}
+	
+	@Override
+	public String validateSearchStrings(String str1, String str2, String str3) {
+		String errorMsg = "No error";
+		List<String> names = pService.findAllProjectNames();
+
+		if (!names.contains(str1.toUpperCase())) {
+			errorMsg = "There is no project with name \"" + str1 + "\" . Reenter again for Project 1.";
+		} else if (!names.contains(str2.toUpperCase())) {
+			errorMsg = "There is no project with name \"" + str2 + "\" . Reenter again for Project 2.";
+		} else if (!names.contains(str3.toUpperCase())) {
+			errorMsg = "There is no project with name \"" + str3 + "\" . Reenter again for Project 3.";
+		} else {
+			List<String> searchStrs = Arrays.asList(str1, str2, str3);
+			List<String> distinctNames = searchStrs.stream().distinct().collect(Collectors.toList());
+			if (distinctNames.size() == 1) {
+				errorMsg = "Need at least 2 distinct project names. Reenter the names again.";
+			}
+		}
+		return errorMsg;
+	}
+	
+	@Override
+	public List<ProjectDetails> getProjectDetailsFromSearchStrings(String str1, String str2, String str3) throws ParseException{
+		List<String> searchStrs = Arrays.asList(str1, str2, str3);
+		List<Project> projects = new ArrayList<Project>();
+		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();	
+		
+		for (String str : searchStrs) {
+			projects.add(pService.findProjectByName(str));
+		}
+		for (Project project : projects) {
+			List<String> dates = new ArrayList<String>();
+			List<Double> prices = new ArrayList<Double>();
+			List<TransactionHelper> ths = new ArrayList<TransactionHelper>();
+			
+			List<Transaction> txns = project.getTransactions();
+			for(Transaction txn: txns) {
+				String d = txn.getContractDate();
+				String month = d.substring(0,1) == "0" ? d.substring(1,2) : d.substring(0,2);
+				String y = "20";
+				String year = d.substring(2);
+				String txnDate = 15 + "/" + month + "/" + y + year;
+			    Date date =new SimpleDateFormat("dd/MM/yyyy").parse(txnDate);  
+				//DateTime txnDate = new Date(year, parseInt(month) - 1, 15);
+				TransactionHelper th = new TransactionHelper(date, txn.getPrice());
+				ths.add(th);
+			}
+			Collections.sort(ths, new Comparator<TransactionHelper>() {
+				@Override
+				public int compare(TransactionHelper o1, TransactionHelper o2) {
+					return o1.getDate().compareTo(o2.getDate());
+				}
+			});
+			for(TransactionHelper th: ths) {
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");  
+				String strDate = dateFormat.format(th.getDate());  
+				dates.add(strDate);
+				prices.add(th.getPrice());
+			}
+			ProjectDetails pd = pService.getProjectDetails(project.getProjectId());
+			pd.setPrices(prices);
+			pd.setDates(dates);
+			projectDetails.add(pd);
+			
+		}	
+		return projectDetails;
 	}
 }
