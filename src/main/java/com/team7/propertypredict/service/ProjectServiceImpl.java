@@ -807,7 +807,7 @@ public class ProjectServiceImpl implements ProjectService {
 			List<String> searchStrs = Arrays.asList(str1, str2, str3);
 			List<String> distinctNames = searchStrs.stream().distinct().collect(Collectors.toList());
 			if (distinctNames.size() == 1) {
-				errorMsg = "Need at least 2 distinct property names. Reenter the names again.";
+				errorMsg = "Need at least 2 distinct project names. Reenter the names again.";
 			}
 		}
 		return errorMsg;
