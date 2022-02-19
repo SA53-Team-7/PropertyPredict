@@ -1,11 +1,13 @@
 package com.team7.propertypredict.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.service.ProjectService;
 
@@ -19,6 +21,13 @@ public class ProjectsMobileRestController {
 	@GetMapping()
 	public List<Project> getAllProjects() {
 		return pService.findAllProjects();
+	}
+
+	@GetMapping("/get/{id}")
+	public List<Project> getProject(@PathVariable("id") Integer id) {
+		List<Project> projects = new ArrayList<>();
+		projects.add(pService.findProjectById(id)); 
+		return projects;
 	}
 	
 	@GetMapping("/test")
