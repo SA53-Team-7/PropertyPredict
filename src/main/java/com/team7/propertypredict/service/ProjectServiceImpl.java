@@ -74,8 +74,6 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private MapRestController mController;
 
-	@Autowired
-
 	@Override
 	public List<Project> findAllProjects() {
 		return pRepo.findAllProjects();
