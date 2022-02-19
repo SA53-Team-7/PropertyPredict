@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -789,5 +790,26 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return pd;
+	}
+	
+	@Override
+	public String validateSearchStrings(String str1, String str2, String str3) {
+		String errorMsg = "No error";
+		List<String> names = pService.findAllProjectNames();
+
+		if (!names.contains(str1.toUpperCase())) {
+			errorMsg = "There is no project with name \"" + str1 + "\" . Reenter again for Project 1.";
+		} else if (!names.contains(str2.toUpperCase())) {
+			errorMsg = "There is no project with name \"" + str2 + "\" . Reenter again for Project 2.";
+		} else if (!names.contains(str3.toUpperCase())) {
+			errorMsg = "There is no project with name \"" + str3 + "\" . Reenter again for Project 3.";
+		} else {
+			List<String> searchStrs = Arrays.asList(str1, str2, str3);
+			List<String> distinctNames = searchStrs.stream().distinct().collect(Collectors.toList());
+			if (distinctNames.size() == 1) {
+				errorMsg = "Need at least 2 distinct property names. Reenter the names again.";
+			}
+		}
+		return errorMsg;
 	}
 }

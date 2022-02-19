@@ -143,6 +143,8 @@ public interface ProjectService {
 	
 	// Sort list based on the given filter
 	List<ProjectDetails> filterProjectDetailList(List<ProjectDetails> pd, String filter);
-
+	
+	// Validate the search Strings from the compare search page
+	String validateSearchStrings(String str1, String str2, String str3);
 	
 }

@@ -75,7 +75,7 @@ public class ProjectController {
 		return "map";
 
 	}
-	
+
 	// Add project to the shortlist given a project id
 	@GetMapping("/add-shortlist/{pid}")
 	public String addShortlist(HttpSession session, @PathVariable Integer pid, Model model) {
@@ -94,7 +94,9 @@ public class ProjectController {
 	@GetMapping("/view-shortlist")
 	public String viewShortlist(Model model, HttpSession session, @RequestParam(required = false) String filter) {
 		User user = (User) session.getAttribute("userObj");
-		if (user == null) { return "forward:/login"; }
+		if (user == null) {
+			return "forward:/login";
+		}
 
 		List<ProjectDetails> projects = pService.getProjectsDetails(user.getUserId());
 
@@ -107,7 +109,9 @@ public class ProjectController {
 	@GetMapping("/filter-shortlist")
 	public String filterShortlist(Model model, HttpSession session, @Param("searchStr") String searchStr) {
 		User user = (User) session.getAttribute("userObj");
-		if (user == null) { return "forward:/login"; }
+		if (user == null) {
+			return "forward:/login";
+		}
 
 		List<ProjectDetails> projects = pService.getProjectsDetails(user.getUserId());
 		List<ProjectDetails> filterProjects = pService.getProjectDetailFromSearch(projects, searchStr);
@@ -119,8 +123,9 @@ public class ProjectController {
 	}
 
 	@GetMapping("/compare")
-	public String compare(Model model) {
+	public String compare(Model model, @RequestParam(required = false) String msg) {
 		model.addAttribute("names", pService.findAllProjectNames());
+		model.addAttribute("msg", msg);
 		return "compare";
 	}
 
@@ -130,22 +135,46 @@ public class ProjectController {
 		List<String> searchStrs = Arrays.asList(searchStr1, searchStr2, searchStr3);
 		List<Project> projects = new ArrayList<Project>();
 		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
-		ProjectDetails project1 = null;
-		ProjectDetails project2 = null;
-		ProjectDetails project3 = null;
-		for (String str : searchStrs) {
-			projects.add(pService.findProjectByName(str));
-		}
-		for (Project project : projects) {
-			projectDetails.add(pService.getProjectDetails(project.getProjectId()));
-			project1 = pService.getProjectDetails(project.getProjectId());
-			project2 = pService.getProjectDetails(project.getProjectId());
-			project3 = pService.getProjectDetails(project.getProjectId());
+
+		if (searchStr1 != null && searchStr2 != null && searchStr3 != null) {
+			String errorMsg = pService.validateSearchStrings(searchStr1, searchStr2, searchStr3);
+
+			if (errorMsg != "No error") {
+				return "redirect:/project/compare?msg=" + errorMsg;
+			} else {
+				for (String str : searchStrs) {
+					projects.add(pService.findProjectByName(str.toUpperCase()));
+				}
+				for (Project project : projects) {
+					projectDetails.add(pService.getProjectDetails(project.getProjectId()));
+				}
+			}
 		}
 		model.addAttribute("projects", projectDetails);
-		model.addAttribute("project1", project1);
-		model.addAttribute("project2", project2);
-		model.addAttribute("project3", project3);
 		return "compare-result";
 	}
+
+	/*
+	 * @RequestMapping(value = "/compare-result", method = RequestMethod.GET) public
+	 * String submitSearchRequest(Model model, @Param("searchStr1") String
+	 * searchStr1,
+	 * 
+	 * @Param("searchStr2") String searchStr2, @Param("searchStr3") String
+	 * searchStr3) { List<String> searchStrs = Arrays.asList(searchStr1, searchStr2,
+	 * searchStr3); List<Project> projects = new ArrayList<Project>();
+	 * List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+	 * ProjectDetails project1 = null; ProjectDetails project2 = null;
+	 * ProjectDetails project3 = null; for (String str : searchStrs) {
+	 * projects.add(pService.findProjectByName(str)); } for (Project project :
+	 * projects) {
+	 * projectDetails.add(pService.getProjectDetails(project.getProjectId()));
+	 * project1 = pService.getProjectDetails(project.getProjectId()); project2 =
+	 * pService.getProjectDetails(project.getProjectId()); project3 =
+	 * pService.getProjectDetails(project.getProjectId()); }
+	 * model.addAttribute("projects", projectDetails);
+	 * model.addAttribute("project1", project1); model.addAttribute("project2",
+	 * project2); model.addAttribute("project3", project3); return "compare-result";
+	 * }
+	 */
+
 }

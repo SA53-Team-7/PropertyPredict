@@ -16,8 +16,9 @@
 <body>
 	<div th:replace="navbar.html :: menu" />
 	<div class"container">
-		<h1 class="text-muted" style="text-align:center;margin-top:70px;margin-bottom:70px;">Comparison Between Projects</h1>
-	
+		<h1 class="text-muted" style="text-align:center;margin-top:70px;margin-bottom:70px;">View Comparison Between Projects</h1>
+		<div class="mt-5 mb-5 h4" th:if="${msg!='No error'}" th:text="${msg}" style="text-align:center;margin-top:40px;margin-bottom:40px;color:red" ></div>
+		
 		<form autocomplete="off" th:action="@{/project/compare-result}" method="GET">
 			<div class="form-row">
 				<div class="col-sm4 form-group mb-5" style="text-align:center;">
