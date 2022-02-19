@@ -8,6 +8,7 @@ public class ProjectDetails {
 	
 	private Integer projectId;
 	private String name;
+	private String segment;
 	private String street;
 	private Integer price;
 	private String averagePrice;
@@ -40,6 +41,14 @@ public class ProjectDetails {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getSegment() {
+		return segment;
+	}
+
+	public void setSegment(String segment) {
+		this.segment = segment;
 	}
 
 	public String getStreet() {

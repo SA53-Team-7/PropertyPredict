@@ -24,7 +24,7 @@
 <body>
 	<div th:replace="navbar.html :: menu" />
 	<div class"container" style="margin-left:200px;margin-right:200px">
-		<h1 style="text-align:center;margin-top:70px;margin-bottom:70px">Comparison Results</h1>
+		<h1 class="text-muted "style="text-align:center;margin-top:70px;margin-bottom:70px">Comparison Results</h1>
 
 		<div class="row" style="display:flex;justify-content:space-between">
 
@@ -42,12 +42,13 @@
 						th:text="${project.floorRange}"></span></div>
 				<div class="mb-2" style="font-size:18px"><b class="pr-3">Area: </b><span
 						th:text="${project.area}"></span></div>
-				<div class="mb-2" style="font-size:18px"><b class="pr-3">Top Years: </b><span
+				<div class="mb-5" style="font-size:18px"><b class="pr-3">Top Years: </b><span
 						th:text="${#strings.listJoin(project.TOPYears, ', ')}"></span></div>
 
-				<img class="rounded mx-auto d-block mt-5 mb-5" style="width:350px;" th:if="${project.mapExist}"
+				<h4 class="text-muted mt-2" style="text-align:center" th:if="${project.mapExist}" th:text="${project.segment}"></h4>
+				<img class="rounded mx-auto d-block mt-3 mb-5" style="width:350px;" th:if="${project.mapExist}"
 					th:src="${project.map}" />
-				<img class="rounded mx-auto d-block mt-5 mb-5" style="width:350px;" th:unless="${project.mapExist}"
+				<img class="rounded mx-auto d-block mb-3" style="width:350px;margin-top:97px" th:unless="${project.mapExist}"
 					th:src="@{/images/unknown.png}" />
 				<h5 th:unless="${project.mapExist}" style="text-align:center">Unable to locate location</h5>
 
@@ -55,6 +56,7 @@
 		</div>
 
 	</div>
+	<div style="margin-bottom:150px">
 </body>
 
 </html>

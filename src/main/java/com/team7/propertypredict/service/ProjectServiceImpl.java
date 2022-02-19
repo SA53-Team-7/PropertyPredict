@@ -131,6 +131,15 @@ public class ProjectServiceImpl implements ProjectService {
 		Double av = findAveragePriceByProjectId(pid);
 		Integer avInt = (int) Math.round(av);
 		String averagePrice = dollarFormat.format(av);
+		
+		String region = project.getSegment();
+		if (region == "CCR") {
+			region = "Core Central Region (CCR)";
+		} else if (region == "RCR") {
+			region = "Rest of Central Region (RCR)";
+		} else {
+			region = "Ouside Central Region (OCR)";
+		}
 
 		Integer top = 0;
 		for (String floor : floors) {
@@ -152,6 +161,7 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		pd.setProjectId(project.getProjectId());
 		pd.setName(project.getName());
+		pd.setSegment(region);
 		pd.setStreet(project.getStreet());
 		pd.setPrice(avInt);
 		pd.setAveragePrice(averagePrice);
@@ -385,7 +395,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		String map;
 		String map1 = "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?" + "layerchosen=default&lat=";
-		String map2 = "&zoom=17&height=350&width=350";
+		String map2 = "&zoom=12&height=350&width=350";
 
 		Property prop = getProperty(pid);
 
