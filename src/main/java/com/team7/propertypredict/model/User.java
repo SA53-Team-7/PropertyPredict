@@ -34,9 +34,7 @@ public class User {
 	@Email
 	@NotBlank(message = "Email is mandatory")
 	private String email;
-	
-	private String districtInterest;
-	
+		
 	@ManyToMany
 	@JoinTable(name="projects_users",
 	joinColumns = @JoinColumn(name = "users_user_id"),
@@ -49,13 +47,12 @@ public class User {
 
 	public User(Integer userId, @Size(max = 10) @NotBlank(message = "Username is mandatory") String username,
 			@NotBlank(message = "Password is mandatory") String password,
-			@Email @NotBlank(message = "Email is mandatory") String email, String districtInterest) {
+			@Email @NotBlank(message = "Email is mandatory") String email) {
 		super();
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.districtInterest = districtInterest;
 	}
 
 	public Integer getUserId() {
@@ -90,14 +87,6 @@ public class User {
 		this.email = email;
 	}
 
-	public String getDistrictInterest() {
-		return districtInterest;
-	}
-
-	public void setDistrictInterest(String districtInterest) {
-		this.districtInterest = districtInterest;
-	}
-
 	public List<Project> getProjects() {
 		return projects;
 	}
@@ -109,10 +98,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", districtInterest=" + districtInterest + ", projects=" + projects + "]";
-	}
-	
-	
-	
-	
+				+ ", projects=" + projects + "]";
+	}	
 } 
