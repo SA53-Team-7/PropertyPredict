@@ -38,4 +38,9 @@ public class TransactionsMobileRestController {
 		List<Transaction> transactions = tService.getTransactionsByProjectId(id);
 		return transactions;
 	}
+
+	@GetMapping("/top/{id}")
+	public List<Transaction> getTopTransactionByProjectId(@PathVariable("id") Integer id) {
+		return tService.getTopTransactionByProjectId(id);
+	}
 }

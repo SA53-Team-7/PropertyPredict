@@ -179,6 +179,12 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		return results;
 	}
+	
+
+	@Override
+	public List<Transaction> getTopTransactionByProjectId(int projectId) {
+	  return trepo.getTopTransactionByProjectId(projectId);
+	}
 
 	@Override
 	public List<Project> getRecentlyTransactedProjects() {

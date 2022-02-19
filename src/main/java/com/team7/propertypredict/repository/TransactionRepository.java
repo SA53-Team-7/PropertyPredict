@@ -49,5 +49,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	
 	@Query(value = "SELECT distinct project_project_id FROM transactions WHERE contract_date =:currDate", nativeQuery=true)
 	List<String> findRecentProjects(String currDate);
-
+	
+	@Query(value = "SELECT * FROM transactions WHERE project_project_id = :projectId LIMIT 1;", nativeQuery=true)
+	List<Transaction> getTopTransactionByProjectId(int projectId);
 }
