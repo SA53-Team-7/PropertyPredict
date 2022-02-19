@@ -28,6 +28,11 @@ public class TransactionServiceImpl implements TransactionService {
 		return trepo.findAll();
 	}
   
+  @Override
+	public ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id) {
+	  return trepo.getMobileRecommendationsDistrict(id);
+	}
+  
 	@Override
 	public List<Transaction> getTransactionsByProjectId(Integer id) {
 		List<Transaction> txnList = (List<Transaction>) trepo.findAllTransactionsByProject(id);

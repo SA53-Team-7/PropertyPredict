@@ -1,5 +1,6 @@
 package com.team7.propertypredict.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -45,5 +46,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	
 	@Query(value = "SELECT distinct project_project_id FROM transactions WHERE district =:district AND price BETWEEN :lower AND :upper", nativeQuery=true)
 	List<String> findSimilarProjects(String district, Double lower, Double upper);
+	
+	@Query(value = "SELECT district FROM transactions t INNER JOIN projects ON project_id = project_project_id WHERE project_id = :id LIMIT 1", nativeQuery = true)
+	ArrayList<Transaction> getMobileRecommendationsDistrict(@Param ("id") Integer id);
 
 }

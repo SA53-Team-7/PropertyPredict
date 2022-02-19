@@ -1,5 +1,6 @@
 package com.team7.propertypredict.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -44,4 +45,6 @@ public interface TransactionService {
 	
 	// Get all project IDs with similar price range and district 
 	List<Project> getSimilarProjectIDsByPrice(Integer id);
+	
+	ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id);
 }
