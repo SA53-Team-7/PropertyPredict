@@ -61,7 +61,7 @@ public class SchedulerTask {
 		        String emailContent = templateEngine.process("sendMail", context);
 		        emailSubject="Hi "+user.getUsername()+", Your Recommendations Here!";
 
-		        mailService.sendHtmlMail("mycojer@gmail.com",emailSubject,emailContent);				
+		        mailService.sendHtmlMail(mailTo,emailSubject,emailContent);				
 			}   	
 	    	
 	    }
