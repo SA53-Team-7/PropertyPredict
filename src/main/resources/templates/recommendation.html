@@ -1,18 +1,84 @@
 <body>
 	<div class="rec-div">
-		<h4 class="font-weight-normal">Popular Properties</h4>
-		<div id="rec-popular"class="card shadow-sm p-3 mb-5 bg-white rounded">
-			<div class="card" th:each = "rec : ${popularProp}">
-				<a th:href="${'/project/viewProperty/' + {rec.projectId}}">
-				<h5 class="card-header" th:text="${rec.name}">Project Name</h5>					
-				<div class="card-body">
-					<h6 class="card-title" th:text="${rec.street}">Street</h6>
-					<p class="card-text" th:text="'Type: ' + ${rec.type}">Type</p>
-					<p class="card-text" th:text="'Segment: ' + ${rec.segment}">Segment</p>
-					<p class="card-text" th:text="'District: ' + ${rec.district}">Segment</p>			
-				</div>
-				</a>
-			</div>
+		<div class="accordion" id="accordionExample">
+		  <div class="card">
+		    <div class="card-header" id="headingOne">
+		      <h2 class="mb-0">
+		        <button class="btn btn-light btn-lg btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		        	Popular Properties
+		        </button>
+		      </h2>
+		    </div>
+		
+		    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+		    	<div class="card-body">
+					<div id="rec-popular" class="card shadow-sm p-3 mb-5 bg-white rounded">
+					    <div class="card" th:each = "rec : ${popularProp}">
+					        <a th:href="${'/project/viewProperty/' + {rec.projectId}}">
+					        <h5 class="card-header" th:text="${rec.name}">Project Name</h5>					
+					        <div class="card-body">
+					            <h6 class="card-title" th:text="${rec.street}">Street</h6>
+					            <p class="card-text" th:text="'Type: ' + ${rec.type}">Type</p>
+					            <p class="card-text" th:text="'Segment: ' + ${rec.segment}">Segment</p>
+					            <p class="card-text" th:text="'District: ' + ${rec.district}">District</p>			
+					        </div>
+					        </a>
+					    </div>
+					</div>		      
+				 </div>
+		    </div>
+		  </div>
+		  <div class="card">
+		    <div class="card-header" id="headingTwo">
+		      <h2 class="mb-0">
+		        <button class="btn btn-light btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+		          Recently Transacted
+		        </button>
+		      </h2>
+		    </div>
+		    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+	      		<div class="card-body">
+					<div id="rec-recent" class="card shadow-sm p-3 mb-5 bg-white rounded">
+					    <div class="card" th:each = "rec : ${recentProp}">
+					        <a th:href="${'/project/viewProperty/' + {rec.projectId}}">
+					        <h5 class="card-header" th:text="${rec.name}">Project Name</h5>					
+					        <div class="card-body">
+					            <h6 class="card-title" th:text="${rec.street}">Street</h6>
+					            <p class="card-text" th:text="'Type: ' + ${rec.type}">Type</p>
+					            <p class="card-text" th:text="'Segment: ' + ${rec.segment}">Segment</p>
+					            <p class="card-text" th:text="'District: ' + ${rec.district}">District</p>			
+					        </div>
+					        </a>
+					    </div>
+					</div>		      
+	      		</div>
+	    	</div>
+		  </div>
+		  <div class="card" th:if="${session.userObj != null}">
+		    <div class="card-header" id="headingThree">
+		      <h2 class="mb-0">
+		        <button class="btn btn-light btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		         	Recommended For You
+		        </button>
+		      </h2>
+		    </div>
+		    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+	      		<div class="card-body">
+					<div id="rec-user" class="card shadow-sm p-3 mb-5 bg-white rounded" >
+					    <div class="card" th:each = "rec : ${userRec}">
+					    <a th:href="${'/project/viewProperty/' + {rec.projectId}}">
+					        <h5 class="card-header" th:text="${rec.name}">Project Name</h5>					
+					        <div class="card-body">
+					            <h6 class="card-title" th:text="${rec.street}">Street</h6>
+					            <p class="card-text" th:text="'Type: ' + ${rec.type}">Type</p>
+					            <p class="card-text" th:text="'Segment: ' + ${rec.segment}">Segment</p>
+					            <p class="card-text" th:text="'District: ' + ${rec.district}">District</p>			
+					        </div>
+					    </a>
+					</div>		        	
+		      	</div>
+		    </div>
+		  </div>
 		</div>
 	</div >
 </body>

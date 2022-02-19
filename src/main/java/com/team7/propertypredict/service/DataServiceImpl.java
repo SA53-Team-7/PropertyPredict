@@ -5,6 +5,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +17,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.model.Project;
@@ -32,6 +37,15 @@ public class DataServiceImpl implements DataService {
 	
 	@Autowired
 	SaleTypeRepository srepo;
+	
+	@Value("${spring.datasource.url}")
+	private String db;
+	
+	@Value("${spring.datasource.username}")
+	private String username;
+	
+	@Value("${spring.datasource.password}")
+	private String password;
 	
 	// Access key
 	private String key = "8d92f1c1-fa02-4764-8f80-4ecca9296ca9";
@@ -90,9 +104,9 @@ public class DataServiceImpl implements DataService {
 			e.printStackTrace();
 		}
 		
-//		if (input.charAt(0) != '{') {
-//			input = input.substring(input.indexOf("{"));
-//		}
+		if (input.charAt(0) != '{') {
+			input = input.substring(input.indexOf("{"));
+		}
 		
 		// Get project
 		JSONArray projectResults = null;
@@ -172,8 +186,18 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public void clearTables() {
-		trepo.deleteAll();
-		prepo.deleteAll();
+
+		try {
+			Connection con = DriverManager.getConnection(db, username, password);
+			Statement truncQuery = con.createStatement();
+			truncQuery.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
+			truncQuery.executeUpdate("TRUNCATE TABLE transactions");
+			truncQuery.executeUpdate("TRUNCATE TABLE projects");
+			truncQuery.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

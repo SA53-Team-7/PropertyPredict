@@ -39,18 +39,47 @@ public class CommonController {
 
 	@GetMapping("/")
  	public String viewHome(Model model, HttpSession session) {
-		String name = (String) session.getAttribute("userName");
+		// String name = (String) session.getAttribute("userName");
+		// model.addAttribute("name", name);
 		
-		model.addAttribute("name", name);
+		if (session.getAttribute("userObj") != null) {
+			return "redirect:/home";
+		}
+		
 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
 		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
 		model.addAttribute("segmentFilter", pService.findDistinctSegment());
 		
-		// Data for recommendations (non-logged in users)
+		// Data for recommendations - popular projects (non-logged in users)
 		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
 		
-		// Data for users' recommendation (logged in users)
+		// Date for recommendations - recently transacted projects (non-logged in users)
+		model.addAttribute("recentProp", pService.getRecentTxn());
+
+		return "index";
+	}
+	
+	@GetMapping("/home")
+ 	public String viewHomeLoggedIn(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("userObj");
 		
+		if (user == null) {
+			return "redirect:/login";
+		}
+		
+		// Filters for search function
+		model.addAttribute("districtFilter", tService.getDistinctDistrict());
+		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		
+		// Data for recommendations - popular projects (non-logged in users)
+		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		
+		// Date for recommendations - recently transacted projects (non-logged in users)
+		model.addAttribute("recentProp", pService.getRecentTxn());
+		
+		// Data for users' recommendation (logged in users)
+		model.addAttribute("userRec", pService.getUsersRecommendations(user.getUserId()));
 		
 		return "index";
 	}
@@ -78,7 +107,7 @@ public class CommonController {
 			session.setAttribute("userId", u.getUserId());
 			session.setAttribute("userObj", u);
 			
-			return "redirect:/";
+			return "redirect:/home";
 		}
 	}
 	
@@ -121,6 +150,8 @@ public class CommonController {
  		model.addAttribute("searchresult", result);
  		model.addAttribute("typeFilter", propTypes);
  		model.addAttribute("tenureFilter", tenureFilters);
+
+ 		
  		return "search-result";
  	}
 }

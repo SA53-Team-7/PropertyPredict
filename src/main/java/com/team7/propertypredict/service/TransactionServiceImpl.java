@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
-import com.team7.propertypredict.repository.ProjectRepository;
 import com.team7.propertypredict.repository.TransactionRepository;
 
 	
@@ -27,11 +26,6 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<Transaction> findAllTransactions() {
 		return trepo.findAll();
 	}
-  
-//  @Override
-//	public ArrayList<Transaction> getMobileRecommendationsDistrict(Integer id) {
-//	  return trepo.getMobileRecommendationsDistrict(id);
-//	}
   
 	@Override
 	public List<Transaction> getTransactionsByProjectId(Integer id) {
@@ -138,19 +132,27 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<Project> getSimilarProjectIDsByPrice(Integer id) {
 		List<String> projectIDs = new ArrayList<String>();
 		List<Project> results = new ArrayList<Project>();
-		Integer count = 0;
 		Double avg_amt, total_amt = 0.0;
 		Double lower = null, upper = null;
-		
-		// Find interested districts
-		List<String> districts = trepo.findInterestedDistricts(id);
 		
 		// Find shortlisted projects
 		List<Project> shortlisted = pservice.findAllShortlistProjects(id);
 		
+		// If user doesn't have any shortlisted projects, take the first element of recently transacted properties
+		if (shortlisted.size() == 0) {
+			shortlisted.add(getRecentlyTransactedProjects().get(0));
+		}
+		
+		// Find interested districts
+		List<String> districts = trepo.findInterestedDistricts(id);
+		
+		if (districts.size() == 0) {
+			districts.addAll(getDistrictValues(shortlisted.get(0).getProjectId()));
+		}
+		
 		// Find average price of all shortlisted properties
 		for (Project p : shortlisted) {
-			total_amt += pservice.findAveragePriceByProjectId(id);
+			total_amt += pservice.findAveragePriceByProjectId(p.getProjectId());
 		}
 		
 		avg_amt = total_amt / shortlisted.size();
@@ -164,13 +166,14 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		// Randomly choose 3 projects with similar characteristics
 		Random r = new Random();
+		List<Integer> pidTracker = new ArrayList<>();
 		
-		while (count != 3) {
+		while (pidTracker.size() != 3) {
 			Integer pid = Integer.valueOf(projectIDs.get(r.nextInt(projectIDs.size())));
 			
-			if (!shortlisted.contains(pservice.findProjectById(pid))) {
+			if (!pidTracker.contains(pid)) {
 				results.add(pservice.findProjectById(pid));
-				count++;
+				pidTracker.add(pid);
 			}
 		}
 		
@@ -178,7 +181,28 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Transaction> getTopTransactionByProjectId(int projectId) {
-	  return trepo.getTopTransactionByProjectId(projectId);
+	public List<Project> getRecentlyTransactedProjects() {
+		LocalDate currDate = LocalDate.now();
+		List<Project> results = new ArrayList<Project>();		
+		String month = String.valueOf(currDate.getMonthValue()).length() == 2 ? String.valueOf(currDate.getMonthValue()) : "0" + String.valueOf(currDate.getMonthValue());
+		String year = String.valueOf(currDate.getYear()).substring(2);
+		String recentDt = month + year;
+		
+		// Get list of all transactions from the current month
+		List<String> recentProjects = trepo.findRecentProjects(recentDt);
+		
+		// Choose 6 random transactions from the current month
+		Random r = new Random();
+		List<Integer> pidTracker = new ArrayList<>();
+
+		while (pidTracker.size() != 6) {	
+			Integer pid = Integer.valueOf(recentProjects.get(r.nextInt(recentProjects.size())));
+			
+			if (!pidTracker.contains(pid)) {
+				results.add(pservice.findProjectById(pid));
+				pidTracker.add(pid);
+			}
+		}
+		return results;
 	}
 }

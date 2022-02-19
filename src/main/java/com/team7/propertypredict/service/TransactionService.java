@@ -43,6 +43,9 @@ public interface TransactionService {
 	// Get all project IDs with high transaction count
 	List<String> getTopProjectIDsByTransactions();
 	
+	// Get all recently transacted projects
+	List<Project> getRecentlyTransactedProjects();
+	
 	// Get all project IDs with similar price range and district 
 	List<Project> getSimilarProjectIDsByPrice(Integer id);
 	

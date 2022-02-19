@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
+
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
@@ -79,6 +81,9 @@ public interface ProjectService {
 	// Get static map 
 	String getMap(Integer pid);
 	
+	// Get map with nearest train station
+	String getMapWithNearestTrain(Integer pid);
+	
 	// Get static map with amenities
 	String getMapWithAmenities(Integer pid, Map<String, List<Location>> locations);
 	
@@ -90,6 +95,9 @@ public interface ProjectService {
 	
 	// Calculate the difference in distance
 	Double calculateDistance(Integer pid, Double latitude, Double longitude);
+	
+	// Get nearest train location and its distance
+	Map<String, Double> getNearestTrainAndLocation(Integer pid);
 	
 	// Get amenities and its distance
 	Map<String, Double> getAmenities(Integer pid, List<Location> locations);
@@ -121,8 +129,17 @@ public interface ProjectService {
 	// Get list of popular projects for recommendations
 	List<SearchResultHelper> getPopularLocationsByTxn();
 	
+	// Get a list of recent projects for recommendations
+	List<SearchResultHelper> getRecentTxn();
+	
 	// Get list of recommendations for logged in users
 	List<SearchResultHelper> getUsersRecommendations(Integer userId);
+	
+	// Get names in project details list
+	List<String> getNamesFromProjectDetailList(List<ProjectDetails> pd, Integer uid);
+	
+	// Get filter project from search
+	List<ProjectDetails> getProjectDetailFromSearch(List<ProjectDetails> pd, String str);
 
-
+	
 }

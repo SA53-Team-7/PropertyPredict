@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+<body>
+	<div style="margin:0px auto;width:90%;">
+			<table id = "search-tbl">
+				<tr th:each="search : ${recommendresult}">
+					<td style="background:#EFEFEF;margin:15px 0px;padding:20px;border-radius:5px;font-size:20px;color:#333;">
+						<a th:href = "${'http://localhost:8080/project/viewProperty/' + {search.projectId}}"
+						<div>
+							<div>
+							    <h5 th:text="${search.name}">Project Name</h5>
+							    <p th:text= "'Street: ' + ${search.street}">Street</p>
+							   	<p th:text= "'Segment: ' + ${search.segment}">Segment</p>
+		  					</div>
+						</div>
+						</a>
+					</td>
+				</tr>
+			</table >
+    </div>
+</body>
+</html>
