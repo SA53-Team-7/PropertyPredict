@@ -2,8 +2,11 @@ package com.team7.propertypredict.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
@@ -55,6 +59,7 @@ public class ProjectController {
 		return "property";
 	}
 
+	// View nearby amenities given a project id
 	@GetMapping("/view-map/{pid}")
 	public String viewMap(@PathVariable Integer pid, Model model) {
 
@@ -70,7 +75,8 @@ public class ProjectController {
 		return "map";
 
 	}
-
+	
+	// Add project to the shortlist given a project id
 	@GetMapping("/add-shortlist/{pid}")
 	public String addShortlist(HttpSession session, @PathVariable Integer pid, Model model) {
 		User user = (User) session.getAttribute("userObj");
@@ -84,17 +90,16 @@ public class ProjectController {
 		return "redirect:/project/view-shortlist";
 	}
 
+	// View shortlisted projects
 	@GetMapping("/view-shortlist")
-	public String viewShortlist(Model model, HttpSession session) {
+	public String viewShortlist(Model model, HttpSession session, @RequestParam(required = false) String filter) {
 		User user = (User) session.getAttribute("userObj");
+		if (user == null) { return "forward:/login"; }
 
-		/*
-		 * if (user == null) { return "forward:/login"; }
-		 */
-		List<ProjectDetails> projects = pService.getProjectsDetails(1);
+		List<ProjectDetails> projects = pService.getProjectsDetails(user.getUserId());
 
 		model.addAttribute("projects", projects);
-		model.addAttribute("names", pService.getNamesFromProjectDetailList(projects, 1));
+		model.addAttribute("names", pService.filterProjectDetailList(projects, filter));
 		model.addAttribute("searchStr", "Unavailable");
 		return "shortlist";
 	}
@@ -102,13 +107,11 @@ public class ProjectController {
 	@GetMapping("/filter-shortlist")
 	public String filterShortlist(Model model, HttpSession session, @Param("searchStr") String searchStr) {
 		User user = (User) session.getAttribute("userObj");
+		if (user == null) { return "forward:/login"; }
 
-		/*
-		 * if (user == null) { return "forward:/login"; }
-		 */
-		List<ProjectDetails> projects = pService.getProjectsDetails(1);
+		List<ProjectDetails> projects = pService.getProjectsDetails(user.getUserId());
 		List<ProjectDetails> filterProjects = pService.getProjectDetailFromSearch(projects, searchStr);
-		
+
 		model.addAttribute("projects", filterProjects);
 		model.addAttribute("names", pService.getNamesFromProjectDetailList(filterProjects, 1));
 		model.addAttribute("searchStr", filterProjects.isEmpty() ? searchStr : "Unavailable");
@@ -143,6 +146,6 @@ public class ProjectController {
 		model.addAttribute("project1", project1);
 		model.addAttribute("project2", project2);
 		model.addAttribute("project3", project3);
-		return "test";
+		return "compare-result";
 	}
 }

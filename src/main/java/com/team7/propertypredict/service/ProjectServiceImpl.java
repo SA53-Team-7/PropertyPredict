@@ -127,7 +127,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 		Locale usa = new Locale("en", "US");
 		NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
-		String averagePrice = dollarFormat.format(findAveragePriceByProjectId(pid));
+		Double av = findAveragePriceByProjectId(pid);
+		Integer avInt = (int) Math.round(av);
+		String averagePrice = dollarFormat.format(av);
 
 		Integer top = 0;
 		for (String floor : floors) {
@@ -145,11 +147,12 @@ public class ProjectServiceImpl implements ProjectService {
 		} else if (top / 10 == 0) {
 			topFloor = "01-0" + top;
 		} else {
-			topFloor = top.toString();
+			topFloor = "01-" +top;
 		}
 		pd.setProjectId(project.getProjectId());
 		pd.setName(project.getName());
 		pd.setStreet(project.getStreet());
+		pd.setPrice(avInt);
 		pd.setAveragePrice(averagePrice);
 		pd.setArea(min + "-" + max + " (square metre)");
 		pd.setFloorRange(topFloor);
@@ -749,5 +752,42 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return filterProjects;
+	}
+	
+	@Override
+	public List<ProjectDetails> filterProjectDetailList(List<ProjectDetails> pd, String filter){
+		if (filter != null) {
+			if (filter.equals("nameAsc")) {
+				Collections.sort(pd, new Comparator<ProjectDetails>() {
+					@Override
+					public int compare(ProjectDetails o1, ProjectDetails o2) {
+						return o1.getName().compareTo(o2.getName());
+					}
+				});
+				
+			} else if (filter.equals("nameDes")) {
+				Collections.sort(pd, new Comparator<ProjectDetails>() {
+					@Override
+					public int compare(ProjectDetails o1, ProjectDetails o2) {
+						return o2.getName().compareTo(o1.getName());
+					}
+				});
+			} else if (filter.equals("priceAsc")) {
+				Collections.sort(pd, new Comparator<ProjectDetails>() {
+					@Override
+					public int compare(ProjectDetails o1, ProjectDetails o2) {
+						return o1.getPrice() - o2.getPrice();
+					}
+				});
+			} else if (filter.equals("priceDes")) {
+				Collections.sort(pd, new Comparator<ProjectDetails>() {
+					@Override
+					public int compare(ProjectDetails o1, ProjectDetails o2) {
+						return o2.getPrice() - o1.getPrice();
+					}
+				});
+			}
+		}
+		return pd;
 	}
 }

@@ -140,6 +140,9 @@ public interface ProjectService {
 	
 	// Get filter project from search
 	List<ProjectDetails> getProjectDetailFromSearch(List<ProjectDetails> pd, String str);
+	
+	// Sort list based on the given filter
+	List<ProjectDetails> filterProjectDetailList(List<ProjectDetails> pd, String filter);
 
 	
 }

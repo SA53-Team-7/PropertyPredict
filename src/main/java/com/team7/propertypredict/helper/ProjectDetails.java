@@ -9,6 +9,7 @@ public class ProjectDetails {
 	private Integer projectId;
 	private String name;
 	private String street;
+	private Integer price;
 	private String averagePrice;
 	private String area;
 	private String floorRange;
@@ -47,6 +48,14 @@ public class ProjectDetails {
 
 	public void setStreet(String street) {
 		this.street = street;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 
 	public String getAveragePrice() {

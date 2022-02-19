@@ -36,11 +36,7 @@ public class SchedulerTask {
 	    @Autowired
 	    private TemplateEngine templateEngine;
 
-	    //one time in one min
-//	    @Scheduled(cron="0 */1 * * * ?")
-	    //one time in 20 mins
-//	    @Scheduled(cron="0 */20 * * * ?")
-	    //Every Sunday at 1 am
+
 	    @Scheduled(cron="0 0 1 ? * L")
 	    private void process(){
     	
