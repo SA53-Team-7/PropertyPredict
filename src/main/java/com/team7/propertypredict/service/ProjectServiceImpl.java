@@ -179,12 +179,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 		Integer top = 0;
 		for (String floor : floors) {
-			if (floor.length() == 5) {
+			if (floor.length() == 5 && !Character.isAlphabetic(floor.charAt(0))) {
 				String f = floor.substring(3, 5);
 				Integer t = Integer.parseInt(f);
 				if (t > top) {
 					top = t;
-				}
+				}	
 			}
 		}
 		String topFloor = "";
