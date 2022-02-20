@@ -151,7 +151,6 @@ public class CommonController {
  		model.addAttribute("typeFilter", propTypes);
  		model.addAttribute("tenureFilter", tenureFilters);
 
- 		
- 		return "search-result";
+ 		return "search-outcome";
  	}
 }

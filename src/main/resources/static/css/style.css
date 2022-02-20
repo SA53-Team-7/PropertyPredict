@@ -94,6 +94,10 @@
 	font-weight: bold;
 }
 
+.pred-form-input .form-group {
+	padding-bottom: 20px;
+}
+
 #price-pred-text {
 	padding-left: 25px;
 	padding-top: 15px;
@@ -198,6 +202,10 @@
 	float: left;
 }
 
+
+.loan-form label {
+	font-weight: bold;
+}
 .homeloan-calc-div h4{
 	padding-bottom: 1%;
 }
