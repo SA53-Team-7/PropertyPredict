@@ -34,9 +34,9 @@ public class SchedulerTask {
 	    private TemplateEngine templateEngine;
 
 	    //one time in one min
-	    @Scheduled(cron="0 */1 * * * ?")
-	    //one time in 20 mins
-//	    @Scheduled(cron="0 */20 * * * ?")
+//	    @Scheduled(cron="0 */1 * * * ?")
+	    //one time in 15 mins
+	    @Scheduled(cron="0 */15 * * * ?")
 	    //Every Friday at 2 am
 //	    @Scheduled(cron="* * 2 * * 5 ")
 	    private void process(){
@@ -58,11 +58,8 @@ public class SchedulerTask {
 
 		        String emailContent = templateEngine.process("sendMail", context);
 		        emailSubject="Hi "+user.getUsername()+", Your Recommendations Here!";
-
-		        //test
-		        mailService.sendHtmlMail("mycojer@gmail.com",emailSubject,emailContent);
-		        
-		        //mailService.sendHtmlMail("mailTo",emailSubject,emailContent);
+		        System.out.println("Email Prepared");
+		        mailService.sendHtmlMail(mailTo,emailSubject,emailContent);
 			}   	
 	    	
 	    }

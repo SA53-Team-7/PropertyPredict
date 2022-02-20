@@ -7,11 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.team7.propertypredict.service.AmenityService;
 import com.team7.propertypredict.service.ProjectService;
 
+@EnableAsync
 @EnableScheduling
 @SpringBootApplication
 public class PropertypredictApplication {
