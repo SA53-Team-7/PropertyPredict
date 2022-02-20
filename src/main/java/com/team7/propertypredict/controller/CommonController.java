@@ -66,20 +66,59 @@ public class CommonController {
 		if (user == null) {
 			return "redirect:/login";
 		}
+
+		Thread thread1 = new Thread() {
+		    public void run() {
+		    	model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		    }
+		};
 		
-		// Filters for search function
-		model.addAttribute("districtFilter", tService.getDistinctDistrict());
-		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
-		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		Thread thread2 = new Thread() {
+		    public void run() {
+				model.addAttribute("recentProp", pService.getRecentTxn());
+		    }
+		};
+		
+		Thread thread3 = new Thread() {
+		    public void run() {
+				model.addAttribute("userRec", pService.getUsersRecommendations(user.getUserId()));
+		    }
+		};
+		
+		Thread thread4 = new Thread() {
+		    public void run() {
+		    	// Filters for search function
+				model.addAttribute("districtFilter", tService.getDistinctDistrict());
+				model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+				model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		    }
+		};
+		
+		thread1.start();
+		thread2.start();
+		thread3.start();
+		thread4.start();
+
+		try {
+			thread1.join();
+			thread2.join();
+			thread3.join();
+			thread4.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		// Data for recommendations - popular projects (non-logged in users)
-		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
-		
-		// Date for recommendations - recently transacted projects (non-logged in users)
-		model.addAttribute("recentProp", pService.getRecentTxn());
-		
-		// Data for users' recommendation (logged in users)
-		model.addAttribute("userRec", pService.getUsersRecommendations(user.getUserId()));
+		/*
+		 * model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		 * 
+		 * // Date for recommendations - recently transacted projects (non-logged in
+		 * users) model.addAttribute("recentProp", pService.getRecentTxn());
+		 * 
+		 * // Data for users' recommendation (logged in users)
+		 * model.addAttribute("userRec",
+		 * pService.getUsersRecommendations(user.getUserId()));
+		 */
 		
 		return "index";
 	}
