@@ -15,7 +15,7 @@ public class MailServiceImpl implements MailService {
 	@Resource
 	private JavaMailSender mailSender;
 	
-    private String from = "sa53.team7@gmail.com";
+    private String from = "mycojer@qq.com";
 
 	@Override
 	public void sendHtmlMail(String to, String subject, String content) {

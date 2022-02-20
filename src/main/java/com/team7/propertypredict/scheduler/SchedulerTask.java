@@ -3,12 +3,9 @@ package com.team7.propertypredict.scheduler;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.Subject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -37,17 +34,18 @@ public class SchedulerTask {
 	    private TemplateEngine templateEngine;
 
 	    //one time in one min
-//	    @Scheduled(cron="0 */1 * * * ?")
+	    @Scheduled(cron="0 */1 * * * ?")
 	    //one time in 20 mins
 //	    @Scheduled(cron="0 */20 * * * ?")
 	    //Every Friday at 2 am
-	    @Scheduled(cron="* * 2 * * 5 ")
+//	    @Scheduled(cron="* * 2 * * 5 ")
 	    private void process(){
     	
 	    	System.out.println("SchedulerTask");
 
 	    	ArrayList<User> shortListUsers=userService.findUserHaveShortlist();
 	    	System.out.println(shortListUsers.size());
+	    	
 	    	for (User user : shortListUsers) {
 	    		
 	    		mailTo = user.getEmail();
