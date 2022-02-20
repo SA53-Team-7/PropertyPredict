@@ -113,9 +113,9 @@
 							</div>
 						</div>
 						<div class="mb-2">
-							<a th:href="${'/project/viewProperty/' + {id}}" class="card-link"
+							<a th:href="${'/project/viewProperty/' + {project.projectId}}" class="card-link"
 								style="font-size:18px;color:blue;text-decoration:none;">View more information</a>
-							<a th:href="${'/project/view-map/' + {id}}" class="card-link mx-4"
+							<a th:href="${'/project/view-map/' + {project.projectId}}" class="card-link mx-4"
 								style="font-size:18px;color:blue;text-decoration:none;">View nearby amenities</a>
 						</div>
 					</div>
