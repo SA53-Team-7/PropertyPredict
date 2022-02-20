@@ -128,7 +128,7 @@ public class ProjectController {
 
 	@GetMapping("/compare")
 	public String compare(Model model, @RequestParam(required = false) String msg) {
-		model.addAttribute("names", pService.findAllProjectNames());
+		model.addAttribute("names", pService.findAllProjectNamesAndStreet());
 		model.addAttribute("msg", msg);
 		return "compare";
 	}

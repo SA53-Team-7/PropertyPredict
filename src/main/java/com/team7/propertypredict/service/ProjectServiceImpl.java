@@ -90,6 +90,38 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public List<String> findAllProjectNamesAndStreet() {
+		List<Project> projects = findAllProjects();
+		List<String> names = new ArrayList<String>();
+		for (Project project : projects) {
+			names.add(project.getName());
+		}
+		List<String> newNames = names.stream().distinct().collect(Collectors.toList());
+		newNames.remove("CONDOMINIUM DEVELOPMENT");
+		newNames.remove("LANDED HOUSING DEVELOPMENT");
+		newNames.remove("RESIDENTIAL APARTMENTS");
+
+		List<String> condoStreets = pService.findAllStreetFromProjectName("CONDOMINIUM DEVELOPMENT");
+		for (String cs : condoStreets) {
+			newNames.add("CONDOMINIUM DEVELOPMENT" + " (" + cs + ")");
+		}
+		List<String> lhdStreets = pService.findAllStreetFromProjectName("LANDED HOUSING DEVELOPMENT");
+		for (String lhd : lhdStreets) {
+			newNames.add("LANDED HOUSING DEVELOPMENT" + " (" + lhd + ")");
+		}
+		List<String> raStreets = pService.findAllStreetFromProjectName("RESIDENTIAL APARTMENTS");
+		for (String ra : raStreets) {
+			newNames.add("RESIDENTIAL APARTMENTS" + " (" + ra + ")");
+		}
+		return newNames;
+	}
+
+	@Override
+	public List<String> findAllStreetFromProjectName(String name) {
+		return pRepo.findAllStreetFromProjectName(name);
+	}
+
+	@Override
 	public List<Project> getTop20Projects() {
 		return pRepo.getTop20Projects();
 	}
@@ -135,7 +167,7 @@ public class ProjectServiceImpl implements ProjectService {
 		Double av = findAveragePriceByProjectId(pid);
 		Integer avInt = (int) Math.round(av);
 		String averagePrice = dollarFormat.format(av);
-		
+
 		String region = project.getSegment();
 		if (region == "CCR") {
 			region = "Core Central Region (CCR)";
@@ -161,7 +193,7 @@ public class ProjectServiceImpl implements ProjectService {
 		} else if (top / 10 == 0) {
 			topFloor = "01-0" + top;
 		} else {
-			topFloor = "01-" +top;
+			topFloor = "01-" + top;
 		}
 		pd.setProjectId(project.getProjectId());
 		pd.setName(project.getName());
@@ -756,21 +788,21 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return names;
 	}
-	
+
 	@Override
-	public List<ProjectDetails> getProjectDetailFromSearch(List<ProjectDetails> pd, String str){
+	public List<ProjectDetails> getProjectDetailFromSearch(List<ProjectDetails> pd, String str) {
 		List<ProjectDetails> filterProjects = new ArrayList<ProjectDetails>();
-		
+
 		for (ProjectDetails p : pd) {
-			if(p.getName().toLowerCase().contains(str.toLowerCase())) {
+			if (p.getName().toLowerCase().contains(str.toLowerCase())) {
 				filterProjects.add(p);
 			}
 		}
 		return filterProjects;
 	}
-	
+
 	@Override
-	public List<ProjectDetails> filterProjectDetailList(List<ProjectDetails> pd, String filter){
+	public List<ProjectDetails> filterProjectDetailList(List<ProjectDetails> pd, String filter) {
 		if (filter != null) {
 			if (filter.equals("nameAsc")) {
 				Collections.sort(pd, new Comparator<ProjectDetails>() {
@@ -779,7 +811,7 @@ public class ProjectServiceImpl implements ProjectService {
 						return o1.getName().compareTo(o2.getName());
 					}
 				});
-				
+
 			} else if (filter.equals("nameDes")) {
 				Collections.sort(pd, new Comparator<ProjectDetails>() {
 					@Override
@@ -805,51 +837,95 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return pd;
 	}
-	
+
 	@Override
 	public String validateSearchStrings(String str1, String str2, String str3) {
 		String errorMsg = "No error";
 		List<String> names = pService.findAllProjectNames();
-
-		if (!names.contains(str1.toUpperCase())) {
-			errorMsg = "There is no project with name \"" + str1 + "\" . Reenter again for Project 1.";
-		} else if (!names.contains(str2.toUpperCase())) {
-			errorMsg = "There is no project with name \"" + str2 + "\" . Reenter again for Project 2.";
-		} else if (!names.contains(str3.toUpperCase())) {
-			errorMsg = "There is no project with name \"" + str3 + "\" . Reenter again for Project 3.";
-		} else {
-			List<String> searchStrs = Arrays.asList(str1, str2, str3);
-			List<String> distinctNames = searchStrs.stream().distinct().collect(Collectors.toList());
-			if (distinctNames.size() == 1) {
-				errorMsg = "Need at least 2 distinct project names. Reenter the names again.";
+		
+		List<String> strs = Arrays.asList(str1, str2, str3);
+		for(String str: strs) {
+			if(str.contains("CONDOMINIUM DEVELOPMENT")|| str.contains("LANDED HOUSING DEVELOPMENT") || str.contains("RESIDENTIAL APARTMENTS")) {
+				List<String> condoStreets = pService.findAllStreetFromProjectName("CONDOMINIUM DEVELOPMENT");
+				List<String> lhdStreets = pService.findAllStreetFromProjectName("LANDED HOUSING DEVELOPMENT");
+				List<String> raStreets = pService.findAllStreetFromProjectName("RESIDENTIAL APARTMENTS");
+				List<String> streets = new ArrayList<String>();
+				streets.addAll(condoStreets);
+				streets.addAll(lhdStreets);
+				streets.addAll(raStreets);
+				for(String street: streets) {
+					if(str.contains(street)) {
+						errorMsg = "No error";
+						break;
+					}
+					else {
+						errorMsg = "There is no project with name \"" + str + "\" . Please reenter again.";
+					}
+				}
+			}
+			else {
+				if (!names.contains(str.toUpperCase())) {
+					errorMsg = "There is no project with name \"" + str + "\" . Please reenter again.";
+				} 
+				else {
+					List<String> searchStrs = Arrays.asList(str1, str2, str3);
+					List<String> distinctNames = searchStrs.stream().distinct().collect(Collectors.toList());
+					if (distinctNames.size() == 1) {
+						errorMsg = "Need at least 2 distinct project names. Reenter the names again.";
+					}
+				}
 			}
 		}
 		return errorMsg;
 	}
-	
+
 	@Override
-	public List<ProjectDetails> getProjectDetailsFromSearchStrings(String str1, String str2, String str3) throws ParseException{
+	public List<ProjectDetails> getProjectDetailsFromSearchStrings(String str1, String str2, String str3)
+			throws ParseException {
 		List<String> searchStrs = Arrays.asList(str1, str2, str3);
 		List<Project> projects = new ArrayList<Project>();
-		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();	
-		
+		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+
 		for (String str : searchStrs) {
-			projects.add(pService.findProjectByName(str));
+			if (str.contains("CONDOMINIUM DEVELOPMENT")) {
+				Integer idx = str.indexOf("(");
+				String street = str.substring(idx+1);
+				String s = street.replace(")", "");
+				Project project = pService.findProjectByNameAndStreet("CONDOMINIUM DEVELOPMENT", s);
+				projects.add(project);
+			}
+			else if (str.contains("LANDED HOUSING DEVELOPMENT")) {
+				Integer idx = str.indexOf("(");
+				String street = str.substring(idx+1);
+				String s = street.replace(")", "");
+				Project project = pService.findProjectByNameAndStreet("LANDED HOUSING DEVELOPMENT", s);
+				projects.add(project);
+			}
+			else if (str.contains("RESIDENTIAL APARTMENTS")) {
+				Integer idx = str.indexOf("(");
+				String street = str.substring(idx+1);
+				String s = street.replace(")", "");
+				Project project = pService.findProjectByNameAndStreet("RESIDENTIAL APARTMENTS", s);
+				projects.add(project);
+			}
+			else {
+				projects.add(pService.findProjectByName(str));
+			}
 		}
 		for (Project project : projects) {
 			List<String> dates = new ArrayList<String>();
 			List<Double> prices = new ArrayList<Double>();
 			List<TransactionHelper> ths = new ArrayList<TransactionHelper>();
-			
+
 			List<Transaction> txns = project.getTransactions();
-			for(Transaction txn: txns) {
+			for (Transaction txn : txns) {
 				String d = txn.getContractDate();
-				String month = d.substring(0,1) == "0" ? d.substring(1,2) : d.substring(0,2);
+				String month = d.substring(0, 1) == "0" ? d.substring(1, 2) : d.substring(0, 2);
 				String y = "20";
 				String year = d.substring(2);
 				String txnDate = 15 + "/" + month + "/" + y + year;
-			    Date date =new SimpleDateFormat("dd/MM/yyyy").parse(txnDate);  
-				//DateTime txnDate = new Date(year, parseInt(month) - 1, 15);
+				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(txnDate);
+				// DateTime txnDate = new Date(year, parseInt(month) - 1, 15);
 				TransactionHelper th = new TransactionHelper(date, txn.getPrice());
 				ths.add(th);
 			}
@@ -859,9 +935,9 @@ public class ProjectServiceImpl implements ProjectService {
 					return o1.getDate().compareTo(o2.getDate());
 				}
 			});
-			for(TransactionHelper th: ths) {
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");  
-				String strDate = dateFormat.format(th.getDate());  
+			for (TransactionHelper th : ths) {
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM");
+				String strDate = dateFormat.format(th.getDate());
 				dates.add(strDate);
 				prices.add(th.getPrice());
 			}
@@ -869,8 +945,13 @@ public class ProjectServiceImpl implements ProjectService {
 			pd.setPrices(prices);
 			pd.setDates(dates);
 			projectDetails.add(pd);
-			
-		}	
+
+		}
 		return projectDetails;
+	}
+	
+	@Override
+	public Project findProjectByNameAndStreet(String name, String street) {
+		return pRepo.findProjectByNameAndStreet(name, street);
 	}
 }

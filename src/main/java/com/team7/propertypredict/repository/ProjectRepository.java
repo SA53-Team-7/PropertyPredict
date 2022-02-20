@@ -77,4 +77,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query(value = "SELECT * FROM projects p join projects_users pu ON p.project_id = pu.projects_project_id WHERE pu.users_user_id = :uid", nativeQuery = true)
 	List<Project> findAllShortlistProjects(@Param ("uid") Integer uid);
 	
+	@Query(value = "SELECT p.street FROM projects p where p.name = :name", nativeQuery = true)
+	List<String> findAllStreetFromProjectName(@Param ("name") String name);
+	
+	@Query(value = "SELECT * from projects p where p.name = :name and p.street = :street", nativeQuery = true)
+	Project findProjectByNameAndStreet(@Param ("name") String name, @Param ("street") String street);
 }
