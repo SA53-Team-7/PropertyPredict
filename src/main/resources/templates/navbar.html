@@ -35,7 +35,7 @@
 		      		
 		      		<li class="nav-item dropdown" th:if="${session.userObj != null}">
                         <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        	<span style="color:white;"><i class="fa-solid fa-user"></i> <span class="navbar-text" th:text="${session.userObj.username}"></span></span>
+                        	<span class="navbar-text" th:text="${session.userObj.username}"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
