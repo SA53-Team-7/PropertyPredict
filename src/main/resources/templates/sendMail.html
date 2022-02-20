@@ -8,7 +8,7 @@
 			<table id = "search-tbl">
 				<tr th:each="search : ${recommendresult}">
 					<td style="background:#EFEFEF;margin:15px 0px;padding:20px;border-radius:5px;font-size:20px;color:#333;">
-						<a th:href = "${'http://localhost:8080/project/viewProperty/' + {search.projectId}}"
+						<a th:href = "${'https://propertypredict-propertypredictweb.azuremicroservices.io/project/viewProperty/' + {search.projectId}}"
 						<div>
 							<div>
 							    <h5 th:text="${search.name}">Project Name</h5>

@@ -29,7 +29,7 @@ function sendRequest() {
 	
 	$.ajax({
 		type: 'GET',
-		url: "http://localhost:8080/api/mortgage",
+		url: "https://propertypredict-propertypredictweb.azuremicroservices.io/api/mortgage",
 		data: data,
 		contentType : 'text/plain',
 		dataType: 'json',

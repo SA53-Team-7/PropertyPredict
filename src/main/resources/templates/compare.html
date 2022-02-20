@@ -20,8 +20,8 @@
 		<div class="mt-5 mb-5 h4" th:if="${msg!='No error'}" th:text="${msg}" style="text-align:center;margin-top:40px;margin-bottom:40px;color:red" ></div>
 		
 		<form autocomplete="off" th:action="@{/project/compare-result}" method="GET">
-			<div class="form-row">
-				<div class="col-sm4 form-group mb-5" style="text-align:center;">
+			<div class="form-row border">
+				<div class="col-sm4 form-group mb-5 border" style="text-align:center;">
 					<label for="project1" class="mx-5">Project 1: </label>
 					<div class="autocomplete" style="width:250px;">
 						<input id="myInput1" type="text" class="form-control" placeholder="Enter Project Name"
@@ -29,7 +29,7 @@
 					</div>
 					<i class="fas fa-search mx-1"></i>
 				</div>
-				<div class="col-sm4 form-group mb-5 mt-5" style="text-align:center;">
+				<div class="col-sm4 form-group mb-5 mt-5 border" style="text-align:center;">
 					<label for="project2" class="mx-5">Project 2: </label>
 					<div class="autocomplete" style="width:250px;">
 						<input id="myInput2" type="text" class="form-control" placeholder="Enter Project Name"
@@ -37,7 +37,7 @@
 					</div>
 					<i class="fas fa-search mx-1"></i>
 				</div>
-				<div class="col-sm4 form-group mt-5" style="text-align:center;">
+				<div class="col-sm4 form-group mt-5 border" style="text-align:center;">
 					<label for="project3" class="mx-5">Project 3: </label>
 					<div class="autocomplete" style="width:250px;">
 						<input id="myInput3" type="text" class="form-control" placeholder="Enter Project Name"
