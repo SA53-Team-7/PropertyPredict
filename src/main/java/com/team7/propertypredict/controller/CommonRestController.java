@@ -50,7 +50,7 @@ public class CommonRestController {
 	
 	// Extract data from URA based on CRON schedule
 	@RequestMapping("/data")
-	@Scheduled(cron = "0 0 1 * * WED", zone = "Asia/Singapore")
+//	@Scheduled(cron = "0 0 1 * * WED", zone = "Asia/Singapore")
 	public void loadData() {
 		long duration, difference; 
 		Date start, end;
