@@ -9,28 +9,28 @@
 			<div class="pred-form-input">
 				<label for="pred-floor">Floor Range</label>
 				<div class="form-group row">
-				    <select id="pred-floor" class="form-control form-control-sm" th:field="*{floorFilter}">
+				    <select id="pred-floor" class="form-select" th:field="*{floorFilter}">
 				      	<option th:each = "range : ${floorFilter}" th:if="${range != 'All'}" th:value="${range}" th:text="${range}"></option>
 				    </select>
 				</div>
     			
     			<label for="pred-area">Floor Area</label>
     			<div class="form-group row">	
-				    <select id="pred-area" class="form-control form-control-sm" th:field="*{areaFilter}">
+				    <select id="pred-area" class="form-select" th:field="*{areaFilter}">
 				      	<option th:each = "size : ${areaFilter}" th:if="${size != 'All'}" th:value="${size}" th:text="${size}"></option>
 				    </select>
 				</div>
 				
 				<label for="pred-district">District</label>
 				<div class="form-group row">	
-				    <select id="pred-district" class="form-control form-control-sm" th:field="*{districtFilter}">
+				    <select id="pred-district" class="form-select" th:field="*{districtFilter}">
 				      	<option th:each = "dist : ${districtFilter}" th:value="${dist}" th:text="${dist}"></option>
 				    </select>
 				</div>
 				
 				<label for="pred-top">TOP Year</label>
 				<div class="form-group row">	
-				    <select id="pred-top" class="form-control form-control-sm" th:field="*{topFilter}">
+				    <select id="pred-top" class="form-select" th:field="*{topFilter}">
 				      	<option th:each = "top : ${topFilter}" th:value="${top}" th:text="${top}"></option>
 				    </select>
 				    <p id="top-note">Note: TOP is 0 for freehold properties</p >
@@ -38,13 +38,12 @@
 				
 				<label for="pred-tenure">Tenure (Years)</label>
 				<div class="form-group row">	
-				    <select id="pred-tenure" class="form-control form-control-sm" th:field="*{tenureFilter}">
+				    <select id="pred-tenure" class="form-select" th:field="*{tenureFilter}">
 				      	<option th:each = "tenure : ${tenureFilter}" th:value="${tenure}" th:text="${tenure}"></option>
 				    </select>
 				</div>
-				
 			</div>
-			<div class="form-group row" style="padding-left: 3%;">
+			<div class="form-group row">
 			     <button id="est-btn" type="button" class="btn btn-primary" onclick="predict()">Estimate Price</button >
 			</div>
 		</form>
@@ -59,7 +58,7 @@
 	
 	<div id = "price-pred" style="display: none">
 		<table class="table table-bordered">
-			<thead class="thead-dark">
+			<thead class="table-dark">
 				<tr>
 					<th scope="col">Price / m²</th>
 		      		<th scope="col">Total Price</th>

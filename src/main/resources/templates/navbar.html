@@ -7,53 +7,44 @@
 
 <body>
 	<div th:fragment="menu" id="menu">
-		<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
-	  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-	    	<span class="navbar-toggler-icon"></span>
-	  	</button>
-	  	
-	  	<div class="collapse navbar-collapse" id="navbarTogglerDemo01" th:if="${session.userObj == null}">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
 	    	<a class="navbar-brand" href="/">Property Market Indicator</a>    
-		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-			    <li class="nav-item">
-		        	<a class="nav-link" th:href="@{/newprojects}">New Projects <span class="sr-only">(current)</span></a>
-		      	</li>
-		      	<li class="nav-item">
-		        	<a class="nav-link" th:href="@{/project/compare}">Compare <span class="sr-only">(current)</span></a>
-		      	</li>
-		    </ul>
-		    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-		    	<li class="nav-item">
-		        	<a class="nav-link" th:href="@{/registration}">Register <span class="sr-only">(current)</span></a>
-		      	</li>
-		      	<li class="nav-item">
-		        	<a class="nav-link" th:href="@{/login}">Login <span class="sr-only">(current)</span></a>
-		      	</li>
-		    </ul>
-	  	</div>
-	  	
-	  	<div class="collapse navbar-collapse" id="navbarTogglerDemo01" th:if="${session.userObj != null}">
-	    	<a class="navbar-brand" href="/">Property Market Indicator</a>
-	    	 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-			    <li class="nav-item">
-		        	<a class="nav-link" th:href="@{/newprojects}">New Projects <span class="sr-only">(current)</span></a>
-		      	</li>
-		      	<li class="nav-item">
-		        	<a class="nav-link" th:href="@{/project/compare}">Compare <span class="sr-only">(current)</span></a>
-		      	</li>
-		      	<li class="nav-item">
-		        	<a class="nav-link" th:href="@{/project/view-shortlist}">Favourites <span class="sr-only">(current)</span></a>
-		      	</li>
-		    </ul>
-	    	<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-				<span style="color:white;"><i class="fa-solid fa-user"></i> <span class="navbar-text" th:text="${session.userObj.username}"></span></span> >
-		    	<li class="nav-item">
-		        	<a class="nav-link" th:href="@{/logout}">Logout <span class="sr-only">(current)</span></a>
-		      	</li>
-		    </ul>
-	  	</div>
-		</nav>
-
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                	<li class="nav-item">
+		        		<a class="nav-link" th:href="@{/newprojects}">New Projects <span class="sr-only">(current)</span></a>
+		      		</li>
+		      		<li class="nav-item">
+		        		<a class="nav-link" th:href="@{/project/compare}">Compare <span class="sr-only">(current)</span></a>
+		      		</li>
+		      		<li class="nav-item" th:if="${session.userObj != null}">
+		        		<a class="nav-link" th:href="@{/project/view-shortlist}">Favourites <span class="sr-only">(current)</span></a>
+		      		</li>  
+                </ul>
+                <ul class="navbar-nav ms-auto">
+               		<li class="nav-item" th:if="${session.userObj == null}">
+		        		<a class="nav-link" th:href="@{/registration}">Register <span class="sr-only">(current)</span></a>
+		      		</li>
+		      		<li class="nav-item" th:if="${session.userObj == null}">
+		        		<a class="nav-link" th:href="@{/login}">Login <span class="sr-only">(current)</span></a>
+		      		</li>
+		      		
+		      		<li class="nav-item dropdown" th:if="${session.userObj != null}">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        	<span class="navbar-text" th:text="${session.userObj.username}"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 	</div>		
 </body>
 </html>

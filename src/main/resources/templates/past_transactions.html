@@ -5,7 +5,7 @@
 	<div class="txn-filters">
 		<div class="txn-ind-filter">
 			<label for="period-dropdown">Period: </label>
-			<select class="form-control form-control-sm" id="period-dropdown" onchange="filterTable()">
+			<select class="form-select" id="period-dropdown" onchange="filterTable()">
 				<option value="All">All</option>
 				<option value="1">1 Year</option>
 				<option value="2">2 Years</option>
@@ -16,14 +16,14 @@
 		</div>
 		<div class="txn-ind-filter">
 			<label for="floor-dropdown">Floor Range: </label>
-			<select class="form-control form-control-sm" id="floor-dropdown" th:field="*{floorFilter}"
+			<select class="form-select" id="floor-dropdown" th:field="*{floorFilter}"
 				onchange="filterTable()">
 				<option th:each="range : ${floorFilter}" th:value="${range}" th:text="${range}"></option>
 			</select>
 		</div>
 		<div class="txn-ind-filter">
 			<label for="area-dropdown">Floor Area: </label>
-			<select class="form-control form-control-sm" id="area-dropdown" th:field="*{areaFilter}"
+			<select class="form-select" id="area-dropdown" th:field="*{areaFilter}"
 				onchange="filterTable()">
 				<option th:each="item : ${areaFilter}" th:value="${item}" th:text="${item}"></option>
 			</select>
@@ -37,7 +37,7 @@
 
 	<div id="txn-table" class="toggle-cont" th:if="${not #lists.isEmpty(allTxn)}">
 		<table class="table" id="property-txn-list">
-			<thead class="thead-dark">
+			<thead class="table-dark">
 				<tr>
 					<th scope="col">Transaction Month & Year</th>
 		      		<th scope="col">Floor Range</th>
