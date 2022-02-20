@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -150,5 +151,14 @@ public interface ProjectService {
 	
 	// Get project details from compare search strings
 	List<ProjectDetails> getProjectDetailsFromSearchStrings(String str1, String str2, String str3) throws ParseException;
+	
+	// Get project names with street for duplicates
+	List<String> findAllProjectNamesAndStreet();
+	
+	// Find street from project name
+	List<String> findAllStreetFromProjectName(String name);
+	
+	// Find project from name and street
+	Project findProjectByNameAndStreet(String name, String street);
 	
 }
