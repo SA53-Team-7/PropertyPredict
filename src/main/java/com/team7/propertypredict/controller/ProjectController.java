@@ -137,6 +137,7 @@ public class ProjectController {
 	public String submitSearchRequest(Model model, @Param("searchStr1") String searchStr1,
 			@Param("searchStr2") String searchStr2, @Param("searchStr3") String searchStr3) throws ParseException {
 		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+		ProjectDetails project3 = new ProjectDetails();
 
 		if (searchStr1 != null && searchStr2 != null && searchStr3 != null) {
 			String errorMsg = pService.validateSearchStrings(searchStr1, searchStr2, searchStr3);
@@ -145,12 +146,18 @@ public class ProjectController {
 				return "redirect:/project/compare?msg=" + errorMsg;
 			} else {
 				projectDetails = pService.getProjectDetailsFromSearchStrings(searchStr1, searchStr2, searchStr3);
+				if(projectDetails.size()==3) {
+					project3 = projectDetails.get(2);
+				}
+				else {
+					project3 = null;
+				}
 			}
 
 		}
 		model.addAttribute("project1", projectDetails.get(0));
 		model.addAttribute("project2", projectDetails.get(1));
-		model.addAttribute("project3", projectDetails.get(2));
+		model.addAttribute("project3", project3);
 		return "search-result";
 	}
 }

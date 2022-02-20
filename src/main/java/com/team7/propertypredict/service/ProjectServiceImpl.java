@@ -841,9 +841,14 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public String validateSearchStrings(String str1, String str2, String str3) {
 		String errorMsg = "No error";
-		List<String> names = pService.findAllProjectNames();
-		
-		List<String> strs = Arrays.asList(str1, str2, str3);
+		List<String> names = pService.findAllProjectNames();	
+		List<String> searchStrs = Arrays.asList(str1, str2, str3);
+		List<String> strs = new ArrayList<String>();
+		for(String s: searchStrs) {
+			if(!s.isEmpty()) {
+				strs.add(s);
+			}
+		}
 		for(String str: strs) {
 			if(str.contains("CONDOMINIUM DEVELOPMENT")|| str.contains("LANDED HOUSING DEVELOPMENT") || str.contains("RESIDENTIAL APARTMENTS")) {
 				List<String> condoStreets = pService.findAllStreetFromProjectName("CONDOMINIUM DEVELOPMENT");
@@ -867,9 +872,8 @@ public class ProjectServiceImpl implements ProjectService {
 				if (!names.contains(str.toUpperCase())) {
 					errorMsg = "There is no project with name \"" + str + "\" . Please reenter again.";
 				} 
-				else {
-					List<String> searchStrs = Arrays.asList(str1, str2, str3);
-					List<String> distinctNames = searchStrs.stream().distinct().collect(Collectors.toList());
+				else {		
+					List<String> distinctNames = strs.stream().distinct().collect(Collectors.toList());
 					if (distinctNames.size() == 1) {
 						errorMsg = "Need at least 2 distinct project names. Reenter the names again.";
 					}
@@ -883,10 +887,16 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectDetails> getProjectDetailsFromSearchStrings(String str1, String str2, String str3)
 			throws ParseException {
 		List<String> searchStrs = Arrays.asList(str1, str2, str3);
+		List<String> strs = new ArrayList<String>();
+		for(String s: searchStrs) {
+			if(!s.isEmpty()) {
+				strs.add(s);
+			}
+		}
 		List<Project> projects = new ArrayList<Project>();
 		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
 
-		for (String str : searchStrs) {
+		for (String str : strs) {
 			if (str.contains("CONDOMINIUM DEVELOPMENT")) {
 				Integer idx = str.indexOf("(");
 				String street = str.substring(idx+1);

@@ -23,10 +23,10 @@
 
 <body>
 	<div th:replace="navbar.html :: menu" />
-	<div class"container" style="margin-left:200px;margin-right:200px">
+	<div class"container" style="margin-left:150px;margin-right:150px">
 		<h1 class="text-muted " style="text-align:center;margin-top:70px;margin-bottom:70px">Comparison Results</h1>
 
-		<div class="row" style="display:flex;justify-content:space-between">
+		<div class="row" style="display:flex;justify-content:space-evenly">
 
 			<div class="col-3">
 				<h4 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i>
@@ -51,7 +51,8 @@
 					th:src="${project1.map}" />
 				<img class="rounded mx-auto d-block mb-2" style="width:350px;margin-top:120px"
 					th:unless="${project1.mapExist}" th:src="@{/images/unknown.png}" />
-				<h5 th:unless="${project1.mapExist}" style="text-align:center;margin-bottom:150px">Unable to locate location</h5>
+				<h5 th:unless="${project1.mapExist}" style="text-align:center;margin-bottom:150px">Unable to locate
+					location</h5>
 
 				<h5 class="text-muted mt-5 mb-3" style="text-align:center">PRICE TREND</h5>
 				<div style="width:350;height:300px">
@@ -91,14 +92,14 @@
 					th:src="${project2.map}" />
 				<img class="rounded mx-auto d-block mb-2" style="width:350px;margin-top:97px"
 					th:unless="${project2.mapExist}" th:src="@{/images/unknown.png}" />
-				<h5 th:unless="${project2.mapExist}" style="text-align:center;margin-bottom:150px;">Unable to locate location</h5>
-				
+				<h5 th:unless="${project2.mapExist}" style="text-align:center;margin-bottom:150px;">Unable to locate
+					location</h5>
+
 				<h5 class="text-muted mb-3 mt-5" style="text-align:center">PRICE TREND</h5>
 				<div style="width:350px;height:300px">
 					<canvas id="price-trend2"></canvas>
 				</div>
 			</div>
-
 			<script th:inline="javascript">
 				var labels2 = /*[[${project2.dates}]]*/[];
 				var datapoints2 = /*[[${project2.prices}]]*/[];
@@ -110,7 +111,7 @@
 
 
 
-			<div class="col-3">
+			<div class="col-3" th:if="${project3!=null}">
 				<h4 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i>
 					Project: </h4>
 				<h4 th:text="${project3.name}" style="width:380px"><span>THE COAST AT SENTOSA COVE SINGAPORE</span></h4>
@@ -133,22 +134,24 @@
 					th:src="${project3.map}" />
 				<img class="rounded mx-auto d-block mb-2" style="width:350px;margin-top:120px"
 					th:unless="${project3.mapExist}" th:src="@{/images/unknown.png}" />
-				<h5 th:unless="${project3.mapExist}" style="text-align:center;margin-bottom:150px;">Unable to locate location</h5>
-				
+				<h5 th:unless="${project3.mapExist}" style="text-align:center;margin-bottom:150px;">Unable to locate
+					location</h5>
+
 				<h5 class="text-muted mb-3 mt-5" style="text-align:center;">PRICE TREND</h5>
 				<div style="width:350px;height:300px">
 					<canvas id="price-trend3"></canvas>
 				</div>
+				<script th:inline="javascript">
+					var labels3 = /*[[${project3.dates}]]*/[];
+					var datapoints3 = /*[[${project3.prices}]]*/[];
+				</script>
+				<script>
+					getPriceTrendChart3();
+				</script>
 			</div>
 
 
-			<script th:inline="javascript">
-				var labels3 = /*[[${project3.dates}]]*/[];
-				var datapoints3 = /*[[${project3.prices}]]*/[];
-			</script>
-			<script>
-				getPriceTrendChart3();
-			</script>
+
 		</div>
 
 	</div>
