@@ -1,5 +1,6 @@
 package com.team7.propertypredict.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -39,23 +40,45 @@ public class CommonController {
 
 	@GetMapping("/")
  	public String viewHome(Model model, HttpSession session) {
-		// String name = (String) session.getAttribute("userName");
-		// model.addAttribute("name", name);
 		
 		if (session.getAttribute("userObj") != null) {
 			return "redirect:/home";
 		}
 		
-		model.addAttribute("districtFilter", tService.getDistinctDistrict());
-		model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
-		model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		Thread thread1 = new Thread() {
+		    public void run() {
+		    	model.addAttribute("districtFilter", tService.getDistinctDistrict());
+				model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+				model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		    }
+		};
 		
-		// Data for recommendations - popular projects (non-logged in users)
-		model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		Thread thread2 = new Thread() {
+		    public void run() {
+				// Data for recommendations - popular projects (non-logged in users)
+				model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
+		    }
+		};
 		
-		// Date for recommendations - recently transacted projects (non-logged in users)
-		model.addAttribute("recentProp", pService.getRecentTxn());
+		Thread thread3 = new Thread() {
+		    public void run() {
+				// Date for recommendations - recently transacted projects (non-logged in users)
+				model.addAttribute("recentProp", pService.getRecentTxn());
+		    }
+		};
+		
+		thread1.start();
+		thread2.start();
+		thread3.start();
 
+		try {
+			thread1.join();
+			thread2.join();
+			thread3.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		return "index";
 	}
 	
@@ -66,27 +89,35 @@ public class CommonController {
 		if (user == null) {
 			return "redirect:/login";
 		}
-
+		
 		Thread thread1 = new Thread() {
 		    public void run() {
+		    	Instant instant = Instant.now();
+		    	System.out.println(instant);
 		    	model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
 		    }
 		};
 		
 		Thread thread2 = new Thread() {
 		    public void run() {
+		    	Instant instant = Instant.now();
+		    	System.out.println(instant);
 				model.addAttribute("recentProp", pService.getRecentTxn());
 		    }
 		};
 		
 		Thread thread3 = new Thread() {
 		    public void run() {
+		    	Instant instant = Instant.now();
+		    	System.out.println(instant);
 				model.addAttribute("userRec", pService.getUsersRecommendations(user.getUserId()));
 		    }
 		};
 		
 		Thread thread4 = new Thread() {
 		    public void run() {
+		    	Instant instant = Instant.now();
+		    	System.out.println(instant);
 		    	// Filters for search function
 				model.addAttribute("districtFilter", tService.getDistinctDistrict());
 				model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
@@ -107,18 +138,6 @@ public class CommonController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		// Data for recommendations - popular projects (non-logged in users)
-		/*
-		 * model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
-		 * 
-		 * // Date for recommendations - recently transacted projects (non-logged in
-		 * users) model.addAttribute("recentProp", pService.getRecentTxn());
-		 * 
-		 * // Data for users' recommendation (logged in users)
-		 * model.addAttribute("userRec",
-		 * pService.getUsersRecommendations(user.getUserId()));
-		 */
 		
 		return "index";
 	}
