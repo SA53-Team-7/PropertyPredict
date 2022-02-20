@@ -16,21 +16,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 	<li class="nav-item">
-		        		<a class="nav-link" th:href="@{/newprojects}">New Projects <span class="sr-only">(current)</span></a>
+		        		<a class="nav-link" th:href="@{/newprojects}">New Projects</span></a>
 		      		</li>
 		      		<li class="nav-item">
-		        		<a class="nav-link" th:href="@{/project/compare}">Compare <span class="sr-only">(current)</span></a>
+		        		<a class="nav-link" th:href="@{/project/compare}">Compare</span></a>
 		      		</li>
 		      		<li class="nav-item" th:if="${session.userObj != null}">
-		        		<a class="nav-link" th:href="@{/project/view-shortlist}">Favourites <span class="sr-only">(current)</span></a>
+		        		<a class="nav-link" th:href="@{/project/view-shortlist}">Favourites</span></a>
 		      		</li>  
                 </ul>
                 <ul class="navbar-nav ms-auto">
                		<li class="nav-item" th:if="${session.userObj == null}">
-		        		<a class="nav-link" th:href="@{/registration}">Register <span class="sr-only">(current)</span></a>
+		        		<a class="nav-link" th:href="@{/registration}">Register</span></a>
 		      		</li>
 		      		<li class="nav-item" th:if="${session.userObj == null}">
-		        		<a class="nav-link" th:href="@{/login}">Login <span class="sr-only">(current)</span></a>
+		        		<a class="nav-link" th:href="@{/login}">Login</span></a>
 		      		</li>
 		      		
 		      		<li class="nav-item dropdown" th:if="${session.userObj != null}">
