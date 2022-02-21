@@ -122,11 +122,6 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> getTop20Projects() {
-		return pRepo.getTop20Projects();
-	}
-
-	@Override
 	public ArrayList<Project> searchProjects(String searchString) {
 		return pRepo.searchProjects(searchString);
 	}

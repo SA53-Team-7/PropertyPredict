@@ -21,15 +21,16 @@ import com.team7.propertypredict.model.User;
 @Service
 public interface ProjectService {
 	
+	// Gets list of all projects
 	List<Project> findAllProjects();
-	
+
 	// Get all project names
 	List<String> findAllProjectNames();
-	
-	List<Project> getTop20Projects();
 
+	// Finds projects with similar name or street to the search string
 	ArrayList<Project> searchProjects(String searchString);
 
+	// Gets 2 similar projects from the same district to recommend	
 	ArrayList<Project> getMobileRecommendationsByDistrict(String district);
 
 	// Get all the projects given a location

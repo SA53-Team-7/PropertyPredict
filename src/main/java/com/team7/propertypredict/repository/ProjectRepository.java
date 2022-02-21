@@ -13,9 +13,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	@Query(value = "SELECT * FROM projects", nativeQuery = true)
 	List<Project> findAllProjects();
-	
-	@Query(value = "SELECT * FROM projects LIMIT 20", nativeQuery = true)
-	List<Project> getTop20Projects();
 
 	@Query(value = "Select * FROM projects WHERE name LIKE %:searchString% OR street LIKE %:searchString%", nativeQuery = true)
 	ArrayList<Project> searchProjects(@Param ("searchString") String searchString);
