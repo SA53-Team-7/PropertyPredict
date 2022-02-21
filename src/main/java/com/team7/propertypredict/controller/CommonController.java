@@ -1,6 +1,5 @@
 package com.team7.propertypredict.controller;
 
-import java.time.Instant;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -92,32 +91,24 @@ public class CommonController {
 		
 		Thread thread1 = new Thread() {
 		    public void run() {
-		    	Instant instant = Instant.now();
-		    	System.out.println(instant);
 		    	model.addAttribute("popularProp", pService.getPopularLocationsByTxn());
 		    }
 		};
 		
 		Thread thread2 = new Thread() {
 		    public void run() {
-		    	Instant instant = Instant.now();
-		    	System.out.println(instant);
 				model.addAttribute("recentProp", pService.getRecentTxn());
 		    }
 		};
 		
 		Thread thread3 = new Thread() {
 		    public void run() {
-		    	Instant instant = Instant.now();
-		    	System.out.println(instant);
 				model.addAttribute("userRec", pService.getUsersRecommendations(user.getUserId()));
 		    }
 		};
 		
 		Thread thread4 = new Thread() {
 		    public void run() {
-		    	Instant instant = Instant.now();
-		    	System.out.println(instant);
 		    	// Filters for search function
 				model.addAttribute("districtFilter", tService.getDistinctDistrict());
 				model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());

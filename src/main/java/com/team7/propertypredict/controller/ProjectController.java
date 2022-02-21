@@ -1,13 +1,7 @@
 package com.team7.propertypredict.controller;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team7.propertypredict.helper.Location;
 import com.team7.propertypredict.helper.ProjectDetails;
-import com.team7.propertypredict.helper.TransactionHelper;
-import com.team7.propertypredict.model.Project;
 import com.team7.propertypredict.model.Transaction;
 import com.team7.propertypredict.model.User;
 import com.team7.propertypredict.service.ProjectService;
