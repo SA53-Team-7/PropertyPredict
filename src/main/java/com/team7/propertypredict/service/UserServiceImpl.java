@@ -1,10 +1,12 @@
 package com.team7.propertypredict.service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.team7.propertypredict.model.User;
@@ -18,9 +20,15 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User authenticate(String email, String password) {
-		
-		User user =  findUserByEmailAndPassword(email, password);
-		return user;
+		User user =  findUserByEmail(email);
+
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		if (bCryptPasswordEncoder.matches(password, user.getPassword())){		
+			return user;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	@Override
@@ -40,6 +48,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public void save(User user) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 		uRepo.saveAndFlush(user);
 	}
 	

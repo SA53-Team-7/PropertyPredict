@@ -1,6 +1,7 @@
 package com.team7.propertypredict.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -155,6 +156,7 @@ public class CommonController {
 			if (u == null)
 				return "login";
 			
+			
 			session.setAttribute("userId", u.getUserId());
 			session.setAttribute("userObj", u);
 			
@@ -184,23 +186,45 @@ public class CommonController {
             return "registration";
         }
 
-        uService.save(userForm);
+	        uService.save(userForm);
         return "registration-confirm";
     }
 	
  	@RequestMapping(value = "/search", method = RequestMethod.GET) 
  	public String submitSearchRequest(Model model, @Param("searchStr") String searchStr, @Param("district") String district, 
  			@Param("propertyType") String propertyType, @Param("segment") String segment) {
+ 		
+ 		Thread thread1 = new Thread() {
+		    public void run() {
+		 		String districtModified = district.compareTo("All") == 0 ? "" : district;
+		 		String typeModified = propertyType.compareTo("All") == 0 ? "" : propertyType;
+		 		String segmentModified = segment.compareTo("All") == 0 ? "" : segment;
+		 		ArrayList<SearchResultHelper> result = pService.searchProjectsWeb(searchStr, segmentModified, districtModified, typeModified);
+		 		ArrayList<String> propTypes = pService.findDistinctPropTypeByPara(searchStr, segmentModified, districtModified, typeModified);
+		 		ArrayList<String> tenureFilters = pService.findDistinctTenureByPara(searchStr, segmentModified, districtModified, typeModified);
+		 		model.addAttribute("searchresult", result);
+		 		model.addAttribute("typeFilter", propTypes);
+		 		model.addAttribute("tenureFilter", tenureFilters);
+		    }
+		};
 		
- 		String districtModified = district.compareTo("All") == 0 ? "" : district;
- 		String typeModified = propertyType.compareTo("All") == 0 ? "" : propertyType;
- 		String segmentModified = segment.compareTo("All") == 0 ? "" : segment;
- 		ArrayList<SearchResultHelper> result = pService.searchProjectsWeb(searchStr, segmentModified, districtModified, typeModified);
- 		ArrayList<String> propTypes = pService.findDistinctPropTypeByPara(searchStr, segmentModified, districtModified, typeModified);
- 		ArrayList<String> tenureFilters = pService.findDistinctTenureByPara(searchStr, segmentModified, districtModified, typeModified);
- 		model.addAttribute("searchresult", result);
- 		model.addAttribute("typeFilter", propTypes);
- 		model.addAttribute("tenureFilter", tenureFilters);
+		Thread thread2 = new Thread() {
+		    public void run() {
+		 		model.addAttribute("districtFilter", tService.getDistinctDistrict());
+				model.addAttribute("propTypeFilter", tService.getDistinctPropertyType());
+				model.addAttribute("segmentFilter", pService.findDistinctSegment());
+		    }
+		};
+ 		
+		thread1.start();
+		thread2.start();
+
+		try {
+			thread1.join();
+			thread2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
  		return "search-outcome";
  	}
