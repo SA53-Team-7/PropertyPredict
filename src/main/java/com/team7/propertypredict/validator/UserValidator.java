@@ -1,6 +1,7 @@
 package com.team7.propertypredict.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -38,11 +39,14 @@ public class UserValidator implements Validator{
 	public void validateLogin(Object o, Errors errors) {
 		
 		User user = (User) o;
+		User actualUser = uService.findUserByEmail(user.getEmail());
+
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		Boolean match = bCryptPasswordEncoder.matches(user.getPassword(), actualUser.getPassword());		
 		
-		if (uService.findUserByEmailAndPassword(user.getEmail(), user.getPassword())==null) {
+		if ((uService.findUserByEmail(user.getEmail()) == null) || !match) {
 			errors.rejectValue("password", "error.user.name.wrongPassword");
 		}
-		
 	}
 
 }

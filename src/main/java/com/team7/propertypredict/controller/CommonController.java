@@ -156,6 +156,7 @@ public class CommonController {
 			if (u == null)
 				return "login";
 			
+			
 			session.setAttribute("userId", u.getUserId());
 			session.setAttribute("userObj", u);
 			
@@ -185,7 +186,7 @@ public class CommonController {
             return "registration";
         }
 
-        uService.save(userForm);
+	        uService.save(userForm);
         return "registration-confirm";
     }
 	
