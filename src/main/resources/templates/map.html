@@ -89,7 +89,7 @@
 												<div class="col-10" style="color:blue">(<span th:text="${location.marker}"></span>) <span th:text="${location.name}">
 												</div>
 												<div class="col-2" style="text-align:right;">
-													<span th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 0, 'POINT')}"></span><span> KM</span>
+													<span th:text="${#numbers.formatDecimal(location.distance, 1, 'COMMA', 2, 'POINT')}"></span><span> KM</span>
 												</div>
 											</div>
 										</a>
