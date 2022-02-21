@@ -18,7 +18,7 @@ public class MailServiceImpl implements MailService {
 	@Resource
 	private JavaMailSender mailSender;
 	
-    private String from = "mycojer@qq.com";
+    private String from = "sa53.team7@gmail.com";
     
     @Async("taskExecutor")
 	@Override
