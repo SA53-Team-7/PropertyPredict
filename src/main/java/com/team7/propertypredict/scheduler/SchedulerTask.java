@@ -35,8 +35,8 @@ public class SchedulerTask {
 
 	    //one time in one min
 //	    @Scheduled(cron="0 */1 * * * ?")
-	    //one time in 15 mins
-	    @Scheduled(cron="0 */15 * * * ?")
+	    //one time in 10 mins
+	    @Scheduled(cron="0 */10 * * * ?")
 	    //Every Friday at 2 am
 //	    @Scheduled(cron="* * 2 * * 5 ")
 	    private void process(){
