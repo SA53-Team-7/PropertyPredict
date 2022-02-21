@@ -143,7 +143,9 @@ public class CommonController {
 	@RequestMapping(value = "/home/authenticate", method = RequestMethod.POST)
 	public String authenticate(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
 			Model model, HttpSession session) {
-
+		
+		uValidator.validateLogin(user, bindingResult);
+		
 		if (bindingResult.hasErrors()) {
 			return "login";
 		} else {

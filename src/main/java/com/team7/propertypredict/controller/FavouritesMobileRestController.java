@@ -25,7 +25,7 @@ public class FavouritesMobileRestController {
     @PostMapping("/check")
     public Map<String, Integer> isSaved(@RequestBody UserAndProject userAndProject) {
         Map<String, Integer> response = new HashMap<>();
-        int check = projectService.checkIfShortlisted(userAndProject.getProject().getProjectId(), userAndProject.getUser().getUserId());
+        int check = projectService.checkIfShortlisted(userAndProject.getProject().getProjectId(), userAndProject.getUser());
         response.put("isSaved", check);
         return response;
     }
@@ -35,7 +35,7 @@ public class FavouritesMobileRestController {
         Map<String, Integer> response = new HashMap<>();
 
         projectService.updateShortlistedProject(userAndProject.getProject().getProjectId(), userAndProject.getUser().getUserId());
-        int check = projectService.checkIfShortlisted(userAndProject.getProject().getProjectId(), userAndProject.getUser().getUserId());
+        int check = projectService.checkIfShortlisted(userAndProject.getProject().getProjectId(), userAndProject.getUser());
         response.put("success", check);
 
         return response;

@@ -37,7 +37,7 @@
 												<div class="form-outline flex-fill mb-0">
 													<fieldset class="mt-2">
 														<h5>Email Address:</h5>
-														<input th:field="*{email}" type="text" class="form-control border" placeholder="Email Address"
+														<input th:field="*{email}" type="email" class="form-control border" placeholder="Email Address"
 															autofocus="true" />
 														<p class="text-danger mt-2" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
 													</fieldset>

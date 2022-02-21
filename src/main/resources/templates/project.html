@@ -8,10 +8,10 @@
 				<h3 class="card-title font-weight-normal"><i class="fa-solid fa-house" style="color: cadetblue"></i> Project: </h3>
 			</div>
 			<div class="col-1">
-				<a class="h3 btn btn-outline-dark" th:if="${shortlisted}==-1" style="float:right" th:href = "${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip" title="Shortlist Property">
+				<a class="h3 btn btn-outline-dark" th:if="${shortlisted==-1}" style="float:right" th:href = "${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip" title="Shortlist Property">
 					<i class="fa-solid fa-heart fa-xl" style="color: cadetblue"></i>
 				</a>
-				<a class="h3 btn btn-outline-dark" th:if="${shortlisted}==1" style="float:right" th:href = "${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip" title="Shortlist Property">
+				<a class="h3 btn btn-outline-dark" th:if="${shortlisted==1}" style="float:right" th:href = "${'/project/add-shortlist/' + {project.projectId}}" data-toggle="tooltip" title="Shortlist Property">
 					<i class="fa-solid fa-heart fa-xl" style="color: lightcoral"></i>
 				</a>
 			</div>

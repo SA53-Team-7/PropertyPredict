@@ -22,11 +22,6 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	ProjectService pservice;
 
-  @Override
-	public List<Transaction> findAllTransactions() {
-		return trepo.findAll();
-	}
-  
 	@Override
 	public List<Transaction> getTransactionsByProjectId(Integer id) {
 		List<Transaction> txnList = (List<Transaction>) trepo.findAllTransactionsByProject(id);

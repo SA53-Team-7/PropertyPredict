@@ -37,10 +37,10 @@ public class ProjectController {
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
 	public String viewProject(@PathVariable Integer pid, Model model, HttpSession session) {
-		// Integer uid = (Integer) session.getAttribute("userId");
+		User user = (User) session.getAttribute("userObj");
 
 		// Get property details
-		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, 1));
+		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, user));
 		model.addAttribute("project", pService.getProjectDetails(pid));
 
 		// Get all transactions
@@ -95,7 +95,7 @@ public class ProjectController {
 		}
 
 		List<ProjectDetails> projects = pService.getProjectsDetails(user.getUserId());
-
+		
 		model.addAttribute("projects", projects);
 		model.addAttribute("names", pService.filterProjectDetailList(projects, filter));
 		model.addAttribute("searchStr", "Unavailable");
@@ -129,6 +129,7 @@ public class ProjectController {
 	public String submitSearchRequest(Model model, @Param("searchStr1") String searchStr1,
 			@Param("searchStr2") String searchStr2, @Param("searchStr3") String searchStr3) throws ParseException {
 		List<ProjectDetails> projectDetails = new ArrayList<ProjectDetails>();
+		ProjectDetails project3 = new ProjectDetails();
 
 		if (searchStr1 != null && searchStr2 != null && searchStr3 != null) {
 			String errorMsg = pService.validateSearchStrings(searchStr1, searchStr2, searchStr3);
@@ -137,12 +138,18 @@ public class ProjectController {
 				return "redirect:/project/compare?msg=" + errorMsg;
 			} else {
 				projectDetails = pService.getProjectDetailsFromSearchStrings(searchStr1, searchStr2, searchStr3);
+				if(projectDetails.size()==3) {
+					project3 = projectDetails.get(2);
+				}
+				else {
+					project3 = null;
+				}
 			}
 
 		}
 		model.addAttribute("project1", projectDetails.get(0));
 		model.addAttribute("project2", projectDetails.get(1));
-		model.addAttribute("project3", projectDetails.get(2));
+		model.addAttribute("project3", project3);
 		return "search-result";
 	}
 }

@@ -15,23 +15,6 @@ public class TransactionsMobileRestController {
 
 	@Autowired
 	private TransactionService tService;
-
-	//pls remove later, testing only
-	@GetMapping("/test")
-	public List<Transaction> getAllTransactions() {
-		return tService.findAllTransactions();
-	}
-	
-//	@GetMapping("/{id}")
-//	public ResponseEntity<Transaction> getTransactionsFromProject(@PathVariable("id") Integer id) {
-//		Optional<Transaction> transactions = tService.getTransactionsByProjectId(id);
-//
-//		if (transactions.isPresent()) {
-//			return new ResponseEntity<>(transactions.get(), HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//	}
 	
 	@GetMapping("/{id}")
 	public List<Transaction> getTransactionsFromProject(@PathVariable("id") Integer id) {

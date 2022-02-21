@@ -18,21 +18,11 @@ public class ProjectsMobileRestController {
 	@Autowired
 	private ProjectService pService;
 
-	@GetMapping()
-	public List<Project> getAllProjects() {
-		return pService.findAllProjects();
-	}
-
 	@GetMapping("/get/{id}")
 	public List<Project> getProject(@PathVariable("id") Integer id) {
 		List<Project> projects = new ArrayList<>();
 		projects.add(pService.findProjectById(id)); 
 		return projects;
-	}
-	
-	@GetMapping("/test")
-	public List<Project> get20Projects() {
-		return pService.getTop20Projects();
 	}
 
 	@GetMapping("/search/{string}")
