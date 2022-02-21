@@ -45,10 +45,10 @@ public class ProjectController {
 	// View property details and past transactions given a project id
 	@GetMapping("/viewProperty/{pid}")
 	public String viewProject(@PathVariable Integer pid, Model model, HttpSession session) {
-		// Integer uid = (Integer) session.getAttribute("userId");
+		User user = (User) session.getAttribute("userObj");
 
 		// Get property details
-		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, 1));
+		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, user.getUserId()));
 		model.addAttribute("project", pService.getProjectDetails(pid));
 
 		// Get all transactions
@@ -103,7 +103,7 @@ public class ProjectController {
 		}
 
 		List<ProjectDetails> projects = pService.getProjectsDetails(user.getUserId());
-
+		
 		model.addAttribute("projects", projects);
 		model.addAttribute("names", pService.filterProjectDetailList(projects, filter));
 		model.addAttribute("searchStr", "Unavailable");

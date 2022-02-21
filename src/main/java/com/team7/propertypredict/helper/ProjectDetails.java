@@ -1,6 +1,5 @@
 package com.team7.propertypredict.helper;
 
-import java.util.Date;
 import java.util.List;
 
 public class ProjectDetails {

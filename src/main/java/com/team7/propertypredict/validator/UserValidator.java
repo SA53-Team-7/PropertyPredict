@@ -33,6 +33,12 @@ public class UserValidator implements Validator{
             errors.rejectValue("name", "error.user.name.blank");
         }	
 		
+	}
+
+	public void validateLogin(Object o, Errors errors) {
+		
+		User user = (User) o;
+		
 		if (uService.findUserByEmailAndPassword(user.getEmail(), user.getPassword())==null) {
 			errors.rejectValue("password", "error.user.name.wrongPassword");
 		}
