@@ -651,8 +651,9 @@ public class ProjectServiceImpl implements ProjectService {
 		Integer shortlisted = -1;
 
 		if (user != null) {
+			User u = uService.findUserById(user.getUserId());
 			Project project = pService.findProjectById(pid);
-			List<Project> list = user.getProjects();
+			List<Project> list = u.getProjects();
 			if (list.contains(project)) {
 				shortlisted = 1;
 			}
