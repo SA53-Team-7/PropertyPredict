@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/mobile/amenities")
-public class AmentiesMobileRestController {
+public class AmenitiesMobileRestController {
 
     @Autowired
     private AmenityService amenityService;
