@@ -99,7 +99,6 @@ public class DataServiceImpl implements DataService {
 		try {
 			HttpResponse<String> responseTxn = httpClient.send(requestTxn, HttpResponse.BodyHandlers.ofString());
 			input = responseTxn.body();
-			System.out.println(input.substring(0, 6000));
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
