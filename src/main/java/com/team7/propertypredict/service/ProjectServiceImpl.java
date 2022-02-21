@@ -256,7 +256,7 @@ public class ProjectServiceImpl implements ProjectService {
 				Double lng = Double.parseDouble(amenity.getLongitude());
 				Double distance = calculateDistance(pid, lat, lng);
 				if (distance != -1.0) {
-					Location location = new Location(name, lat, lng, distance * 1000);
+					Location location = new Location(name, lat, lng, distance);
 					locations.add(location);
 				}
 			}
