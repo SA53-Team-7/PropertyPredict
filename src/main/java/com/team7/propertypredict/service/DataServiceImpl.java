@@ -194,7 +194,6 @@ public class DataServiceImpl implements DataService {
 			truncQuery.executeUpdate("TRUNCATE TABLE projects");
 			truncQuery.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
