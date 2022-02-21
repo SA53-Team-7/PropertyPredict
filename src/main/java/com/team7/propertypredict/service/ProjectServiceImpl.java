@@ -652,11 +652,10 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Integer checkIfShortlisted(Integer pid, Integer uid) {
+	public Integer checkIfShortlisted(Integer pid, User user) {
 		Integer shortlisted = -1;
 
-		if (uid != null) {
-			User user = uService.findUserById(uid);
+		if (user != null) {
 			Project project = pService.findProjectById(pid);
 			List<Project> list = user.getProjects();
 			if (list.contains(project)) {

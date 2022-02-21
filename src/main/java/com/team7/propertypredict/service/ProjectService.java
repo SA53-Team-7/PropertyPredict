@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -17,6 +16,7 @@ import com.team7.propertypredict.helper.ProjectDetails;
 import com.team7.propertypredict.helper.Property;
 import com.team7.propertypredict.helper.SearchResultHelper;
 import com.team7.propertypredict.model.Project;
+import com.team7.propertypredict.model.User;
 
 @Service
 public interface ProjectService {
@@ -126,7 +126,7 @@ public interface ProjectService {
 	void updateShortlistedProject(Integer pid, Integer uid);
 	
 	// To check if the project is shortlisted already or not
-	Integer checkIfShortlisted(Integer pid, Integer uid);
+	Integer checkIfShortlisted(Integer pid, User user);
 
 	// Get list of popular projects for recommendations
 	List<SearchResultHelper> getPopularLocationsByTxn();

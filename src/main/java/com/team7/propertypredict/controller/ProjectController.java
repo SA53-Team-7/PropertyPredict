@@ -48,7 +48,7 @@ public class ProjectController {
 		User user = (User) session.getAttribute("userObj");
 
 		// Get property details
-		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, user.getUserId()));
+		model.addAttribute("shortlisted", pService.checkIfShortlisted(pid, user));
 		model.addAttribute("project", pService.getProjectDetails(pid));
 
 		// Get all transactions
