@@ -25,17 +25,15 @@ public class AuthMobileRestController {
             success.put("id", userService.authenticate(user.getEmail(), user.getPassword()).getUserId().toString());
             if (result.getUsername() == null) {
                 success.put("name", user.getEmail());
-                return success;
             }
             else {
                 success.put("name", result.getUsername());
-                return success;
             }
         }
         else {
             success.put("login", "0");
-            return success;
         }
+        return success;
     }
 
     @PostMapping("/register")
@@ -45,28 +43,11 @@ public class AuthMobileRestController {
         if (userService.findUserByEmail(newUser.getEmail()) == null) {
             userService.save(newUser);
             success.put("register", 1);
-            return success;
         }
         else {
             success.put("register", 0);
-            return success;
         }
+        return success;
     }
-
-//    @PostMapping("/name")
-//    public Map<String, String> getUserFirstName (@RequestBody User user) {
-//        Map<String, String> success = new HashMap<>();
-//
-//        User result = userService.findUserByEmail(user.getEmail());
-//
-//        if (result.getUsername() == null) {
-//            success.put("name", user.getEmail());
-//            return success;
-//        }
-//        else {
-//            success.put("name", result.getUsername());
-//            return success;
-//        }
-//    }
 
 }
