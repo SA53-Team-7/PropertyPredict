@@ -40,13 +40,17 @@ public class UserValidator implements Validator{
 		
 		User user = (User) o;
 		User actualUser = uService.findUserByEmail(user.getEmail());
-
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		Boolean match = bCryptPasswordEncoder.matches(user.getPassword(), actualUser.getPassword());		
-		
-		if ((uService.findUserByEmail(user.getEmail()) == null) || !match) {
+		if (actualUser == null) {
 			errors.rejectValue("password", "error.user.name.wrongPassword");
 		}
+		else {
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			Boolean match = bCryptPasswordEncoder.matches(user.getPassword(), actualUser.getPassword());		
+			
+			if (!match) {
+				errors.rejectValue("password", "error.user.name.wrongPassword");
+			}
+		}	
 	}
 
 }
