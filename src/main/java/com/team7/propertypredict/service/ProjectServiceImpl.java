@@ -275,13 +275,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 		for (String key : locations.keySet()) {
 			List<Location> loc = locations.get(key);
-			List<Location> filteredLocations = loc.stream().filter(x -> x.getDistance() < filter)
-					.collect(Collectors.toList());
-			List<Location> limitLocations = filteredLocations.stream()
-					.limit(3)
+			List<Location> filteredLocations = loc.stream().filter(x -> x.getDistance() < filter).limit(3)
 					.collect(Collectors.toList());
 			if (!filteredLocations.isEmpty()) {
-				filteredMap.put(key, limitLocations);
+				filteredMap.put(key, filteredLocations);
 			}
 		}
 		return filteredMap;
